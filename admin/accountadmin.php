@@ -33,7 +33,7 @@ $username = $_SESSION["username"]; // Lấy tên tài khoản từ session
 
             <?php
             require_once './connect.php';
-            $sql = "SELECT quanly.hoTen, quanly.email, quanly.soDienThoai, quanly.diaChi FROM taikhoan
+            $sql = "SELECT quanly.hoTen, quanly.email, quanly.soDienThoai, quanly.diaChi, quanly.maQuanLy FROM taikhoan
             INNER JOIN quanly ON taikhoan.maTaiKhoan = quanly.maTaiKhoan WHERE taikhoan.tenTaiKhoan = '$username'";
             $result = mysqli_query($conn, $sql);
             if (mysqli_num_rows($result) > 0) {
@@ -42,6 +42,7 @@ $username = $_SESSION["username"]; // Lấy tên tài khoản từ session
                 $mail = $row["email"];
                 $sdt = $row["soDienThoai"];
                 $diachi = $row["diaChi"];
+                $maQuanLy = $row["maQuanLy"];
               }
             } else {
               echo "Không có kết quả";
@@ -57,7 +58,7 @@ $username = $_SESSION["username"]; // Lấy tên tài khoản từ session
         </div>
         <ul class="list-group list-group-flush">
           <li class="list-group-item">
-            <p><a class="link-opacity-100 text-body-secondary" href="#">Chỉnh sửa thông tin</a></p>
+            <p><a class="link-opacity-100 text-body-secondary" href="../user/accountcustomerupdate.php?maQuanLy=<?php echo $maQuanLy; ?>">Chỉnh sửa thông tin</a></p>
           </li>
           <hr>
           <li class="list-group-item">
@@ -81,14 +82,12 @@ $username = $_SESSION["username"]; // Lấy tên tài khoản từ session
               <p><p>Địa chỉ: <?php echo $diachi; ?></p></p>
             </li>
           </ul>
-          <a href="#" class="btn-changepass">Đổi mật khẩu</a>
+          <a href="../user/changepassword.php" class="btn-changepass">Đổi mật khẩu</a>
         </div>
       </div>
     </div>
 
   </div>
-
-  
 
   <?php
   include '../layout/footer.php';

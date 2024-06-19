@@ -1,12 +1,25 @@
 <?php
 session_start();
 $username = $_SESSION["username"]; // Lấy tên tài khoản từ session
-$maKhachHang = $_GET['maKhachHang'];
+$role = $_SESSION["role"]; // lấy role từ session
+if ($role == 1) {
+  $maQuanLy = $_GET['maQuanLy'];
+} else if ($role == 3) {
+  $maKhachHang = $_GET['maKhachHang'];
+} else if ($role == 2) {
+  $maNhanVien = $_GET['maNhanVien'];
+}
 $Name = "";
 $Male = "";
 $Bod = "";
 require_once '../admin/connect.php';
-$sql = "SELECT * FROM khachhang WHERE maKhachHang = '$maKhachHang'";
+if ($role == 1) {
+  $sql = "SELECT * FROM quanly WHERE maQuanLy = '$maQuanLy'";
+} else if ($role == 3) {
+  $sql = "SELECT * FROM khachhang WHERE maKhachHang = '$maKhachHang'";
+} else if ($role == 2) {
+  $sql = "SELECT * FROM nhanvien WHERE maNhanVien = '$maNhanVien'";
+}
 $result = mysqli_query($conn, $sql);
 if (mysqli_num_rows($result) > 0) {
   while ($row = mysqli_fetch_assoc($result)) {
@@ -22,26 +35,57 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
   $dateInput = $_POST['birthday'];
   $convertedDate = date('Y-m-d', strtotime($dateInput));
 
-  $sql = "UPDATE khachhang SET hoTen = '$fullname', gioiTinh = '$maleUpdate', ngaysinh = '$convertedDate' WHERE maKhachHang = '$maKhachHang'";
+  if ($role == 1) {
+    $sql = "UPDATE quanly SET hoTen = '$fullname', gioiTinh = '$maleUpdate', ngaysinh = '$convertedDate' 
+    WHERE maQuanLy = '$maQuanLy'";
+  } else if ($role == 3) {
+    $sql = "UPDATE khachhang SET hoTen = '$fullname', gioiTinh = '$maleUpdate', ngaysinh = '$convertedDate' 
+    WHERE maKhachHang = '$maKhachHang'";
+  } else if ($role == 2) {
+    $sql = "UPDATE nhanvien SET hoTen = '$fullname', gioiTinh = '$maleUpdate', ngaysinh = '$convertedDate' 
+    WHERE maNhanVien = '$maNhanVien'";
+  }
+
   if ($conn->query($sql) === TRUE) {
-    echo '<script>
-      alert("Cập nhật dữ liệu thành công");
-      window.location.href = "./accountcustomer.php";
-    </script>';
+    if ($role == 1) {
+      echo '<script>
+        alert("Cập nhật thông tin thành công");
+        window.location.href = "../admin/accountadmin.php";
+      </script>';
+    } else if ($role == 3) {
+      echo '<script>
+        alert("Cập nhật thông tin thành công");
+        window.location.href = "./accountcustomer.php";
+      </script>';
+    } else if ($role == 2) {
+      echo '<script>
+        alert("Cập nhật thông tin thành công");
+        window.location.href = "./accountstaff.php";
+      </script>';
+    }
     exit();
   } else {
     echo "Error: " . $sql . "<br>" . $conn->error;
   }
 }
-$sql = "SELECT khachhang.hoTen, khachhang.email, khachhang.soDienThoai, khachhang.maDiaChi FROM taikhoan
-        INNER JOIN khachhang ON taikhoan.maTaiKhoan = khachhang.maTaiKhoan WHERE taikhoan.tenTaiKhoan = '$username'";
+
+if ($role == 1) {
+  $sql = "SELECT quanly.hoTen FROM taikhoan
+          INNER JOIN quanly ON taikhoan.maTaiKhoan = quanly.maTaiKhoan 
+          WHERE taikhoan.tenTaiKhoan = '$username'";
+} else if ($role == 3) {
+  $sql = "SELECT khachhang.hoTen FROM taikhoan
+          INNER JOIN khachhang ON taikhoan.maTaiKhoan = khachhang.maTaiKhoan 
+          WHERE taikhoan.tenTaiKhoan = '$username'";
+} else if ($role == 2) {
+  $sql = "SELECT nhanvien.hoTen FROM taikhoan
+          INNER JOIN nhanvien ON taikhoan.maTaiKhoan = nhanvien.maTaiKhoan 
+          WHERE taikhoan.tenTaiKhoan = '$username'";
+}
 $result = mysqli_query($conn, $sql);
 if (mysqli_num_rows($result) > 0) {
   while ($row = mysqli_fetch_assoc($result)) {
     $name = $row["hoTen"];
-    $mail = $row["email"];
-    $sdt = $row["soDienThoai"];
-    $diachi = $row["maDiaChi"];
   }
 } else {
   echo "Không có kết quả";
@@ -82,6 +126,7 @@ mysqli_close($conn);
             <p><a class="link-opacity-100 text-body-secondary" href="#">Chỉnh sửa thông tin</a></p>
           </li>
           <hr>
+          <?php if ($role == 3) { ?>
           <li class="list-group-item">
             <p><a class="link-opacity-100 text-body-secondary" href="#">Đơn hàng</a></p>
           </li>
@@ -90,6 +135,7 @@ mysqli_close($conn);
             <p><a class="link-opacity-100 text-body-secondary" href="./addresscustomer.php">Địa chỉ giao hàng</a></p>
           </li>
           <hr>
+          <?php } ?>
           <li class="list-group-item">
             <p><a class="link-opacity-100 text-body-secondary" href="./logout.php">Đăng Xuất</a></p>
           </li>

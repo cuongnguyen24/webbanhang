@@ -1,14 +1,26 @@
 <?php
 session_start();
 $username = $_SESSION["username"]; // Lấy tên tài khoản từ session
+$role = $_SESSION["role"]; // lấy role từ session
 require_once '../admin/connect.php';
-$sql = "SELECT khachhang.hoTen, khachhang.email, khachhang.soDienThoai, khachhang.maDiaChi, khachhang.maKhachHang FROM taikhoan
-            INNER JOIN khachhang ON taikhoan.maTaiKhoan = khachhang.maTaiKhoan WHERE taikhoan.tenTaiKhoan = '$username'";
+if ($role == 1) {
+  $sql = "SELECT quanly.hoTen FROM taikhoan
+            INNER JOIN quanly ON taikhoan.maTaiKhoan = quanly.maTaiKhoan 
+            WHERE taikhoan.tenTaiKhoan = '$username'";
+} else if ($role == 3) {
+  $sql = "SELECT khachhang.hoTen FROM taikhoan
+            INNER JOIN khachhang ON taikhoan.maTaiKhoan = khachhang.maTaiKhoan 
+            WHERE taikhoan.tenTaiKhoan = '$username'";
+} else if ($role == 2) {
+  $sql = "SELECT nhanvien.hoTen FROM taikhoan
+            INNER JOIN nhanvien ON taikhoan.maTaiKhoan = nhanvien.maTaiKhoan 
+            WHERE taikhoan.tenTaiKhoan = '$username'";
+}
+
 $result = mysqli_query($conn, $sql);
 if (mysqli_num_rows($result) > 0) {
   while ($row = mysqli_fetch_assoc($result)) {
     $name = $row["hoTen"];
-    $makhach = $row["maKhachHang"];
   }
 } else {
   echo "Không có kết quả";
@@ -32,10 +44,22 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
       $sql = $conn->prepare("UPDATE taikhoan SET matKhau = ? WHERE tenTaiKhoan = ?");
       $sql->bind_param("ss", $newPass, $username);
       if ($sql->execute() === TRUE) {
-        echo '<script>
-          alert("Đổi mật khẩu thành công");
-          window.location.href = "./accountcustomer.php";
-        </script>';
+        if ($role == 1) {
+          echo '<script>
+            alert("Đổi mật khẩu thành công");
+            window.location.href = "../admin/accountadmin.php";
+          </script>';
+        } else if ($role == 3) {
+          echo '<script>
+            alert("Đổi mật khẩu thành công");
+            window.location.href = "./accountcustomer.php";
+          </script>';
+        } else if ($role == 2) {
+          echo '<script>
+            alert("Đổi mật khẩu thành công");
+            window.location.href = "./accountstaff.php";
+          </script>';
+        }
         exit();
       } else {
         echo "Error: " . $sql->error;
@@ -85,6 +109,7 @@ mysqli_close($conn);
             <p><a class="link-opacity-100 text-body-secondary" href="./accountcustomerupdate.php?maKhachHang=<?php echo $makhach; ?>">Chỉnh sửa thông tin</a></p>
           </li>
           <hr>
+          <?php if ($role == 3) { ?>
           <li class="list-group-item">
             <p><a class="link-opacity-100 text-body-secondary" href="#">Đơn hàng</a></p>
           </li>
@@ -93,6 +118,7 @@ mysqli_close($conn);
             <p><a class="link-opacity-100 text-body-secondary" href="./addresscustomer.php">Địa chỉ giao hàng</a></p>
           </li>
           <hr>
+          <?php } ?>
           <li class="list-group-item">
             <p><a class="link-opacity-100 text-body-secondary" href="./logout.php">Đăng Xuất</a></p>
           </li>
@@ -123,83 +149,10 @@ mysqli_close($conn);
 
   </div>
 
-  <footer class="footer">
-    <div class="container">
-      <div class="footer--top">
-        <div class="footer--top__item">
-          <h4>GIỚI THIỆU</h4>
-          <ul>
-            <li>Giới thiệu</li>
-            <li>Chính sách đổi trả</li>
-            <li>Chính sách bảo mật</li>
-            <li>Chính sách vận chuyển</li>
-            <li>Điều khoản dịch vụ</li>
-            <li>Hướng dẫn mua hàng</li>
-            <li>Hướng dẫn thanh toán</li>
-            <li>Liên hệ</li>
-          </ul>
-        </div>
-
-        <div class="footer--top__item">
-          <h4>THÔNG TIN CÔNG TY</h4>
-          <ul>
-            <li>CÔNG TY CỔ PHẦN NU VIỆT NAM</li>
-            <li>Mã số thuế: 0107126252</li>
-            <li>
-              Địa chỉ: Số 55 đường Nguyễn Khắc Hiếu, Phường Trúc Bạch, Quận Ba
-              Đình, Thành phố Hà Nội
-            </li>
-            <li>Điện thoại bàn: 024.66512299</li>
-            <li>Hotline CSKH: 0936233836</li>
-            <li>Hotline kênh Đại lý: 0399050818</li>
-            <li>Email: online@nous.com.vn</li>
-            <li>
-              Ngày cấp: 30/03/2007, Nơi cấp : Sở kể hoạch và đầu tư thành phố
-              Hà Nội
-            </li>
-          </ul>
-        </div>
-
-        <div class="footer--top__item">
-          <h4>HỆ THỐNG CỬA HÀNG</h4>
-          <ul>
-            <li>Nous House Hồ Chí Minh</li>
-            <li>Địa chỉ: 79 Mạc Thị Bưởi, Quận I, Thành phố Hồ Chí Minh</li>
-            <li>Nous House Hà Nội</li>
-            <li>
-              Địa chỉ: 34 Quang Trung, Trần Hưng Đạo, Hoàn Kiếm, Thành phố Hà
-              Nội
-            </li>
-            <li>Thời gian hoạt động: 9h00 - 21h30 (Thứ hai - Chủ nhật)</li>
-          </ul>
-        </div>
-
-        <div class="footer--top__item">
-          <h4>FANPAGE</h4>
-          <div>
-            <iframe src="https://www.facebook.com/plugins/page.php?href=https%3A%2F%2Fwww.facebook.com%2Fnousbabywear&amp;tabs=timeline&amp;width=340&amp;height=70&amp;small_header=false&amp;adapt_container_width=true&amp;hide_cover=false&amp;show_facepile=true&amp;appId" width="340" style="border: none; overflow: hidden" scrolling="no" frameborder="0" allowfullscreen="true" allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share"></iframe>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="footer--bot">
-      <div class="container">
-        <div class="coppyright">
-          <div class="row__item">
-            <img src="./assets/img/logo.webp" alt="logo" />
-          </div>
-        </div>
-      </div>
-    </div>
-  </footer>
-
   <?php
-  $conn = mysqli_connect('localhost', 'root', '', 'webbanhang');
-  if (!$conn) {
-    die("Connection failed: " . mysqli_connect_error());
-  }
-
+  include '../layout/footer.php';
   ?>
+
 </body>
 
 </html>

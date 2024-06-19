@@ -54,7 +54,7 @@ $username = $_SESSION["username"]; // Lấy tên tài khoản từ session
         </div>
         <ul class="list-group list-group-flush">
           <li class="list-group-item">
-            <p><a class="link-opacity-100 text-body-secondary" href="./accountstaffupdate.php?maNhanVien=<?php echo $manv; ?>">Chỉnh sửa thông tin</a></p>
+            <p><a class="link-opacity-100 text-body-secondary" href="../user/accountcustomerupdate.php?maNhanVien=<?php echo $manv; ?>">Chỉnh sửa thông tin</a></p>
           </li>
           <hr>
           <li class="list-group-item">
@@ -78,7 +78,7 @@ $username = $_SESSION["username"]; // Lấy tên tài khoản từ session
               <p>Địa chỉ: <?php echo $diachi; ?></p>
             </li>
           </ul>
-          <a href="#" class="btn-changepass">Đổi mật khẩu</a>
+          <a href="./changepassword.php" class="btn-changepass">Đổi mật khẩu</a>
         </div>
       </div>
     </div>
@@ -87,8 +87,6 @@ $username = $_SESSION["username"]; // Lấy tên tài khoản từ session
 
   <?php
   include '../layout/footer.php';
-
-
   ?>
 </body>
 
