@@ -57,7 +57,7 @@
                 
                 }
             ?>
-                <button class="header__btn" data-action="wishlist">
+                <button class="header__btn" data-action="wishlist" onclick="goToWishList()">
                     <strong>Yêu thích</strong>
                     <i class="fa-solid fa-heart" style="font-weight: 400;"></i>
                     <span class="wishlist-count count">0</span>

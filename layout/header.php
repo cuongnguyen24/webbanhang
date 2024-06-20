@@ -19,44 +19,38 @@
             </div>
 
             <div class="header--mid__nav js-LogIn">
-            <?php
-                
-                if (!isset($_SESSION["loged"]) ) 
-                {
-                    echo '<button class="header__btn js-LogIn" data-action="account"><strong>Tài khoản</strong><i class="fa-solid fa-user-pen"></i></button>';
-                } else 
-                {
-                    $role = $_SESSION["role"];
-                    if($role == 1){
-                            echo '<a href="../admin/accountadmin.php" class="header__btn"><strong>Tài khoản</strong><i class="fa-solid fa-user-pen"></i></a>';
-                            }
-                    else if($role == 3){
-                            echo '
-                                    <a href="../user/accountcustomer.php" class="header__btn"><strong>Tài khoản</strong><i class="fa-solid fa-user-pen"></i></a>';
-                            }
-                    else if($role == 2){
-                            echo '<a href="../user/accountstaff.php" class="header__btn"><strong>Tài khoản</strong><i class="fa-solid fa-user-pen"></i></a>';
-                            }
-                
-                }
-            ?>
+                <?php
 
-                <button class="header__btn" data-action="wishlist">
+                if (!isset($_SESSION["loged"])) {
+                    echo '<button class="header__btn js-LogIn" data-action="account"><strong>Tài khoản</strong><i class="fa-solid fa-user-pen"></i></button>';
+                } else {
+                    $role = $_SESSION["role"];
+                    if ($role == 1) {
+                        echo '<a href="../admin/accountadmin.php" class="header__btn"><strong>Tài khoản</strong><i class="fa-solid fa-user-pen"></i></a>';
+                    } else if ($role == 3) {
+                        echo '
+                                    <a href="../user/accountcustomer.php" class="header__btn"><strong>Tài khoản</strong><i class="fa-solid fa-user-pen"></i></a>';
+                    } else if ($role == 2) {
+                        echo '<a href="../user/accountstaff.php" class="header__btn"><strong>Tài khoản</strong><i class="fa-solid fa-user-pen"></i></a>';
+                    }
+                }
+                ?>
+
+                <button class="header__btn" data-action="wishlist" onclick="goToWishList()">
                     <strong>Yêu thích</strong>
                     <i class="fa-solid fa-heart" style="font-weight: 400;"></i>
                     <span class="wishlist-count count ">0</span>
                 </button>
 
                 <script>
-                    function goToWishList() 
-                    {
-                        window.location.href = "wishlist.php";
+                    function goToWishList() {
+                        window.location.href = "../wishlist.php";
                     }
                 </script>
 
                 <button class="header__btn" data-action="cart">
                     <strong>Giỏ hàng</strong>
-                    <i class="fa-solid fa-cart-shopping" ></i>
+                    <i class="fa-solid fa-cart-shopping"></i>
                     <span class="cart-count count">0</span>
                 </button>
             </div>
@@ -64,12 +58,12 @@
         <div class="header--bot">
             <ul class="header__menu">
                 <li>
-                <a href="../index.php">Giới thiệu Nous</a>
+                    <a href="../index.php">Giới thiệu Nous</a>
                 </li>
                 <li class="hasChild thoi-trang-so-sinh">
                     <a href="">Thời trang sơ sinh
                         <i class="fa-solid fa-chevron-down"></i>
-                        
+
                     </a>
                     <ul class="FadeIn header__menu1 sub__menu1 ">
                         <li class="hasChild">
@@ -107,37 +101,37 @@
                             </ul>
                         </li>
                         <div class="hasChild">
-                            <li > <a href="">Set quà tặng</a></li>
-                            <li > <a href="">Nous Premium</a></li>
-                            <li > <a href="">Nous Petit à Petit</a></li>
-                            <li >
+                            <li> <a href="">Set quà tặng</a></li>
+                            <li> <a href="">Nous Premium</a></li>
+                            <li> <a href="">Nous Petit à Petit</a></li>
+                            <li>
                                 <a href="">Bộ sưu tập</a>
-                                <ul class="header__menu2">                                    
+                                <ul class="header__menu2">
                                     <li><a href="">Hàng mới</a></li>
-                                    <li><a href="">Christmas wonderland 2023</a></li>                                    
+                                    <li><a href="">Christmas wonderland 2023</a></li>
                                 </ul>
                             </li>
                         </div>
-                        
+
                     </ul>
                 </li>
                 <li class="hasChild thoi-trang-cho-be-2-6y">
                     <a href="">Thời trang cho bé 2-6y
                         <i class="fa-solid fa-chevron-down"></i>
                     </a>
-                    
+
                 </li>
                 <li class="hasChild bo-suu-tap">
                     <a href="">Bộ sưu tập
                         <i class="fa-solid fa-chevron-down"></i>
                     </a>
-                    
+
                 </li>
                 <li class="hasChild he-thong-dai-ly">
                     <a href="">Hệ thống đại lý
                         <i class="fa-solid fa-chevron-down"></i>
                     </a>
-                    
+
                 </li>
                 <li class="hasChild lon-cung-nous">
                     <a href="">Lớn cùng nous
@@ -148,4 +142,4 @@
         </div>
     </div>
     <script src="./user/login.js"></script>
-    </header>
+</header>
