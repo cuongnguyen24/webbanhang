@@ -106,7 +106,7 @@ a {
 
 /* Css header */
 
-.header {
+header .header {
     border-bottom: 1px solid #E8E8F2;
     position: sticky;
     top: 0;
@@ -118,7 +118,7 @@ a {
     background-color: #fff;
 }
 
-.container {
+header .container {
     margin: 0 135.5px;
     max-width: 1140px;
     height: 113px;
@@ -385,6 +385,7 @@ a {
 
 .footer>.container {
     height: 100%;
+    max-width: 1140px;
     padding-right: 15px;
     padding-left: 15px;
     margin-right: auto;
@@ -987,4 +988,68 @@ a {
 
 .home_product_slider_wrap_body {
     margin-top: 30px;
+}
+
+
+/* ==================== PRODUCT ======================= */
+
+.wrapper {
+    max-width: 1140px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto;
+    background: #f4f4f4;
+}
+
+.wrapper .pro_container:hover {
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.1);
+}
+
+.pro .img {
+    width: 243px;
+    height: 243px;
+    object-fit: cover;
+}
+
+.wrapper .container {
+    display: grid;
+    grid-auto-flow: column;
+    grid-auto-columns: calc(100% / 4 + 4px);
+    /* gap: 10px; */
+    overflow: hidden;
+}
+
+.wrapper .container .pro {
+    padding: 0 10px;
+}
+
+.pro_container {
+    padding: 10px;
+    background: #ffffff;
+    border-radius: 6px;
+    width: 243px;
+    text-align: center;
+}
+
+.pro_container h3 {
+    margin: 10px 0;
+    overflow: hidden;
+    line-height: 1.071rem;
+    min-height: 35px;
+}
+
+.pro_container span {
+    color: #DB9087;
+    margin: 0;
+    line-height: 1.224rem;
+    font-size: 1.02rem;
+    font-weight: normal;
+    margin-bottom: 10px;
+    text-align: left;
+    overflow: hidden;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
 }

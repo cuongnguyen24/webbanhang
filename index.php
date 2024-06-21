@@ -91,8 +91,8 @@
                         <li class="hasChild">
                             <a href="">Sơ sinh 0-3 tháng</a>
                             <ul class="header__menu2">
-                                <li><a href="">Bộ liền</a></li>
-                                <li><a href="">Bộ dài tay</a></li>
+                                <li><a href="/webbanhang/collections/tre-so-sinh-0-3-thang/">Bộ liền</a></li>
+                                <li><a href="/webbanhang/collections/bo-dai-tay/">Bộ dài tay</a></li>
                             </ul>
                         </li>
                         <li class="hasChild">
@@ -350,7 +350,80 @@
 			</div>
             <div class="home_product_slider_wrap_body">
                 <div class="tab_content">
-                    <!-- Chưa làm được -->
+                <div class="wrapper">
+                    <ul class="container">
+                        <li class="pro">
+                            <div class="pro_container">
+                                <a href="">
+                                    <img class="img" src="./assets/img/products/bo_coc_tay_ke_xanh_la_dinh_gau_vang_d603869b28db4e379e225c0605acb7b5_large.webp" alt="">
+                                </a>
+                                <h3>
+                                    <a href="#">Bộ ba lỗ tai gấu be phối quần kẻ</a>
+                                </h3>
+                                <span>185,000₫</span>
+                            </div>
+                        </li>
+
+                        <li class="pro">
+                            <div class="pro_container">
+                                <a href="">
+                                    <img class="img" src="./assets/img/products/bo_ba_lo_ke_xanh_dinh_gau_mau_vang_20c2e1804e0443118e1ddc9caa7a25f1_large.webp" alt=""></a>
+                                <h3>
+                                    <a href="#">Bộ ba lỗ tai gấu be phối quần kẻ</a>
+                                </h3>
+                                <span>185,000₫</span>
+                            </div>
+                        </li>
+
+                        <li class="pro">
+                            <div class="pro_container">
+                                <a href="">
+                                    <img class="img" src="./assets/img/products/bo_ba_lo_tai_gau_be_phoi_quan_ke_9b8b62b149b6438d8d63140e74f35281_large.webp" alt=""></a>
+                                <a href=""></a>
+                                <h3>
+                                    <a href="#">Set 2 bodysuit xanh phối be</a>
+                                </h3>
+                                <span>185,000₫</span>
+                            </div>
+                        </li>
+
+                        <li class="pro">
+                            <div class="pro_container">
+                                <a href="">
+                                    <img class="img" src="./assets/img/products/set_2_bodysuit_xanh_phoi_be_5a62bebd316c4d2b84ef058e6c084598_large.webp" alt="">    
+                                </a>
+                                <h3>
+                                    <a href="#">Bộ ba lỗ kẻ xanh đính gấu màu vàng</a>
+                                </h3>
+                                <span>185,000₫</span>
+                            </div>
+                        </li>
+
+                        <li class="pro">
+                            <div class="pro_container">
+                                <a href="">
+                                    <img class="img" src="./assets/img/products/bo_coc_tay_ke_xanh_la_dinh_gau_vang_d603869b28db4e379e225c0605acb7b5_large.webp" alt="">    
+                                </a>
+                                <h3>
+                                    <a href="#">Bộ ba lỗ tai gấu be phối quần kẻ</a>
+                                </h3>
+                                <span>185,000₫</span>
+                            </div>
+                        </li>
+
+                        <li class="pro">
+                            <div class="pro_container">
+                                <a href="">
+                                    <img class="img" src="./assets/img/products/bo_coc_tay_ke_xanh_la_dinh_gau_vang_d603869b28db4e379e225c0605acb7b5_large.webp" alt="">    
+                                </a>
+                                <h3>
+                                    <a href="#">Bộ ba lỗ tai gấu be phối quần kẻ</a>
+                                </h3>
+                                <span>185,000₫</span>
+                            </div>
+                        </li>
+                    </ul>
+                    </div>
                 </div>
             </div>
             </div>
