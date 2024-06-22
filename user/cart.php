@@ -2,6 +2,21 @@
 session_start();
 $username = $_SESSION["username"]; // Lấy tên tài khoản từ session
 require_once '../admin/connect.php';
+
+if (isset($_SESSION['cart']) && count($_SESSION['cart']) > 0) {
+    $cart = $_SESSION['cart'];
+} else {
+    $cart = []; // Nếu không có giỏ hàng, khởi tạo giỏ hàng rỗng
+}
+
+// Tính toán tổng tiền và số lượng sản phẩm trong giỏ hàng
+$totalQuantity = 0;
+$totalAmount = 0;
+$totalProducts = count($cart); // Số lượng các sản phẩm trong giỏ hàng
+foreach ($cart as $item) {
+    $totalQuantity += $item['quantity'];
+    $totalAmount += $item['giaBan'] * $item['quantity'];
+}
 ?>
 <!DOCTYPE html>
 <html lang="vi">
@@ -13,7 +28,7 @@ require_once '../admin/connect.php';
     <link rel="stylesheet" href="../assets/style.css" />
     <link rel="stylesheet" href="../assets/reset.css" />
     <link rel="stylesheet" href="../assets/cuongstyle.css" />
-    <link rel="stylesheet" href="../assets/cart.css" />
+    <link rel="stylesheet" href="../assets/cart.css?v=<?php echo time() ?>" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 
 </head>
@@ -27,130 +42,44 @@ require_once '../admin/connect.php';
             <div class="card card-left card-left-cart" style="width: 65%; height: 100%">
                 <!-- Thông tin giỏ hàng -->
                 <div class="cart">
-                    <div class="cart-item">
-                        <img src="https://product.hstatic.net/200000692427/product/bo_dai_chui_dau_mau_vang_99db7220feb241ea8d4ac70c36cc3f82.jpg" alt="img 1">
-                        <div class="item-details">
-                            <h2>Bộ dài chui đầu màu vàng</h2>
-                            <p>Giá: 100,000 VND</p>
-                            <div class="controls">
-
-                                <div class="size-controls">
-                                    <label for="size1">Kích cỡ:</label>
-                                    <select id="size1" name="size1">
-                                        <option value="S">S</option>
-                                        <option value="M">M</option>
-                                        <option value="L">L</option>
-                                        <option value="XL">XL</option>
-                                    </select>
-                                </div>
-                                <div class="color-controls">
-                                    <label for="color1">Màu sắc:</label>
-                                    <select id="color1" name="color1">
-                                        <option value="Red">Đỏ</option>
-                                        <option value="Blue">Xanh</option>
-                                        <option value="Green">Xanh lá</option>
-                                        <option value="Black">Đen</option>
-                                        <option value="White">Trắng</option>
-                                    </select>
+                    <?php if (!empty($cart)) : ?>
+                        <?php foreach ($cart as $item) : ?>
+                            <div class="cart-item">
+                                <img src="<?php echo $item['duongDanAnh']; ?>" alt="img <?php echo $item['tenSanPham']; ?>">
+                                <div class="item-details">
+                                    <h3><?php echo $item['tenSanPham']; ?></h3>
+                                    <p>Giá: <?php echo number_format($item['giaBan'], 0, ',', '.'); ?> VND</p>
+                                    <p>Kích cỡ: <?php echo $item['size']; ?></p>
+                                    <form action="update_cart.php" method="post">
+                                        <input type="hidden" name="maSanPham" value="<?php echo $item['maSanPham']; ?>">
+                                        <input type="hidden" name="size" value="<?php echo $item['size']; ?>">
+                                        <div class="quantity-controls">
+                                            <label for="quantity_<?php echo $item['maSanPham']; ?>">Số lượng:</label>
+                                            <button type="button" class="quantity-btn" onclick="updateQuantity(<?php echo $item['maSanPham']; ?>, -1)">-</button>
+                                            <input type="number" id="quantity_<?php echo $item['maSanPham']; ?>" name="quantity" value="<?php echo $item['quantity']; ?>" min="1">
+                                            <button type="button" class="quantity-btn" onclick="updateQuantity(<?php echo $item['maSanPham']; ?>, 1)">+</button>
+                                        </div>
+                                        <button type="submit" class="remove-btn">Xóa</button>
+                                    </form>
                                 </div>
                             </div>
-                            <div class="quantity-controls">
-                                <label for="color1">Số lượng:</label>
-                                <button class="quantity-btn" onclick="decrementQuantity('quantity1')">-</button>
-                                <input type="number" id="quantity1" name="quantity1" value="1" min="1">
-                                <button class="quantity-btn" onclick="incrementQuantity('quantity1')">+</button>
-                            </div>
+                            <hr class="hr-card">
+                        <?php endforeach; ?>
+                    <?php else : ?>
+                        <p>Giỏ hàng của bạn đang trống.</p>
+                    <?php endif; ?>
 
-                            <button class="remove-btn">Xóa</button>
-                        </div>
-                    </div>
-                    <hr class="hr-card">
-                    <div class="cart-item">
-                        <img src="https://product.hstatic.net/200000692427/product/bo_dai_chui_dau_mau_vang_99db7220feb241ea8d4ac70c36cc3f82.jpg" alt="img 1">
-                        <div class="item-details">
-                            <h2>Bộ dài chui đầu màu vàng</h2>
-                            <p>Giá: 100,000 VND</p>
-                            <div class="controls">
-
-                                <div class="size-controls">
-                                    <label for="size1">Kích cỡ:</label>
-                                    <select id="size1" name="size1">
-                                        <option value="S">S</option>
-                                        <option value="M">M</option>
-                                        <option value="L">L</option>
-                                        <option value="XL">XL</option>
-                                    </select>
-                                </div>
-                                <div class="color-controls">
-                                    <label for="color1">Màu sắc:</label>
-                                    <select id="color1" name="color1">
-                                        <option value="Red">Đỏ</option>
-                                        <option value="Blue">Xanh</option>
-                                        <option value="Green">Xanh lá</option>
-                                        <option value="Black">Đen</option>
-                                        <option value="White">Trắng</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="quantity-controls">
-                                <label for="color1">Số lượng:</label>
-                                <button class="quantity-btn" onclick="decrementQuantity('quantity1')">-</button>
-                                <input type="number" id="quantity1" name="quantity1" value="1" min="1">
-                                <button class="quantity-btn" onclick="incrementQuantity('quantity1')">+</button>
-                            </div>
-
-                            <button class="remove-btn">Xóa</button>
-                        </div>
-                    </div>
-                    <hr class="hr-card">
-                    <div class="cart-item">
-                        <img src="https://product.hstatic.net/200000692427/product/bo_dai_chui_dau_mau_vang_99db7220feb241ea8d4ac70c36cc3f82.jpg" alt="img 1">
-                        <div class="item-details">
-                            <h2>Bộ dài chui đầu màu vàng</h2>
-                            <p>Giá: 100,000 VND</p>
-                            <div class="controls">
-
-                                <div class="size-controls">
-                                    <label for="size1">Kích cỡ:</label>
-                                    <select id="size1" name="size1">
-                                        <option value="S">S</option>
-                                        <option value="M">M</option>
-                                        <option value="L">L</option>
-                                        <option value="XL">XL</option>
-                                    </select>
-                                </div>
-                                <div class="color-controls">
-                                    <label for="color1">Màu sắc:</label>
-                                    <select id="color1" name="color1">
-                                        <option value="Red">Đỏ</option>
-                                        <option value="Blue">Xanh</option>
-                                        <option value="Green">Xanh lá</option>
-                                        <option value="Black">Đen</option>
-                                        <option value="White">Trắng</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="quantity-controls">
-                                <label for="color1">Số lượng:</label>
-                                <button class="quantity-btn" onclick="decrementQuantity('quantity1')">-</button>
-                                <input type="number" id="quantity1" name="quantity1" value="1" min="1">
-                                <button class="quantity-btn" onclick="incrementQuantity('quantity1')">+</button>
-                            </div>
-
-                            <button class="remove-btn">Xóa</button>
-                        </div>
-                    </div>
-                    <hr class="hr-card">
-                    
                 </div>
-                
             </div>
 
             <div class="card card-right" style="width: 35%;">
                 <div class="total">
-                    <h2>Thông tin giỏ hàng</h2>
-                    <h3>Tạm tính (2 sản phẩm)</h3>
-                    <h3>Tổng thanh toán: 300,000 VND</h3>
+                    <div class="cart-detail">
+                        <i class="fa-solid fa-cart-shopping"></i>
+                        <h2>Thông tin giỏ hàng</h2>
+                    </div>
+                    <h3>Tạm tính (<?php echo $totalProducts; ?> sản phẩm)</h3>
+                    <h3>Tổng thanh toán: <?php echo number_format($totalAmount, 0, ',', '.'); ?> VND</h3>
                     <button class="checkout-btn">Đặt hàng</button>
                 </div>
             </div>
@@ -159,19 +88,21 @@ require_once '../admin/connect.php';
     <?php
     include '../layout/footer.php';
     ?>
-    <script>
-        function incrementQuantity(inputId) {
-            const input = document.getElementById(inputId);
-            input.value = parseInt(input.value) + 1;
-        }
+     <script>
+        function updateQuantity(productId, change) {
+            var quantityInput = document.getElementById('quantity_' + productId);
+            var currentQuantity = parseInt(quantityInput.value);
+            var newQuantity = currentQuantity + change;
+            if (newQuantity >= 1) {
+                quantityInput.value = newQuantity;
 
-        function decrementQuantity(inputId) {
-            const input = document.getElementById(inputId);
-            if (input.value > 1) {
-                input.value = parseInt(input.value) - 1;
+                // Gửi form để cập nhật số lượng
+                var form = document.getElementById('form_' + productId);
+                form.submit();
             }
         }
     </script>
+   
 </body>
 
 </html>

@@ -9,7 +9,7 @@
 .card-right {
     position: sticky;
     top: 50%;
-    transform: translateY(-50%);
+    transform: translateY(-0%);
     background-color: rgb(242, 242, 242);
  
 }
@@ -19,6 +19,8 @@
     flex-direction: column;
     justify-content: center;
 }
+
+
 
 .card-left-cart{
     background-color: #fff;
@@ -95,13 +97,9 @@ input[type=number]::-webkit-inner-spin-button {
     
 }
 
-.size-controls select, .color-controls select {
-    padding: 5px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-}
 
 .remove-btn {
+    gap: 10px;
     background-color: #c3ae9e;
     color: #fff;
     border: none;
@@ -146,6 +144,37 @@ input[type=number]::-webkit-inner-spin-button {
     width: 100%;
 }
 
+.checkout-btn:hover {
+    background-color: #d1a9a4;
+    color: #fff;
+    border: none;
+    padding: 20px 20px;
+    font-size: 1rem;
+    cursor: pointer;
+    border-radius: 5px;
+    width: 100%;
+}
+
 .hr-card{
     margin-bottom: 30px;
+}
+
+.cart-detail{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+}
+
+/* product.php */
+
+.addcart-btn {
+    gap: 10px;
+    background-color: #c3ae9e;
+    color: #fff;
+    border: none;
+    padding: 5px 10px;
+    cursor: pointer;
+    border-radius: 5px;
 }
