@@ -2,6 +2,8 @@
 session_start();
 $username = $_SESSION["username"]; // Lấy tên tài khoản từ session
 require_once '../admin/connect.php';
+
+// Lấy dữ liệu từ CSDL
 // GROUP_CONCAT - kết hợp tất cả các kích cỡ (size) của mỗi sản phẩm thành một chuỗi, ngăn cách bởi dấu phẩy
 //  ORDER BY size.tenSize sắp xếp các kích cỡ theo thứ tự tăng dần.
 $sql = "SELECT sanpham.*, GROUP_CONCAT(size.tenSize ORDER BY size.tenSize SEPARATOR ', ') as sizes, anhSanPham.duongDanAnh 
@@ -19,6 +21,19 @@ if (mysqli_num_rows($result) > 0) {
     }
 }
 
+// Lấy maKhachHang theo bảng taikhoan dựa vào username
+$sql_get_khachHang = "SELECT khachhang.maKhachHang FROM khachhang 
+                    INNER JOIN taikhoan ON khachhang.maTaiKhoan = taikhoan.maTaiKhoan
+                    WHERE tenTaiKhoan = '$username'";
+$result_maKhachHang = mysqli_query($conn, $sql_get_khachHang);
+if (mysqli_num_rows($result_maKhachHang) > 0) {
+    $row_maKhachHang = mysqli_fetch_assoc($result_maKhachHang); // Sửa tên biến từ $result_maKhachHang thành $row_maKhachHang
+    $maKhachHang = $row_maKhachHang['maKhachHang'];
+} else {
+    // Xử lý khi không tìm thấy tên tài khoản (username) trong bảng taikhoan
+    die("Không tìm thấy tên tài khoản trong CSDL");
+}
+
 // Xử lý gửi kết quả qua cart.php
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $maSanPham = $_POST['maSanPham'];
@@ -28,41 +43,21 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $size = $_POST['size'];
     $quantity = $_POST['quantity'];
 
-    $product = [
-        'maSanPham' => $maSanPham,
-        'tenSanPham' => $tenSanPham,
-        'giaBan' => $giaBan,
-        'duongDanAnh' => $duongDanAnh,
-        'size' => $size,
-        'quantity' => $quantity,
-    ];
+    // Kiểm tra xem sản phẩm đã tồn tại trong giỏ hàng của người dùng hay chưa
+    $sql_check = "SELECT * FROM giohang WHERE maKhachHang = '$maKhachHang' AND maSanPham = '$maSanPham' AND maSize = '$size'";
+    $result_check = mysqli_query($conn, $sql_check);
 
-    // Kiểm tra nếu giỏ hàng đã tồn tại trong session
-    if (isset($_SESSION['cart'])) {
-        $cart = $_SESSION['cart'];
-        // Kiểm tra nếu sản phẩm đã tồn tại trong giỏ hàng
-        $found = false;
-        //Vòng lặp foreach duyệt qua từng sản phẩm ($item) trong giỏ hàng ($cart).
-        foreach ($cart as &$item) {
-            // kiểm tra xem sản phẩm hiện tại có cùng maSanPham và size với sản phẩm được thêm vào hay không.
-            if ($item['maSanPham'] == $maSanPham && $item['size'] == $size) {
-                // trùng thì cộng số lượng với số lượng mới thêm vào giỏ hàng
-                $item['quantity'] += $quantity;
-                $found = true;
-                break;
-            }
-        }
-        //Nếu sản phẩm chưa tồn tại trong giỏ hàng, thêm sản phẩm mới vào giỏ hàng
-        if (!$found) {
-            $cart[] = $product;
-        }
-    //Nếu giỏ hàng chưa tồn tại trong session, tạo mới giỏ hàng và thêm sản phẩm
+    if (mysqli_num_rows($result_check) > 0) {
+        // Nếu sản phẩm đã tồn tại, cập nhật số lượng
+        $sql_update = "UPDATE giohang SET soLuong = soLuong + $quantity WHERE maKhachHang = '$maKhachHang' AND maSanPham = '$maSanPham' AND maSize = '$size'";
+        mysqli_query($conn, $sql_update);
     } else {
-        $cart = [$product];
+        // Nếu sản phẩm chưa tồn tại, thêm mới vào giỏ hàng
+        $sql_insert = "INSERT INTO giohang (maKhachHang, maSanPham, maSize, soLuong) 
+                      VALUES ('$maKhachHang', '$maSanPham', '$size', $quantity)";
+        mysqli_query($conn, $sql_insert);
     }
 
-    // Lưu giỏ hàng trở lại session
-    $_SESSION['cart'] = $cart;
 
     // Chuyển hướng về trang giỏ hàng
     header('Location: ./cart.php');
@@ -71,6 +66,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 ?>
 <!DOCTYPE html>
 <html lang="vi">
+
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -96,7 +92,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                                 <div class="item-details">
                                     <h2><?php echo $sanpham['tenSanPham']; ?></h2>
                                     <p>Giá: <?php echo number_format($sanpham['giaBan'], 0, ',', '.'); ?> VND</p>
-                                    <form  method="post">
+                                    <form method="post">
                                         <input type="hidden" name="maSanPham" value="<?php echo $sanpham['maSanPham']; ?>">
                                         <input type="hidden" name="tenSanPham" value="<?php echo $sanpham['tenSanPham']; ?>">
                                         <input type="hidden" name="giaBan" value="<?php echo $sanpham['giaBan']; ?>">

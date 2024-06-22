@@ -3,10 +3,33 @@ session_start();
 $username = $_SESSION["username"]; // Lấy tên tài khoản từ session
 require_once '../admin/connect.php';
 
-if (isset($_SESSION['cart']) && count($_SESSION['cart']) > 0) {
-    $cart = $_SESSION['cart'];
+// Lấy maKhachHang từ bảng khachhang dựa vào tên tài khoản
+$sql_get_maKhachHang = "SELECT khachhang.maKhachHang FROM khachhang 
+                        INNER JOIN taikhoan ON khachhang.maTaiKhoan = taikhoan.maTaiKhoan
+                        WHERE tenTaiKhoan = '$username'";
+$result_maKhachHang = mysqli_query($conn, $sql_get_maKhachHang);
+
+if (mysqli_num_rows($result_maKhachHang) > 0) {
+    $row_maKhachHang = mysqli_fetch_assoc($result_maKhachHang);
+    $maKhachHang = $row_maKhachHang['maKhachHang'];
+
+    // Lấy thông tin sản phẩm trong giỏ hàng của khách hàng từ bảng giohang
+    $sql_cart = "SELECT giohang.*, sanpham.tenSanPham, sanpham.giaBan, anhSanPham.duongDanAnh, size.tenSize 
+                 FROM giohang 
+                 INNER JOIN sanpham ON giohang.maSanPham = sanpham.maSanPham 
+                 INNER JOIN anhSanPham ON sanpham.maSanPham = anhSanPham.maSanPham 
+                 INNER JOIN size ON giohang.maSize = size.maSize 
+                 WHERE giohang.maKhachHang = '$maKhachHang'";
+    $result_cart = mysqli_query($conn, $sql_cart);
+    $cart = [];
+
+    if (mysqli_num_rows($result_cart) > 0) {
+        while ($row = mysqli_fetch_assoc($result_cart)) {
+            $cart[] = $row;
+        }
+    }
 } else {
-    $cart = []; // Nếu không có giỏ hàng, khởi tạo giỏ hàng rỗng
+    die("Không tìm thấy thông tin khách hàng");
 }
 
 // Tính toán tổng tiền và số lượng sản phẩm trong giỏ hàng
@@ -14,8 +37,8 @@ $totalQuantity = 0;
 $totalAmount = 0;
 $totalProducts = count($cart); // Số lượng các sản phẩm trong giỏ hàng
 foreach ($cart as $item) {
-    $totalQuantity += $item['quantity'];
-    $totalAmount += $item['giaBan'] * $item['quantity'];
+    $totalQuantity += $item['soLuong'];
+    $totalAmount += $item['giaBan'] * $item['soLuong'];
 }
 ?>
 <!DOCTYPE html>
@@ -30,13 +53,10 @@ foreach ($cart as $item) {
     <link rel="stylesheet" href="../assets/cuongstyle.css" />
     <link rel="stylesheet" href="../assets/cart.css?v=<?php echo time() ?>" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-
 </head>
 
 <body>
-    <?php
-    include '../layout/header.php';
-    ?>
+    <?php include '../layout/header.php'; ?>
     <div class="main__layout__account main__layout__account_cart">
         <div class="main__layout__container main__layout__container__2 ">
             <div class="card card-left card-left-cart" style="width: 65%; height: 100%">
@@ -47,23 +67,27 @@ foreach ($cart as $item) {
                             <div class="cart-item">
                                 <img src="<?php echo $item['duongDanAnh']; ?>" alt="img <?php echo $item['tenSanPham']; ?>">
                                 <div class="item-details">
-                                    <h3><?php echo $item['tenSanPham']; ?></h3>
+                                    <h2><?php echo $item['tenSanPham']; ?></h2>
                                     <p>Giá: <?php echo number_format($item['giaBan'], 0, ',', '.'); ?> VND</p>
-                                    <p>Kích cỡ: <?php echo $item['size']; ?></p>
+                                    <p>Kích cỡ: <?php echo $item['tenSize']; ?></p>
                                     <form action="update_cart.php" method="post">
                                         <input type="hidden" name="maSanPham" value="<?php echo $item['maSanPham']; ?>">
-                                        <input type="hidden" name="size" value="<?php echo $item['size']; ?>">
+                                        <input type="hidden" name="size" value="<?php echo $item['maSize']; ?>">
                                         <div class="quantity-controls">
                                             <label for="quantity_<?php echo $item['maSanPham']; ?>">Số lượng:</label>
                                             <button type="button" class="quantity-btn" onclick="updateQuantity(<?php echo $item['maSanPham']; ?>, -1)">-</button>
-                                            <input type="number" id="quantity_<?php echo $item['maSanPham']; ?>" name="quantity" value="<?php echo $item['quantity']; ?>" min="1">
+                                            <input type="number" id="quantity_<?php echo $item['maSanPham']; ?>" name="quantity" value="<?php echo $item['soLuong']; ?>" min="1">
                                             <button type="button" class="quantity-btn" onclick="updateQuantity(<?php echo $item['maSanPham']; ?>, 1)">+</button>
                                         </div>
+                                    </form>
+                                    <form action="deletecart.php" method="get" onsubmit="return confirm('Bạn có chắc chắn muốn xóa sản phẩm này khỏi giỏ hàng?');">
+                                        <input type="hidden" name="maSanPham" value="<?php echo $item['maSanPham']; ?>">
+                                        <input type="hidden" name="maSize" value="<?php echo $item['maSize']; ?>">
                                         <button type="submit" class="remove-btn">Xóa</button>
                                     </form>
                                 </div>
                             </div>
-                            <hr class="hr-card">
+                            <!-- <hr class="hr-card"> -->
                         <?php endforeach; ?>
                     <?php else : ?>
                         <p>Giỏ hàng của bạn đang trống.</p>
@@ -85,24 +109,18 @@ foreach ($cart as $item) {
             </div>
         </div>
     </div>
-    <?php
-    include '../layout/footer.php';
-    ?>
-     <script>
-        function updateQuantity(productId, change) {
-            var quantityInput = document.getElementById('quantity_' + productId);
-            var currentQuantity = parseInt(quantityInput.value);
-            var newQuantity = currentQuantity + change;
-            if (newQuantity >= 1) {
-                quantityInput.value = newQuantity;
+    <?php include '../layout/footer.php'; ?>
 
-                // Gửi form để cập nhật số lượng
-                var form = document.getElementById('form_' + productId);
-                form.submit();
+    <script>
+        function updateQuantity(maSanPham, amount) {
+            const input = document.getElementById('quantity_' + maSanPham);
+            let newQuantity = parseInt(input.value) + amount;
+            if (newQuantity < 1) {
+                newQuantity = 1; // Đảm bảo số lượng không nhỏ hơn 1
             }
+            input.value = newQuantity;
         }
     </script>
-   
 </body>
 
 </html>
