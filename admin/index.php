@@ -21,7 +21,9 @@
                         window.location.href = "../index.php";
                         alert("Bạn chưa đăng nhập!");
                     </script>';
+                    exit();
         }
+
         else
         {
             if(isset($_SESSION["role"])&&($_SESSION["role"] == 1||$_SESSION["role"] == 2))
@@ -30,6 +32,7 @@
                         window.location.href = "./index.php";
                         alert("Chào mừng '.$_SESSION["username"].' Đến trang quản trị");
                     </script>';
+                    exit();
             }
             else
             {
@@ -38,6 +41,7 @@
                         window.location.href = "../index.php";
                         alert("Bạn không có quyền truy cập vào trang này");
                     </script>';
+                    exit();
             }
         }
         // <!-- Bắt lỗi chưa đăng nhập vào trang admin (Lỗi) -->
