@@ -1,3 +1,6 @@
+<?php
+$totalProducts = isset($_SESSION['totalProducts']) ? $_SESSION['totalProducts'] : 0;
+?>
 <header class="header">
     <div class="container">
         <div class="header--mid">
@@ -20,6 +23,7 @@
 
             <div class="header--mid__nav js-LogIn">
                 <?php
+
 
                 if (!isset($_SESSION["loged"])) {
                     echo '<button class="header__btn js-LogIn" data-action="account"><strong>Tài khoản</strong><i class="fa-solid fa-user-pen"></i></button>';
@@ -48,11 +52,17 @@
                     }
                 </script>
 
-                <button class="header__btn" data-action="cart">
+                <button class="header__btn" data-action="cart" onclick="goToCart()">
                     <strong>Giỏ hàng</strong>
                     <i class="fa-solid fa-cart-shopping"></i>
-                    <span class="cart-count count">0</span>
+                    <span class="cart-count count"><?php echo $totalProducts; ?></span>
                 </button>
+
+                <script>
+                        function goToCart() {
+                            window.location.href = "./cart.php";
+                        }
+                    </script>
             </div>
         </div>
         <div class="header--bot">
