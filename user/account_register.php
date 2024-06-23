@@ -1,5 +1,5 @@
 <?php
-$connect = mysqli_connect('localhost', 'root', '', 'webbanhang');
+$connect = mysqli_connect('localhost', 'root', '', 'websitebanhang');
 mysqli_set_charset($connect, "utf8");
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
