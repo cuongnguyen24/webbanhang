@@ -81,9 +81,7 @@
                     </script>
                 </div>
             </div>
-
-        </div>
-        <div class="header--bot">
+            <div class="header--bot">
             <ul class="header__menu">
                 <li>
                 <a href="#">Giới thiệu Nous</a>
@@ -207,6 +205,8 @@
                     </li>
                 </ul>
             </div>
+        </div>
+        
         </div>
         <script src="./user/login.js"></script>
     </header>
@@ -399,30 +399,7 @@
                         <!-- Chưa làm được -->
                     </div>
 
-					<div class="section-title-right">
-						<ul class="cate nav collection-navtabs-title pills-tab" data-lim it="8">
-							<li class="nav-item">
-								<a class="nav-link active" data-handle="/collections/hang-moi" data-toggle="tab" href="#collection-tabs-1" data-count="55">
-									Hàng mới
-								</a>
-							</li>
-							<li class="nav-item">
-								<a class="nav-link " data-handle="/collections/km-t4-2024" data-toggle="tab" href="#collection-tabs-2" data-count="69">
-									Hot sales
-								</a>
-							</li>
-							<li class="nav-item">
-								<a class="nav-link " data-handle="/collections/phu-kien-cho-tre-so-sinh" data-toggle="tab" href="#collection-tabs-3" data-count="277">
-									
-									Phụ kiện
-								</a>
-							</li>
-						</ul>
-						<a href="/collections/hang-moi" class="viewmore ">Xem thêm </a>
-					</div>	
-				</div>
-			</div>
-            <div class="home_product_slider_wrap_body">
+					<div class="home_product_slider_wrap_body">
                 <div class="tab_content">
                 <div class="wrapper">
                     <ul class="container">
@@ -501,6 +478,9 @@
 
                 </div>
             </div>
+				</div>
+			</div>
+            
         </div>
     </section>
 
