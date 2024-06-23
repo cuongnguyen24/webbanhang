@@ -19,7 +19,6 @@ $username = $_SESSION["username"]; // Lấy tên tài khoản từ session
   <?php
     include './header.php';
   ?>
-
   <div class="main__layout__account">
     <div class="main__layout__container main__layout__container__2">
 
@@ -29,8 +28,6 @@ $username = $_SESSION["username"]; // Lấy tên tài khoản từ session
             <div class="user-icon">
               <i class="fa-regular fa-user"></i>
             </div>
-
-
             <?php
             require_once './connect.php';
             $sql = "SELECT quanly.hoTen, quanly.email, quanly.soDienThoai, quanly.diaChi, quanly.maQuanLy FROM taikhoan
