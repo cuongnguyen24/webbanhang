@@ -8,11 +8,10 @@
 
 .card-right {
     position: sticky;
-    top: 50%;
-    transform: translateY(-0%);
+    top: 0; /* Thay đổi giá trị của top thành 0 để cố định phần tử ở vị trí trên cùng */
     background-color: rgb(242, 242, 242);
- 
 }
+
 
 .cart{
     display: flex;

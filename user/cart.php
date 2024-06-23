@@ -40,7 +40,10 @@ foreach ($cart as $item) {
     $totalQuantity += $item['soLuong'];
     $totalAmount += $item['giaBan'] * $item['soLuong'];
 }
+
+$_SESSION['totalProducts'] = $totalProducts; // Lưu giá trị vào session
 ?>
+
 <!DOCTYPE html>
 <html lang="vi">
 
@@ -70,7 +73,7 @@ foreach ($cart as $item) {
                                     <h2><?php echo $item['tenSanPham']; ?></h2>
                                     <p>Giá: <?php echo number_format($item['giaBan'], 0, ',', '.'); ?> VND</p>
                                     <p>Kích cỡ: <?php echo $item['tenSize']; ?></p>
-                                    <form action="update_cart.php" method="post">
+                                    <form action="update_cart.php" method="post" id="form_<?php echo $item['maSanPham']; ?>">
                                         <input type="hidden" name="maSanPham" value="<?php echo $item['maSanPham']; ?>">
                                         <input type="hidden" name="size" value="<?php echo $item['maSize']; ?>">
                                         <div class="quantity-controls">
@@ -87,12 +90,10 @@ foreach ($cart as $item) {
                                     </form>
                                 </div>
                             </div>
-                            <!-- <hr class="hr-card"> -->
                         <?php endforeach; ?>
                     <?php else : ?>
                         <p>Giỏ hàng của bạn đang trống.</p>
                     <?php endif; ?>
-
                 </div>
             </div>
 
@@ -119,6 +120,9 @@ foreach ($cart as $item) {
                 newQuantity = 1; // Đảm bảo số lượng không nhỏ hơn 1
             }
             input.value = newQuantity;
+
+            // Tự động submit form sau khi thay đổi số lượng
+            document.getElementById('form_' + maSanPham).submit();
         }
     </script>
 </body>
