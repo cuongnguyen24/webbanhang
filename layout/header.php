@@ -1,5 +1,6 @@
 <?php
 $totalProducts = isset($_SESSION['totalProducts']) ? $_SESSION['totalProducts'] : 0;
+$role = isset($_SESSION["role"]) ? $_SESSION["role"] : null;
 ?>
 <header class="header">
     <div class="container">
