@@ -1,6 +1,12 @@
 <?php
 session_start();
+if (!isset($_SESSION["username"])) {
+    header("Location: ../index.php?showLogin=true");
+    exit();
+}
+
 $username = $_SESSION["username"]; // Lấy tên tài khoản từ session
+
 require_once '../admin/connect.php';
 
 // Lấy maKhachHang từ bảng khachhang dựa vào tên tài khoản
