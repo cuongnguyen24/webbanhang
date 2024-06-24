@@ -271,6 +271,12 @@
     background-color: #fff;
 }
 
+.card-right-customer{
+    width:70%;
+    background-color: #fff;
+    min-height: 400px;
+}
+
 .card-title{
     display: flex;
     flex-direction: column;
@@ -402,6 +408,7 @@ hr{
 }
 
 /* Adress.php */
+
 .card-body table{
     width: 100%;
     background-color: #dfdfdf;
@@ -423,6 +430,8 @@ hr{
 
 .default-address {
     color: red;
+    border: 1px solid red;
+    text-align: center;
 }
 
 .card-body table {
@@ -439,4 +448,32 @@ hr{
     text-align: right; /* Căn phải cho cột chứa sửa/xóa */
 }
 
+/* Các định nghĩa CSS khác */
+
+.list-group-full-width {
+    width: 100%;
+}
   
+.list-group-horizontal {
+    display: flex;
+    justify-content: space-between;
+}
+  
+.list-group-horizontal .list-group-item {
+    flex-grow: 1;
+    text-align: center;
+    border-bottom: 2px solid transparent;
+}
+
+.list-group-horizontal .list-group-item.active {    
+    border-bottom: 2px solid #d0b49e; /* Khi một thẻ a có class "active", border-bottom sẽ có màu đỏ */
+}
+
+.list-group-horizontal .list-group-item:focus {    
+    border-bottom: 2px solid #d0b49e; /* Khi một thẻ a được focus, border-bottom sẽ có màu đỏ */
+}
+
+.list-group-horizontal a{
+    text-decoration: none;
+}
+

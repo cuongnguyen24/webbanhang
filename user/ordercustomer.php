@@ -72,7 +72,7 @@ $username = $_SESSION["username"]; // Lấy tên tài khoản từ session
           </li>
           <hr>
           <li class="list-group-item">
-            <p><a class="link-opacity-100 text-body-secondary" href="./ordercustomer.php">Đơn hàng</a></p>
+            <p><a class="link-opacity-100 text-body-secondary" href="#">Đơn hàng</a></p>
           </li>
           <hr>
           <li class="list-group-item">
@@ -85,22 +85,16 @@ $username = $_SESSION["username"]; // Lấy tên tài khoản từ session
         </ul>
       </div>
 
-      <div class="card card-right" style="width: 70%;">
+      <div class="card card-right card-right-customer" style="width: 70%;">
         <div class="card-body">
-          <h5 class="card-title">Thông tin tài khoản khách hàng</h5>
-          <hr>
-          <ul class="list-group list-group-flush">
-            <li class="list-group-item">
-              <p>Tên: <?php echo $name; ?><br>
-                Email: <?php echo $mail; ?><br>
-                Số điện thoại: <?php echo $sdt; ?></p>
-            </li>
-            <hr>
-            <li class="list-group-item">
-              <p>Địa chỉ: <?php echo $diachi; ?></p>
-            </li>
-          </ul>
-          <a href="./changepassword.php" class="btn-changepass">Đổi mật khẩu</a>
+          <h5 class="card-title">Đơn hàng của bạn</h5>
+          <div class="list-group list-group-horizontal list-group-full-width" style="justify-content: space-between;">            
+            <a href="#" class="list-group-item list-group-item-action border-bottom-red active">Tất cả</a>            
+            <a href="#" class="list-group-item list-group-item-action border-bottom-red">Đang xử lý</a>            
+            <a href="#" class="list-group-item list-group-item-action border-bottom-red">Đã vận chuyển</a>            
+            <a href="#" class="list-group-item list-group-item-action border-bottom-red">Đã giao</a>            
+            <a href="#" class="list-group-item list-group-item-action border-bottom-red">Đã hủy</a>          
+          </div>
         </div>
       </div>
     </div>
