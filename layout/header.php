@@ -52,7 +52,7 @@ $totalProducts = isset($_SESSION['totalProducts']) ? $_SESSION['totalProducts'] 
                     }
                 </script>
 
-                <button class="header__btn" data-action="cart" onclick="goToCart()">
+                <button class="header__btn" data-action="cart" <?php if($role == 3) echo 'onclick="goToCart()"'; ?>>
                     <strong>Giỏ hàng</strong>
                     <i class="fa-solid fa-cart-shopping"></i>
                     <span class="cart-count count"><?php echo $totalProducts; ?></span>
