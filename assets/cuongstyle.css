@@ -473,7 +473,6 @@ hr{
     border-bottom: 2px solid #d0b49e; /* Khi một thẻ a được focus, border-bottom sẽ có màu đỏ */
 }
 
-.list-group-horizontal a{
+.card-body a:hover {
     text-decoration: none;
-}
-
+} 

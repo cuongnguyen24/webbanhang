@@ -1,6 +1,26 @@
 <?php
 session_start();
 
+// if (isset($_POST["dangnhap_otp"])) {    
+//   $email = $_POST["email_lg"];    
+//   $otp = mt_rand(100000, 999999); 
+//   // Tạo mã OTP ngẫu nhiên    
+//   // Lưu mã OTP và email vào session    
+//   $_SESSION["otp"] = $otp;    
+//   $_SESSION["email"] = $email;    
+//   // Gửi email chứa mã OTP    
+//   require_once '../admin/connect.php';    
+//   if (sendOTPEmail($email, $otp)) {        
+//     echo '<script>            
+//     alert("Mã OTP đã được gửi đến email của bạn.");            
+//     window.location.href = "./login_otp.php";        
+//     </script>';    
+//   } else {        
+//     echo '<script>            
+//     alert("Gửi email thất bại. Vui lòng thử lại.");        
+//     </script>';    
+//   }}
+
 ?>
 <form action="" method="POST">
   <div class="model_LogIn js-model_LogIn">
@@ -29,10 +49,9 @@ session_start();
                 <form action="">
                   <div class="form-group">
                     <label for="">Tên tài khoản</label>
-                    <label for=""><a href="">Đăng nhập với OTP</a></label>
+                    <label for=""><a href="./user/login_otp.php">Đăng nhập với OTP</a></label>
                     <input type="text" class="form-control" name="user_name_lg">
                   </div>
-
                   <div class="form-group">
                     <label for="">Mật khẩu</label>
                     <input type="password" class="form-control" name="passlg">
