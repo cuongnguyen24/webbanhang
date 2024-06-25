@@ -1881,7 +1881,7 @@
     const string = typedValue(isString, 'string');
     const boolean = typedValue(isBoolean, 'boolean');
     const functionProcessor = typedValue(isFunction, 'function');
-    const isPostMessageable = val => {
+    const isPostmessageable = val => {
       if (Object(val) !== val) {
         return true;
       }
@@ -1899,16 +1899,16 @@
         return true;
       case 'Array':
       case 'Object':
-        return Object.keys(val).every(prop => isPostMessageable(val[prop]));
+        return Object.keys(val).every(prop => isPostmessageable(val[prop]));
       default:
         return false;
       }
     };
-    const postMessageable = value$3(a => {
-      if (isPostMessageable(a)) {
+    const postmessageable = value$3(a => {
+      if (isPostmessageable(a)) {
         return SimpleResult.svalue(a);
       } else {
-        return SimpleResult.serror('Expected value to be acceptable for sending via postMessage');
+        return SimpleResult.serror('Expected value to be acceptable for sending via postmessage');
       }
     });
 
@@ -1981,7 +1981,7 @@
     const defaultedStringEnum = (key, fallback, values) => defaultedOf(key, fallback, validateEnum(values));
     const defaultedBoolean = (key, fallback) => defaultedOf(key, fallback, boolean);
     const defaultedFunction = (key, fallback) => defaultedOf(key, fallback, functionProcessor);
-    const defaultedPostMsg = (key, fallback) => defaultedOf(key, fallback, postMessageable);
+    const defaultedPostMsg = (key, fallback) => defaultedOf(key, fallback, postmessageable);
     const defaultedArrayOf = (key, fallback, schema) => defaultedOf(key, fallback, arrOf(schema));
     const defaultedObjOf = (key, fallback, objSchema) => defaultedOf(key, fallback, objOf(objSchema));
 
@@ -2464,12 +2464,12 @@
     const make$8 = identity;
 
     const NoContextApi = getComp => {
-      const getMessage = event => `The component must be in a context to execute: ${ event }` + (getComp ? '\n' + element(getComp().element) + ' is not in context.' : '');
+      const getmessage = event => `The component must be in a context to execute: ${ event }` + (getComp ? '\n' + element(getComp().element) + ' is not in context.' : '');
       const fail = event => () => {
-        throw new Error(getMessage(event));
+        throw new Error(getmessage(event));
       };
       const warn = event => () => {
-        console.warn(getMessage(event));
+        console.warn(getmessage(event));
       };
       return {
         debugInfo: constant$1('fake'),
@@ -19103,7 +19103,7 @@
       }
     });
 
-    const promotionMessage = '\u26A1\ufe0fUpgrade';
+    const promotionmessage = '\u26A1\ufe0fUpgrade';
     const promotionLink = 'https://www.tiny.cloud/tinymce-self-hosted-premium-features/?utm_source=TinyMCE&utm_medium=SPAP&utm_campaign=SPAP&utm_id=editorreferral';
     const renderPromotion = spec => {
       return {
@@ -19119,7 +19119,7 @@
                 'aria-hidden': 'true'
               },
               classes: ['tox-promotion-link'],
-              innerHtml: promotionMessage
+              innerHtml: promotionmessage
             }
           }]
       };
@@ -26531,7 +26531,7 @@
       defaultedFunction('onAction', noop),
       defaultedFunction('onCancel', noop),
       defaultedFunction('onClose', noop),
-      defaultedFunction('onMessage', noop)
+      defaultedFunction('onmessage', noop)
     ]);
     const createUrlDialog = spec => asRaw('dialog', urlDialogSchema, spec);
 
@@ -27186,7 +27186,7 @@
     const titleChannel = generate$6('update-title');
     const bodyChannel = generate$6('update-body');
     const footerChannel = generate$6('update-footer');
-    const bodySendMessageChannel = generate$6('body-send-message');
+    const bodySendmessageChannel = generate$6('body-send-message');
 
     const renderBody = (spec, dialogId, contentId, backstage, ariaAttrs) => {
       const renderComponents = incoming => {
@@ -28859,7 +28859,7 @@
         styles: { display: 'none' }
       }
     });
-    const pBodyMessage = (message, providersBackstage) => ModalDialog.parts.body({
+    const pBodymessage = (message, providersBackstage) => ModalDialog.parts.body({
       dom: {
         tag: 'div',
         classes: ['tox-dialog__body']
@@ -29584,20 +29584,20 @@
           emit(root, formCloseEvent);
         });
       };
-      const sendMessage = data => {
+      const sendmessage = data => {
         withRoot(root => {
-          root.getSystem().broadcastOn([bodySendMessageChannel], data);
+          root.getSystem().broadcastOn([bodySendmessageChannel], data);
         });
       };
       return {
         block,
         unblock,
         close,
-        sendMessage
+        sendmessage
       };
     };
 
-    const SUPPORTED_MESSAGE_ACTIONS = [
+    const SUPPORTED_message_ACTIONS = [
       'insertContent',
       'setContent',
       'execCommand',
@@ -29605,9 +29605,9 @@
       'block',
       'unblock'
     ];
-    const isSupportedMessage = data => isObject(data) && SUPPORTED_MESSAGE_ACTIONS.indexOf(data.mceAction) !== -1;
-    const isCustomMessage = data => !isSupportedMessage(data) && isObject(data) && has$2(data, 'mceAction');
-    const handleMessage = (editor, api, data) => {
+    const isSupportedmessage = data => isObject(data) && SUPPORTED_message_ACTIONS.indexOf(data.mceAction) !== -1;
+    const isCustommessage = data => !isSupportedmessage(data) && isObject(data) && has$2(data, 'mceAction');
+    const handlemessage = (editor, api, data) => {
       switch (data.mceAction) {
       case 'insertContent':
         editor.insertContent(data.content);
@@ -29662,10 +29662,10 @@
             const unbind = bind(SugarElement.fromDom(window), 'message', e => {
               if (iframeUri.isSameOrigin(new global(e.raw.origin))) {
                 const data = e.raw.data;
-                if (isSupportedMessage(data)) {
-                  handleMessage(editor, instanceApi, data);
-                } else if (isCustomMessage(data)) {
-                  internalDialog.onMessage(instanceApi, data);
+                if (isSupportedmessage(data)) {
+                  handlemessage(editor, instanceApi, data);
+                } else if (isCustommessage(data)) {
+                  internalDialog.onmessage(instanceApi, data);
                 }
               }
             });
@@ -29675,12 +29675,12 @@
         ]),
         Receiving.config({
           channels: {
-            [bodySendMessageChannel]: {
+            [bodySendmessageChannel]: {
               onReceive: (comp, data) => {
                 descendant(comp.element, 'iframe').each(iframeEle => {
                   const iframeWin = iframeEle.dom.contentWindow;
                   if (isNonNullable(iframeWin)) {
-                    iframeWin.postMessage(data, iframeDomain);
+                    iframeWin.postmessage(data, iframeDomain);
                   }
                 });
               }
@@ -29726,7 +29726,7 @@
         const alertDialog = build$1(renderDialog$1({
           lazySink: () => sharedBackstage.getSink(),
           header: hiddenHeader(titleSpec, closeSpec),
-          body: pBodyMessage(message, sharedBackstage.providers),
+          body: pBodymessage(message, sharedBackstage.providers),
           footer: Optional.some(pFooter(pFooterGroup([], [memFooterClose.asSpec()]))),
           onEscape: closeDialog,
           extraClasses: ['tox-alert-dialog'],
@@ -29772,7 +29772,7 @@
         const confirmDialog = build$1(renderDialog$1({
           lazySink: () => sharedBackstage.getSink(),
           header: hiddenHeader(titleSpec, closeSpec),
-          body: pBodyMessage(message, sharedBackstage.providers),
+          body: pBodymessage(message, sharedBackstage.providers),
           footer: Optional.some(pFooter(pFooterGroup([], [
             footerNo,
             memFooterYes.asSpec()

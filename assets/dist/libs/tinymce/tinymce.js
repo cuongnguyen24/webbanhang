@@ -7255,7 +7255,7 @@
     const getResizeImgProportional = option('resize_img_proportional');
     const getPlaceholder = option('placeholder');
     const getEventRoot = option('event_root');
-    const getServiceMessage = option('service_message');
+    const getServicemessage = option('service_message');
     const getTheme = option('theme');
     const getThemeUrl = option('theme_url');
     const getModel = option('model');
@@ -18787,10 +18787,10 @@
       const isLegacyMobileTheme = normalizedOptions.theme === 'mobile';
       if (hasRemovedPlugins || hasRemovedOptions || isLegacyMobileTheme) {
         const listJoiner = '\n- ';
-        const themesMessage = isLegacyMobileTheme ? `\n\nThemes:${ listJoiner }mobile` : '';
-        const pluginsMessage = hasRemovedPlugins ? `\n\nPlugins:${ listJoiner }${ removedPlugins.join(listJoiner) }` : '';
-        const optionsMessage = hasRemovedOptions ? `\n\nOptions:${ listJoiner }${ removedOptions.join(listJoiner) }` : '';
-        console.warn('The following deprecated features are currently enabled and have been removed in TinyMCE 6.0. These features will no longer work and should be removed from the TinyMCE configuration. ' + 'See https://www.tiny.cloud/docs/tinymce/6/migration-from-5x/ for more information.' + themesMessage + pluginsMessage + optionsMessage);
+        const themesmessage = isLegacyMobileTheme ? `\n\nThemes:${ listJoiner }mobile` : '';
+        const pluginsmessage = hasRemovedPlugins ? `\n\nPlugins:${ listJoiner }${ removedPlugins.join(listJoiner) }` : '';
+        const optionsmessage = hasRemovedOptions ? `\n\nOptions:${ listJoiner }${ removedOptions.join(listJoiner) }` : '';
+        console.warn('The following deprecated features are currently enabled and have been removed in TinyMCE 6.0. These features will no longer work and should be removed from the TinyMCE configuration. ' + 'See https://www.tiny.cloud/docs/tinymce/6/migration-from-5x/ for more information.' + themesmessage + pluginsmessage + optionsmessage);
       }
     };
     const getPluginDescription = name => find$2(deprecatedPlugins, entry => entry.name === name).fold(() => name, entry => `${ name }, replaced by ${ entry.replacedWith }`);
@@ -18801,9 +18801,9 @@
       const hasDeprecatedOptions = deprecatedOptions.length > 0;
       if (hasDeprecatedPlugins || hasDeprecatedOptions) {
         const listJoiner = '\n- ';
-        const pluginsMessage = hasDeprecatedPlugins ? `\n\nPlugins:${ listJoiner }${ deprecatedPlugins.map(getPluginDescription).join(listJoiner) }` : '';
-        const optionsMessage = hasDeprecatedOptions ? `\n\nOptions:${ listJoiner }${ deprecatedOptions.join(listJoiner) }` : '';
-        console.warn('The following deprecated features are currently enabled but will be removed soon.' + pluginsMessage + optionsMessage);
+        const pluginsmessage = hasDeprecatedPlugins ? `\n\nPlugins:${ listJoiner }${ deprecatedPlugins.map(getPluginDescription).join(listJoiner) }` : '';
+        const optionsmessage = hasDeprecatedOptions ? `\n\nOptions:${ listJoiner }${ deprecatedOptions.join(listJoiner) }` : '';
+        console.warn('The following deprecated features are currently enabled but will be removed soon.' + pluginsmessage + optionsmessage);
       }
     };
     const logWarnings = (rawOptions, normalizedOptions) => {
@@ -19015,10 +19015,10 @@
       const getNotifications = constant(notifications);
       const registerEvents = editor => {
         editor.on('SkinLoaded', () => {
-          const serviceMessage = getServiceMessage(editor);
-          if (serviceMessage) {
+          const servicemessage = getServicemessage(editor);
+          if (servicemessage) {
             open({
-              text: serviceMessage,
+              text: servicemessage,
               type: 'warning',
               timeout: 0
             }, false);
@@ -29177,7 +29177,7 @@
       return value => processValue(value, validator, `The value must be a ${ type }.`);
     };
     const isBuiltInSpec = spec => isString(spec.processor);
-    const getErrorMessage = (message, result) => {
+    const getErrormessage = (message, result) => {
       const additionalText = isEmpty$3(result.message) ? '' : `. ${ result.message }`;
       return message + additionalText;
     };
@@ -29202,7 +29202,7 @@
         if (isValidResult(result)) {
           return result.value;
         } else {
-          console.error(getErrorMessage(`Invalid default value passed for the "${ name }" option`, result));
+          console.error(getErrormessage(`Invalid default value passed for the "${ name }" option`, result));
         }
       }
       return undefined;
@@ -29216,7 +29216,7 @@
           values[name] = result.value;
           return true;
         } else {
-          console.warn(getErrorMessage(`Invalid value passed for the ${ name } option`, result));
+          console.warn(getErrormessage(`Invalid value passed for the ${ name } option`, result));
           return false;
         }
       };

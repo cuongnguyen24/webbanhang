@@ -7190,10 +7190,10 @@
     const sort = arr => {
       return arr.slice(0).sort();
     };
-    const reqMessage = (required, keys) => {
+    const reqmessage = (required, keys) => {
       throw new Error('All required keys (' + sort(required).join(', ') + ') were not specified. Specified keys were: ' + sort(keys).join(', ') + '.');
     };
-    const unsuppMessage = unsupported => {
+    const unsuppmessage = unsupported => {
       throw new Error('Unsupported keys for object: ' + sort(unsupported).join(', '));
     };
     const validateStrArr = (label, array) => {
@@ -7206,7 +7206,7 @@
         }
       });
     };
-    const invalidTypeMessage = (incorrect, type) => {
+    const invalidTypemessage = (incorrect, type) => {
       throw new Error('All values need to be of type: ' + type + '. Keys (' + sort(incorrect).join(', ') + ') were not.');
     };
     const checkDupes = everything => {
@@ -7237,14 +7237,14 @@
           return contains$2(keys$1, req);
         });
         if (!allReqd) {
-          reqMessage(required, keys$1);
+          reqmessage(required, keys$1);
         }
         handleUnsupported(required, keys$1);
         const invalidKeys = filter$2(required, key => {
           return !pred.validate(obj[key], key);
         });
         if (invalidKeys.length > 0) {
-          invalidTypeMessage(invalidKeys, pred.label);
+          invalidTypemessage(invalidKeys, pred.label);
         }
         return obj;
       };
@@ -7254,7 +7254,7 @@
         return !contains$2(required, key);
       });
       if (unsupported.length > 0) {
-        unsuppMessage(unsupported);
+        unsuppmessage(unsupported);
       }
     };
     const exactly = required => base(handleExact, required);

@@ -693,10 +693,10 @@
       return wrapped;
     };
     const handleError = editor => error => {
-      const errorMessage = error && error.msg ? 'Media embed handler error: ' + error.msg : 'Media embed handler threw unknown error.';
+      const errormessage = error && error.msg ? 'Media embed handler error: ' + error.msg : 'Media embed handler threw unknown error.';
       editor.notificationManager.open({
         type: 'error',
-        text: errorMessage
+        text: errormessage
       });
     };
     const getEditorData = editor => {

@@ -1,13 +1,84 @@
+<?php
+    require_once '../../connect.php';
+    $maNhaCungCap=$_GET['maNhaCungCap'];
+    $tenNhaCungCap="";
+    $diaChi="";
+    $email="";
+    $soDienThoai="";       
+    $query="select * from nhacungcap where maNhaCungCap='".$maNhaCungCap."'";
+        $result = mysqli_query($conn,$query);
+        if(mysqli_num_rows($result)>0){
+            while($row = mysqli_fetch_assoc($result)){
+                $tenNhaCungCap=$row["tenNhaCungCap"];
+                $diaChi=$row["diaChi"];
+                $email=$row["email"];
+                $soDienThoai=$row["soDienThoai"];
+            }
+        }
+    if($_SERVER['REQUEST_METHOD']=="POST" && isset($_POST['btnSave']))
+    {
+        $errors=[];
+        if(empty(trim($_POST['tenNhaCungCap']))){
+            $errors['tenNhaCungCap']='Tên nhà cung cấp không được để trống';
+        }
+        else{
+            $tenNhaCungCap= $_POST['tenNhaCungCap'];
+        } 
+        if(empty(trim($_POST['diaChi']))){
+            $errors['diaChi']='Địa chỉ không được để trống';
+        }
+        else{        
+            $soDienThoai =$_POST['diaChi'] ;
+        }
+        if(empty(trim($_POST['email']))){
+            $errors['email']='Email không được để trống';
+        }
+        else{        
+            $email = $_POST['email'];  
+        }
+        if(empty(trim($_POST['soDienThoai']))){
+            $errors['soDienThoai']='Số điện thoại không được để trống';
+        }
+        else{        
+            $soDienThoai= $_POST['soDienThoai'];
+        }
+        if(!empty($errors)){
+            $mess='Đã có lỗi xảy ra. Vui lòng kiểm tra lại';
+            ?>
+        <div class="alert">
+            <?php echo $mess; ?>
+        </div>
+<?php
+        }
+        else{
+            $tenNhaCungCap= $_POST['tenNhaCungCap'];
+            $diaChi=$_POST['diaChi'];
+            $email=$_POST['email'];       
+            $soDienThoai=$_POST['soDienThoai'];        
+            $query="UPDATE nhacungcap SET tenNhaCungCap='".$tenNhaCungCap."',diaChi='".$diaChi."',email='".$email."',soDienThoai='".$soDienThoai."' WHERE maNhaCungCap='".$maNhaCungCap."'"; 
+            echo $query;
+            $result= mysqli_query($conn, $query);
+            if($result>0)
+              echo '<script>
+                alert("Cập nhật thành công");
+                window.location.href="index.php";
+                 </script>';
+            else 
+                echo 'Lỗi sửa dữ liệu';
+        }
+    }
+?>
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard</title>
     <link rel="stylesheet" href="../style.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer"
-    />
+    <link rel="stylesheet" href="../nhacungcap.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+        integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
 </head>
 
 <body>
@@ -42,7 +113,7 @@
                     <h3>Đơn hàng</h3>
                 </a>
 
-                <a href="../analytics/" class="active">
+                <a href="../Nhacungcap/" class="active">
                     <i class="fa-solid fa-clipboard"></i>
                     <h3>Nhà cung cấp</h3>
                 </a>
@@ -50,7 +121,7 @@
                 <a href="../message/" class="">
                     <i class="fa-regular fa-envelope"></i>
                     <h3>Danh mục</h3>
-                    <span class="Message-count">26</span>
+                    <span class="message-count">26</span>
                 </a>
 
                 <a href="../products/" class="">
@@ -75,82 +146,72 @@
                 </a>
             </div>
         </aside>
-        <!-- ---------------------END OF ASIDE---------------- -->
         <main>
-            <h1>Dashboard</h1>
-            <div class="date">
-                <input type="date">
-            </div>
-
-            <div class="insights">
-
-                <!-- ----------------END OF INCOME--------------- -->
-
-            </div>
-            <!-- ------------------END OF INSIGHTS ------------- -->
-
-
             <div class="recent-order">
-                <h2>Recent Orders</h2>
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Product Name</th>
-                            <th>Product Number</th>
-                            <th>Payment</th>
-                            <th>Status</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>Foldable Mini Drone</td>
-                            <td>85631</td>
-                            <td>Due</td>
-                            <td class="warning">Pending</td>
-                            <td class="primary">Details</td>
-                        </tr>
+                <a href="index.php" class="btn">Danh sách sản phẩm</a>
+                <hr />
+                <h3 style="text-align: center">Sửa nhà cung cấp</h3>
+                <form method="POST">
+                    <div class="form-group">
+                        <label for="">Mã nhà cung cấp</label>
+                        <input type="text" class="form-control" name="txtid" value=<?php  echo $maNhaCungCap?> disabled>
+                    </div>
+                    <div class="form-group">
+                        <label for="">Tên nhà cung cấp</label>
+                        <input type="text" class="form-control" name="tenNhaCungCap"
+                            placeholder="Hãy nhập tên nhà cung cấp" value="<?php echo $tenNhaCungCap ?>">
+                        <?php 
+                    echo (!empty($errors['tenNhaCungCap']))?'<span class="error">'.$errors['TenNhaCungCap'].'</span>':false;
+                ?>
+                    </div>
+                    <div class="form-group">
+                        <label for="">Địa chỉ</label>
+                        <input type="text" class="form-control" name="diaChi" placeholder="Hãy nhập địa chỉ..."
+                            value="<?php echo $diaChi ?>">
+                        <?php 
+                if(!empty($errors)){                        
+                    if(!empty($errors['diaChi'])){
+                        echo '<div class="error">'.
+                                $errors['diaChi'].'
+                        </div>';
+                    }
+                }  
+            ?>
+                    </div>
+                    <div class="form-group">
+                        <label for="">Email</label>
+                        <input type="text" class="form-control" name="email" placeholder="Hãy nhập email..."
+                            value="<?php echo $email ?>">
+                        <?php 
+                if(!empty($errors)){                        
+                    if(!empty($errors['email'])){
+                        echo '<div class="error">'.
+                                $errors['email'].'
+                        </div>';
+                    }
+                }  
+            ?>
+                    </div>
+                    <div class="form-group">
+                        <label for="">Số điện thoại</label>
+                        <input type="text" class="form-control" name="soDienThoai"
+                            placeholder="Hãy nhập số điện thoại..." value="<?php echo $soDienThoai ?>">
+                        <?php 
+                if(!empty($errors)){                        
+                    if(!empty($errors['soDienThoai'])){
+                        echo '<div class="error">'.
+                                $errors['soDienThoai'].'
+                        </div>';
+                    }
+                }  
+            ?>
+                    </div>
+                    <button type="submit" class="btn btn-primary" name="btnSave">Ghi dữ liệu</button>
+                </form>
 
-                        <tr>
-                            <td>Foldable Mini Drone</td>
-                            <td>85631</td>
-                            <td>Due</td>
-                            <td class="warning">Pending</td>
-                            <td class="primary">Details</td>
-                        </tr>
-
-                        <tr>
-                            <td>Foldable Mini Drone</td>
-                            <td>85631</td>
-                            <td>Due</td>
-                            <td class="warning">Pending</td>
-                            <td class="primary">Details</td>
-                        </tr>
-
-
-                        <tr>
-                            <td>Foldable Mini Drone</td>
-                            <td>85631</td>
-                            <td>Due</td>
-                            <td class="warning">Pending</td>
-                            <td class="primary">Details</td>
-                        </tr>
-
-
-                        <tr>
-                            <td>Foldable Mini Drone</td>
-                            <td>85631</td>
-                            <td>Due</td>
-                            <td class="warning">Pending</td>
-                            <td class="primary">Details</td>
-                        </tr>
-                    </tbody>
-                </table>
-                <a href="#">Show All</a>
             </div>
+
         </main>
-
-        <!-- -------------------END OF MAIN --------------------- -->
-
         <div class="right">
             <div class="top">
                 <button id="menu_btn">
@@ -262,7 +323,20 @@
             </div>
         </div>
     </div>
-    <script src="../index.js"></script>
+    <script>
+    function convertToSlug(str) {
+        // Chuyển các ký tự có dấu thành không dấu và chuyển sang chữ thường
+        str = str.toLowerCase().replace(/ă/g, 'a').replace(/â/g, 'a').replace(/đ/g, 'd').replace(/ê/g, 'e').replace(
+            /ô/g, 'o').replace(/ơ/g, 'o').replace(/ư/g, 'u').replace(/ơ/g, 'o').replace(/ư/g, 'u').replace(/ /g,
+            '-');
+        return str;
+    }
+
+    function updateInput2() {
+        var input1Value = document.getElementById("txtmessage").value;
+        document.getElementById("txtDuongDan").value = convertToSlug(input1Value) + '.php';
+    }
+    </script>
 </body>
 
 </html>

@@ -283,10 +283,10 @@ let $4ca367182776f80b$var$defaultOptions = {
    */ forceFallback: false,
     /**
    * The text used before any files are dropped.
-   */ dictDefaultMessage: "Drop files here to upload",
+   */ dictDefaultmessage: "Drop files here to upload",
     /**
    * The text that replaces the default message text it the browser is not supported.
-   */ dictFallbackMessage: "Your browser does not support drag'n'drop file uploads.",
+   */ dictFallbackmessage: "Your browser does not support drag'n'drop file uploads.",
     /**
    * The text that will be added before the fallback form.
    * If you provide a  fallback element yourself, or if this option is `null` this will
@@ -400,8 +400,8 @@ let $4ca367182776f80b$var$defaultOptions = {
         }
         let span = messageElement.getElementsByTagName("span")[0];
         if (span) {
-            if (span.textContent != null) span.textContent = this.options.dictFallbackMessage;
-            else if (span.innerText != null) span.innerText = this.options.dictFallbackMessage;
+            if (span.textContent != null) span.textContent = this.options.dictFallbackmessage;
+            else if (span.innerText != null) span.innerText = this.options.dictFallbackmessage;
         }
         return this.element.appendChild(this.getFallbackForm());
     },
@@ -715,7 +715,7 @@ class $3ed269f2f0fb224b$export$2e2bcd8739ae039 extends $4040acfd8584338d$export$
     init() {
         // In case it isn't set already
         if (this.element.tagName === "form") this.element.setAttribute("enctype", "multipart/form-data");
-        if (this.element.classList.contains("dropzone") && !this.element.querySelector(".dz-message")) this.element.appendChild($3ed269f2f0fb224b$export$2e2bcd8739ae039.createElement(`<div class="dz-default dz-message"><button class="dz-button" type="button">${this.options.dictDefaultMessage}</button></div>`));
+        if (this.element.classList.contains("dropzone") && !this.element.querySelector(".dz-message")) this.element.appendChild($3ed269f2f0fb224b$export$2e2bcd8739ae039.createElement(`<div class="dz-default dz-message"><button class="dz-button" type="button">${this.options.dictDefaultmessage}</button></div>`));
         if (this.clickableElements.length) {
             let setupHiddenFileInput = ()=>{
                 if (this.hiddenFileInput) this.hiddenFileInput.parentNode.removeChild(this.hiddenFileInput);

@@ -28,7 +28,7 @@
     const getOnSaveCallback = option('save_onsavecallback');
     const getOnCancelCallback = option('save_oncancelcallback');
 
-    const displayErrorMessage = (editor, message) => {
+    const displayErrormessage = (editor, message) => {
       editor.notificationManager.open({
         text: message,
         type: 'error'
@@ -52,12 +52,12 @@
           if (typeof formObj.submit === 'function') {
             formObj.submit();
           } else {
-            displayErrorMessage(editor, 'Error: Form submit field collision.');
+            displayErrormessage(editor, 'Error: Form submit field collision.');
           }
         }
         editor.nodeChanged();
       } else {
-        displayErrorMessage(editor, 'Error: No form element found.');
+        displayErrormessage(editor, 'Error: No form element found.');
       }
     };
     const cancel = editor => {

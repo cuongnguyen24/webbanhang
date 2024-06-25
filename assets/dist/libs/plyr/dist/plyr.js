@@ -5949,7 +5949,7 @@ typeof navigator === "object" && (function (global, factory) {
             // YouTube may fire onError twice, so only handle it once
             if (!player.media.error) {
               const code = event.data;
-              // Messages copied from https://developers.google.com/youtube/iframe_api_reference#onError
+              // messages copied from https://developers.google.com/youtube/iframe_api_reference#onError
               const message = {
                 2: 'The request contains an invalid parameter value. For example, this error occurs if you specify a video ID that does not have 11 characters, or if the video ID contains invalid characters, such as exclamation points or asterisks.',
                 5: 'The requested content cannot be played in an HTML5 player or another error related to the HTML5 player has occurred.',
@@ -6545,7 +6545,7 @@ typeof navigator === "object" && (function (global, factory) {
             break;
           case google.ima.AdEvent.Type.LOG:
             if (adData.adError) {
-              this.player.debug.warn(`Non-fatal ad error: ${adData.adError.getMessage()}`);
+              this.player.debug.warn(`Non-fatal ad error: ${adData.adError.getmessage()}`);
             }
             break;
         }

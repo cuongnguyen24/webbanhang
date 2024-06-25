@@ -971,20 +971,20 @@ interface UrlDialogInstanceApi {
     block: (msg: string) => void;
     unblock: () => void;
     close: () => void;
-    sendMessage: (msg: any) => void;
+    sendmessage: (msg: any) => void;
 }
 interface UrlDialogActionDetails {
     name: string;
     value?: any;
 }
-interface UrlDialogMessage {
+interface UrlDialogmessage {
     mceAction: string;
     [key: string]: any;
 }
 declare type UrlDialogActionHandler = (api: UrlDialogInstanceApi, actions: UrlDialogActionDetails) => void;
 declare type UrlDialogCloseHandler = () => void;
 declare type UrlDialogCancelHandler = (api: UrlDialogInstanceApi) => void;
-declare type UrlDialogMessageHandler = (api: UrlDialogInstanceApi, message: UrlDialogMessage) => void;
+declare type UrlDialogmessageHandler = (api: UrlDialogInstanceApi, message: UrlDialogmessage) => void;
 interface UrlDialogFooterButtonSpec extends DialogFooterNormalButtonSpec {
     type: 'cancel' | 'custom';
 }
@@ -997,7 +997,7 @@ interface UrlDialogSpec {
     onAction?: UrlDialogActionHandler;
     onClose?: UrlDialogCloseHandler;
     onCancel?: UrlDialogCancelHandler;
-    onMessage?: UrlDialogMessageHandler;
+    onmessage?: UrlDialogmessageHandler;
 }
 declare type ColumnTypes = number | 'auto';
 declare type SeparatorItemSpec = SeparatorMenuItemSpec;
@@ -1115,9 +1115,9 @@ type PublicDialog_d_UrlDialogSpec = UrlDialogSpec;
 type PublicDialog_d_UrlDialogFooterButtonSpec = UrlDialogFooterButtonSpec;
 type PublicDialog_d_UrlDialogInstanceApi = UrlDialogInstanceApi;
 type PublicDialog_d_UrlDialogActionDetails = UrlDialogActionDetails;
-type PublicDialog_d_UrlDialogMessage = UrlDialogMessage;
+type PublicDialog_d_UrlDialogmessage = UrlDialogmessage;
 declare namespace PublicDialog_d {
-    export { PublicDialog_d_AlertBannerSpec as AlertBannerSpec, PublicDialog_d_BarSpec as BarSpec, PublicDialog_d_BodyComponentSpec as BodyComponentSpec, PublicDialog_d_ButtonSpec as ButtonSpec, PublicDialog_d_CheckboxSpec as CheckboxSpec, PublicDialog_d_CollectionItem as CollectionItem, PublicDialog_d_CollectionSpec as CollectionSpec, PublicDialog_d_ColorInputSpec as ColorInputSpec, PublicDialog_d_ColorPickerSpec as ColorPickerSpec, PublicDialog_d_CustomEditorSpec as CustomEditorSpec, PublicDialog_d_CustomEditorInit as CustomEditorInit, PublicDialog_d_CustomEditorInitFn as CustomEditorInitFn, PublicDialog_d_DialogData as DialogData, PublicDialog_d_DialogSize as DialogSize, PublicDialog_d_DialogSpec as DialogSpec, PublicDialog_d_DialogInstanceApi as DialogInstanceApi, PublicDialog_d_DialogFooterButtonSpec as DialogFooterButtonSpec, PublicDialog_d_DialogActionDetails as DialogActionDetails, PublicDialog_d_DialogChangeDetails as DialogChangeDetails, PublicDialog_d_DialogTabChangeDetails as DialogTabChangeDetails, PublicDialog_d_DropZoneSpec as DropZoneSpec, PublicDialog_d_GridSpec as GridSpec, PublicDialog_d_HtmlPanelSpec as HtmlPanelSpec, PublicDialog_d_IframeSpec as IframeSpec, PublicDialog_d_ImagePreviewSpec as ImagePreviewSpec, PublicDialog_d_InputSpec as InputSpec, PublicDialog_d_LabelSpec as LabelSpec, PublicDialog_d_ListBoxSpec as ListBoxSpec, PublicDialog_d_ListBoxItemSpec as ListBoxItemSpec, PublicDialog_d_ListBoxNestedItemSpec as ListBoxNestedItemSpec, PublicDialog_d_ListBoxSingleItemSpec as ListBoxSingleItemSpec, PublicDialog_d_PanelSpec as PanelSpec, PublicDialog_d_SelectBoxSpec as SelectBoxSpec, PublicDialog_d_SelectBoxItemSpec as SelectBoxItemSpec, PublicDialog_d_SizeInputSpec as SizeInputSpec, PublicDialog_d_SliderSpec as SliderSpec, PublicDialog_d_TableSpec as TableSpec, PublicDialog_d_TabSpec as TabSpec, PublicDialog_d_TabPanelSpec as TabPanelSpec, PublicDialog_d_TextAreaSpec as TextAreaSpec, PublicDialog_d_TreeSpec as TreeSpec, PublicDialog_d_TreeItemSpec as TreeItemSpec, DirectorySpec as TreeDirectorySpec, LeafSpec as TreeLeafSpec, PublicDialog_d_UrlInputData as UrlInputData, PublicDialog_d_UrlInputSpec as UrlInputSpec, PublicDialog_d_UrlDialogSpec as UrlDialogSpec, PublicDialog_d_UrlDialogFooterButtonSpec as UrlDialogFooterButtonSpec, PublicDialog_d_UrlDialogInstanceApi as UrlDialogInstanceApi, PublicDialog_d_UrlDialogActionDetails as UrlDialogActionDetails, PublicDialog_d_UrlDialogMessage as UrlDialogMessage, };
+    export { PublicDialog_d_AlertBannerSpec as AlertBannerSpec, PublicDialog_d_BarSpec as BarSpec, PublicDialog_d_BodyComponentSpec as BodyComponentSpec, PublicDialog_d_ButtonSpec as ButtonSpec, PublicDialog_d_CheckboxSpec as CheckboxSpec, PublicDialog_d_CollectionItem as CollectionItem, PublicDialog_d_CollectionSpec as CollectionSpec, PublicDialog_d_ColorInputSpec as ColorInputSpec, PublicDialog_d_ColorPickerSpec as ColorPickerSpec, PublicDialog_d_CustomEditorSpec as CustomEditorSpec, PublicDialog_d_CustomEditorInit as CustomEditorInit, PublicDialog_d_CustomEditorInitFn as CustomEditorInitFn, PublicDialog_d_DialogData as DialogData, PublicDialog_d_DialogSize as DialogSize, PublicDialog_d_DialogSpec as DialogSpec, PublicDialog_d_DialogInstanceApi as DialogInstanceApi, PublicDialog_d_DialogFooterButtonSpec as DialogFooterButtonSpec, PublicDialog_d_DialogActionDetails as DialogActionDetails, PublicDialog_d_DialogChangeDetails as DialogChangeDetails, PublicDialog_d_DialogTabChangeDetails as DialogTabChangeDetails, PublicDialog_d_DropZoneSpec as DropZoneSpec, PublicDialog_d_GridSpec as GridSpec, PublicDialog_d_HtmlPanelSpec as HtmlPanelSpec, PublicDialog_d_IframeSpec as IframeSpec, PublicDialog_d_ImagePreviewSpec as ImagePreviewSpec, PublicDialog_d_InputSpec as InputSpec, PublicDialog_d_LabelSpec as LabelSpec, PublicDialog_d_ListBoxSpec as ListBoxSpec, PublicDialog_d_ListBoxItemSpec as ListBoxItemSpec, PublicDialog_d_ListBoxNestedItemSpec as ListBoxNestedItemSpec, PublicDialog_d_ListBoxSingleItemSpec as ListBoxSingleItemSpec, PublicDialog_d_PanelSpec as PanelSpec, PublicDialog_d_SelectBoxSpec as SelectBoxSpec, PublicDialog_d_SelectBoxItemSpec as SelectBoxItemSpec, PublicDialog_d_SizeInputSpec as SizeInputSpec, PublicDialog_d_SliderSpec as SliderSpec, PublicDialog_d_TableSpec as TableSpec, PublicDialog_d_TabSpec as TabSpec, PublicDialog_d_TabPanelSpec as TabPanelSpec, PublicDialog_d_TextAreaSpec as TextAreaSpec, PublicDialog_d_TreeSpec as TreeSpec, PublicDialog_d_TreeItemSpec as TreeItemSpec, DirectorySpec as TreeDirectorySpec, LeafSpec as TreeLeafSpec, PublicDialog_d_UrlInputData as UrlInputData, PublicDialog_d_UrlInputSpec as UrlInputSpec, PublicDialog_d_UrlDialogSpec as UrlDialogSpec, PublicDialog_d_UrlDialogFooterButtonSpec as UrlDialogFooterButtonSpec, PublicDialog_d_UrlDialogInstanceApi as UrlDialogInstanceApi, PublicDialog_d_UrlDialogActionDetails as UrlDialogActionDetails, PublicDialog_d_UrlDialogmessage as UrlDialogmessage, };
 }
 type PublicInlineContent_d_AutocompleterSpec = AutocompleterSpec;
 type PublicInlineContent_d_AutocompleterItemSpec = AutocompleterItemSpec;

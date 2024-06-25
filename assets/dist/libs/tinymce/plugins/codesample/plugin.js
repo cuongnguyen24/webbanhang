@@ -126,7 +126,7 @@
         var plainTextGrammar = {};
         var _ = {
           manual: _self.Prism && _self.Prism.manual,
-          disableWorkerMessageHandler: _self.Prism && _self.Prism.disableWorkerMessageHandler,
+          disableWorkermessageHandler: _self.Prism && _self.Prism.disableWorkermessageHandler,
           util: {
             encode: function encode(tokens) {
               if (tokens instanceof Token) {
@@ -348,7 +348,7 @@
               worker.onmessage = function (evt) {
                 insertHighlightedCode(evt.data);
               };
-              worker.postMessage(JSON.stringify({
+              worker.postmessage(JSON.stringify({
                 language: env.language,
                 code: env.code,
                 immediateClose: true
@@ -605,13 +605,13 @@
           if (!_self.addEventListener) {
             return _;
           }
-          if (!_.disableWorkerMessageHandler) {
+          if (!_.disableWorkermessageHandler) {
             _self.addEventListener('message', function (evt) {
               var message = JSON.parse(evt.data);
               var lang = message.language;
               var code = message.code;
               var immediateClose = message.immediateClose;
-              _self.postMessage(_.highlight(code, _.languages[lang], lang));
+              _self.postmessage(_.highlight(code, _.languages[lang], lang));
               if (immediateClose) {
                 _self.close();
               }
