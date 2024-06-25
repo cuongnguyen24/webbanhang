@@ -4,7 +4,7 @@ $conn = mysqli_connect('localhost', 'root', '', 'webbanhang');
 if (!$conn) {
     die("Connection failed: " . mysqli_connect_error());
 }
-    
+
 // Thêm hàm gửi email OTP
 function sendOTPEmail($email, $otp)
 {
@@ -23,12 +23,16 @@ function sendOTPEmail($email, $otp)
     $mail->setFrom('cuongngba7@gmail.com');
     $mail->addAddress($email);
     $mail->isHTML(true);
-    $mail->Subject = 'Mã OTP đăng nhập của bạn';
-    $mail->Body = "Mã OTP của bạn là: $otp";
+    $mail->Subject = 'Ma OTP dang nhap NOUS cua ban';
+    $mail->Body = '
+    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRXiK5jVNGdbVj8VzZe2wPo9IDCyoF78V6JrA&s" alt="anh">
+    <br>Nous xin chào!<br>
+    Chào mừng bạn đã quay trở lại với Nous.<br>
+    Hãy nhập OTP để quay lại mua sắm nhé.<br>
+    Mã OTP của bạn là: ' . $otp;
     if ($mail->send()) {
         return true;
     } else {
         return false;
     }
 }
-?>
