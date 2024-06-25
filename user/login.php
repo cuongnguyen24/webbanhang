@@ -60,7 +60,7 @@ session_start();
                   <div class="login-btn">
                     <button type="submit" name="dangnhap">Đăng nhập</button>
                   </div>
-                  <a href="" class="forget_pass">QUÊN MẬT KHẨU?</a>
+                  <a href="./user/forgot_password.php" class="forget_pass">QUÊN MẬT KHẨU?</a>
                 </form>
               </div>
             </div>
