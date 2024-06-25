@@ -1,0 +1,8 @@
+#order_detail{
+    width: 1200px;
+    height: 500px;
+    background-color: aquamarine;
+    display: none;
+    position: fixed;
+    top: 20%;
+}
