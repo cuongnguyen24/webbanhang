@@ -10,6 +10,7 @@ if(isset($_SESSION["loged"])) {
     unset($_SESSION["loged"]);
     unset($_SESSION["role"]);
     unset($_SESSION["username"]);
+    unset($_SESSION['totalProducts']);
     echo '<script>
                         alert("Đăng xuất thành công");
                         window.location.href = "../index.php";

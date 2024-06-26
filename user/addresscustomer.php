@@ -58,7 +58,7 @@ mysqli_close($conn);
           </li>
           <hr>
           <li class="list-group-item">
-            <p><a class="link-opacity-100 text-body-secondary" href="#">Đơn hàng</a></p>
+            <p><a class="link-opacity-100 text-body-secondary" href="./ordercustomer.php">Đơn hàng</a></p>
           </li>
           <hr>
           <li class="list-group-item">
@@ -71,7 +71,7 @@ mysqli_close($conn);
         </ul>
       </div>
 
-      <div class="card card-right" style="width: 70%;">
+      <div class="card card-right card-right-customer" style="width: 70%;">
         <div class="card-body">
           <h5 class="card-title">Địa chỉ của tôi</h5>
           <?php
