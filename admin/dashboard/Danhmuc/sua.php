@@ -27,9 +27,6 @@
         }
     }
 ?>  
-<a href="index.php" class="btn">Danh sách danh mục</a>
-<hr/>
-
 <?php
     if($_SERVER['REQUEST_METHOD']=="POST" && isset($_POST['btnSave']))
     {
@@ -82,7 +79,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard</title>
     <link rel="stylesheet" href="../style.css">
-    <link rel="stylesheet" href="../nhacungcap.css">
+    <link rel="stylesheet" href="../add.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
         integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
@@ -154,11 +151,15 @@
             </div>
         </aside>
         <main>
-            <div class="recent-order">
-                <a href="index.php" class="btn">Danh sách danh mục</a>
+            <div class="main">
+            <div id="back">
+                    <i class= "fa-solid fa-angle-left"></i>
+                    <a href="index.php" class="btn">Danh sách danh mục</a>
+                </div>
                 <hr />
-                <h3 style="text-align: center">Sửa nhà cung cấp</h3>
-                <form method="POST">
+                <div class="wrapper">
+                <h3 style="text-align: center" class="title">Sửa danh mục</h3>
+                <form method="POST" id="form">
                     <div class="form-group">
                         <label for="inputEmail4">Mã danh mục</label>
                         <input disabled type="text" class="form-control" name="txtMa" value=<?php  echo $maDanhMuc?>>
@@ -194,8 +195,7 @@
                                         echo '<option name="txtDmCha" value= '.$item['maDanhMuc'].'>'.$item['tenDanhMuc'].'</option>';
                                     }
                                     
-                                }
-                                var_dump($categories);     
+                                }     
                             ?> 
                         </select>
                         </div>        
@@ -203,11 +203,13 @@
 
                     <div class="form-group">
                         <label for="inputAddress2"> Vị trí </label>
-                        <input type="text" class="form-control" id="vitri" name="vitri" placeholder="Vị trí danh mục..." value="<?php echo $vitri ?>">
+                        <input type="text" class="form-control" id="vitri" name="vitri" placeholder=" Vị trí danh mục..." value="<?php echo $vitri ?>">
                     </div>
-                    
-                    <button type="submit" class="btn btn-primary" name="btnSave">Ghi dữ liệu</button>
+                    <div id="button_add">
+                        <button type="submit" class="btn btn-primary" name="btnSave" id="btnSubmit">Ghi dữ liệu</button>
+                    </div>
                 </form>
+                </div>
                 <script>
                 function convertToSlug(str) {
                     // Chuyển các ký tự có dấu thành không dấu và chuyển sang chữ thường

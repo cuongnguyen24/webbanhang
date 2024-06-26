@@ -108,18 +108,18 @@
         <!-- ---------------------END OF ASIDE---------------- -->
         <main>
             <div class="recent-order">
-                <div class="title">
-                    <h2>DANH SÁCH DANH MỤC</h2>
+            <div class="main__layout">
+                <div id="title_form">
+                <label >QUẢN LÝ DANH MỤC</label>
+                </div> 
+                <div class="add">
+                    <label for="">Danh sách danh mục</label>
+                    <a id="add_button" href="add.php">
+                        <i class="fa-solid fa-plus"></i>
+                        THÊM DANH MỤC
+                    </a>
                 </div>
                 <div class="container-xl">
-                    <div class="g-2 align-items-center" style=" margin-bottom: 20px;">
-                        <div class="col-4" style="margin-top:10px; width: 18%;">
-                            <a href="add.php" class="btn btn-outline-primary active w-100" data-bs-toggle="modal"
-                                data-bs-target="#modal-report">
-                                Thêm mới danh mục
-                            </a>
-                        </div>
-                    </div>
                     <div class="col">
                         <div class="card">
                             <div class="card-body border-bottom py-3">
@@ -136,12 +136,16 @@
                                             entries
                                         </div>
                                     </form>
-                                    <div class="ms-auto text-muted">
+                                    <div class="search">
                                         Search:
-                                        <div class="ms-2 d-inline-block">
+                                        <!-- <div class="ms-2 d-inline-block">
                                             <input type="text" class="form-control form-control-sm" id="search"
                                                 aria-label="Search invoice">
-                                        </div>
+                                        </div> -->
+                                        <form  action="" id="search_form">
+                                            <input type="text" name="txtSearch" id="txtSearch" placeholder="   Tìm họ tên danh mục">
+                                            <button name="btnSearch" id="btnSearch" ><i class="fa-solid fa-magnifying-glass"></i></button>
+                                        </form>
                                     </div>
                                 </div>
                             </div>
@@ -188,24 +192,22 @@
                                             }
                                             return $tendanhmuccha;
                                         }
-                                        function showCategories( $categories, $parent_id = -1, $char = '', $i = 0)
-                                        {
-                                           
+                                        function showCategories( $categories, $parent_id = -1, $char = '')
+                                        {                                     
+                                            $i=1;
                                             foreach ($categories as $key => $item)
                                             {
-                                                $i++;
                                                 // Nếu là chuyên mục con thì hiển thị
-                                                if ($item['danhMucCha'] == $parent_id)
-                                                {
-                                                    
+                                                if ($item['danhMucCha'] == $parent_id || $item['danhMucCha'] == '' )
+                                                {                                                    
                                                     echo '<tr>   
-                                                        <td>'.($i).'</td>                  
+                                                        <td>'.($i++).'</td>                  
                                                         <td>'.$item["maDanhMuc"].'</td>
-                                                        <td>'.$char." ".$item["tenDanhMuc"].'</td>                      
+                                                        <td class="tenDM">'.$char." ".$item["tenDanhMuc"].'</td>                      
                                                         <td>'.getTenDanhMuc($item["danhMucCha"]).'</td>
-                                                        <th>'.$item["url"].'</th>
+                                                        <td>'.$item["url"].'</td>
                                                         <td>'.$item["viTri"].'</td>
-                                                        <td>
+                                                        <td style="display:flex;margin:0px 24px";>
                                                             <a href="sua.php?maDanhMuc='.$item["maDanhMuc"].'">
                                                                     <i class="fa-sharp fa-solid fa-pen" style="color: #ff3d3d;"></i>
                                                             </a>
@@ -217,7 +219,8 @@
                                                     // Xóa chuyên mục đã lặp
                                                     unset($categories[$key]); 
                                                     // Tiếp tục đệ quy để tìm chuyên mục con của chuyên mục đang lặp
-                                                    showCategories($categories, $item['maDanhMuc'], $char.'-----', $i);
+                                                    showCategories($categories, $item['maDanhMuc'], $char.'-----');
+                                                   
                                                 }  
                                             }  
                                         }
@@ -237,119 +240,6 @@
         </main>
 
         <!-- -------------------END OF MAIN --------------------- -->
-
-        <div class="right">
-            <div class="top">
-                <button id="menu_btn">
-                    <i class="fa-solid fa-bars"></i>
-                </button>
-                <div class="theme-toggler">
-                    <i class="fa-regular fa-sun active"></i>
-                    <i class="fa-solid fa-moon"></i>
-                </div>
-                <div class="profile">
-                    <div class="info">
-                        <p>Hey, <b>Bình đẹp trai</b></p>
-                        <small class="text-muted"> Admin</small>
-                    </div>
-                    <div class="profile-photo">
-                        <img src="/assets/img/baby_homeAbout.webp" alt="">
-                    </div>
-                </div>
-            </div>
-
-            <!-- END OF TOP -->
-            <div class="recent_updates">
-                <h2>Recent Updates</h2>
-                <div class="updates">
-                    <div class="update">
-                        <div class="profile_photo">
-                            <img src="" alt="">
-                        </div>
-                        <div class="message">
-                            <p><b>Thùy Linh</b> received his order of Night lion tech GPS drone.</p>
-                            <small class="text-muted">2 Minutes Ago</small>
-                        </div>
-                    </div>
-
-                    <div class="update">
-                        <div class="profile_photo">
-                            <img src="" alt="">
-                        </div>
-                        <div class="message">
-                            <p><b>Cường</b> received his order of Night lion tech GPS drone.</p>
-                            <small class="text-muted">2 Minutes Ago</small>
-                        </div>
-                    </div>
-
-                    <div class="update">
-                        <div class="profile_photo">
-                            <img src="" alt="">
-                        </div>
-                        <div class="message">
-                            <p><b>Quang kun</b> received his order of Night lion tech GPS drone.</p>
-                            <small class="text-muted">2 Minutes Ago</small>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <!-- -------------------END OF RECENT UPDATES ------------------ -->
-            <div class="sales_analytics">
-                <h2>Sales Analytics</h2>
-                <div class="item online">
-                    <div class="icon">
-                        <i class="fa-solid fa-cart-shopping"></i>
-                    </div>
-                    <div class="right">
-                        <div class="info">
-                            <h3>ONLINE ORDERS</h3>
-                            <small class="text-muted">Last 24 Hours</small>
-                        </div>
-                        <h5 class="success"> +39%</h5>
-                        <h3>3849</h3>
-                    </div>
-                </div>
-
-
-                <div class="item customers">
-                    <div class="icon">
-                        <i class="fa-solid fa-cart-shopping"></i>
-                    </div>
-                    <div class="right">
-                        <div class="info">
-                            <h3>ONLINE ORDERS</h3>
-                            <small class="text-muted">Last 24 Hours</small>
-                        </div>
-                        <h5 class="danger"> +20%</h5>
-                        <h3>3849</h3>
-                    </div>
-                </div>
-
-
-                <div class="item boom">
-                    <div class="icon">
-                        <i class="fa-solid fa-bomb"></i>
-                    </div>
-                    <div class="right">
-                        <div class="info">
-                            <h3>BOM ORDERS</h3>
-                            <small class="text-muted">Last 24 Hours</small>
-                        </div>
-                        <h5 class="danger"> -20%</h5>
-                        <h3>3849</h3>
-                    </div>
-                </div>
-
-                <div class="item add_product">
-                    <div>
-                        <i class="fa-solid fa-square-plus"></i>
-                        <h3>Add Product</h3>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <script src="../index.js"></script>
 </body>
 
 </html>

@@ -107,18 +107,18 @@
 
 <main>
     <div class="recent-order">
-        <div class="title">
-            <h2>DANH SÁCH SẢN PHẨM</h2>
-        </div>
-        <div class="container-xl">
-            <div class="g-2 align-items-center" style=" margin-bottom: 20px;">
-                <div class="col-4" style="margin-top:10px; width: 18%;">
-                    <a href="add.php" class="btn btn-outline-primary active w-100" data-bs-toggle="modal"
-                        data-bs-target="#modal-report">
-                        Thêm mới sản phẩm
+        <div class="main__layout">
+            <div id="title_form">
+                <label >QUẢN LÝ SẢN PHẨM</label>
+            </div> 
+                <div class="add">
+                    <label for="">Danh sách sản phẩm</label>
+                    <a id="add_button" href="add.php">
+                        <i class="fa-solid fa-plus"></i>
+                        THÊM SẢN PHẨM
                     </a>
                 </div>
-            </div>
+        <div class="container-xl">
             <div class="col">
                 <div class="card">
                     <div class="card-body border-bottom py-3">
@@ -215,12 +215,13 @@
                                         $html .= $size['soLuong'] . ' ' . $size['maSize'] . '<br>';
                                         }    
                                         return $html;
-                                }           
+                                }   
+                                $i = 1;        
                                 foreach (gopData($sourceAll) as $row)
                                 {
-                                    $i=1;
+                                   
                                     echo '<tr>
-                                        <td>'.($i++).'</td>
+                                        <td>'.($i).'</td>
                                         <td>'.$row["maSanPham"].'</td>
                                         <td>'.$row["tenSanPham"].'</td>
                                         <td>'.getTenNCC($row["maNhaCungCap"]).'</td>
@@ -236,10 +237,14 @@
                                             echo "<td></td>";
                                         }
                                         echo '<td style="text-align: center">
-                                                <a href="sua.php?maSanPham='.$row["maSanPham"].'" class="btn">Sửa</a>
-                                                <a onclick="return confirm(\'Bạn có chắc chắn muốn xóa không\');" href="xoa.php?maSanPham='.$row["maSanPham"].'" class="btn">Xóa</a>
-                                            </td>
+                                                <a href="sua.php?maSanPham='.$row["maSanPham"].'">
+                                                        <i class="fa-sharp fa-solid fa-pen" style="color: #ff3d3d;"></i>
+                                                </a>
+                                                <a onclick="return confirm(\'Bạn có chắc chắn muốn xóa không\');" href="xoa.php?maSanPham='.$row["maSanPham"].'">
+                                                        <i class="fa-solid fa-trash" style="color: #fa1100;"></i>
+                                                </a>
                                         </tr>';
+                                        $i++;
                                 }
                                 if(mysqli_num_rows($result) == 0)
                                 {
@@ -252,6 +257,7 @@
                     </div>
                 </div>
             </div>
+        </div>
         </div>
     </div>
 </main>

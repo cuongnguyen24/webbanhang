@@ -59,7 +59,6 @@
             $danhMucCha=$_POST['txtDmCha'] != 0 ? $_POST['txtDmCha'] : -1;      
             $vitri=$_POST['txtVitri'];      
             $query="INSERT INTO danhmuc VALUES('".$maDanhMuc."', '".$tenDanhMuc."','".$url."','".$danhMucCha."','".$vitri."')"; 
-            var_dump($query);
             $result= mysqli_query($conn, $query);
             if($result>0)
                 echo 'Thêm mới thành công';
@@ -76,7 +75,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard</title>
     <link rel="stylesheet" href="../style.css">
-    <link rel="stylesheet" href="../nhacungcap.css">
+    <link rel="stylesheet" href="../add.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
         integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
@@ -147,10 +146,13 @@
             </div>
         </aside>
         <main>
-            <div class="recent-order">
-                <a href="index.php" class="btn">Danh sách danh mục</a>
-                <hr />
-                <h3 style="text-align: center">Thêm nhà danh mục</h3>
+            <div class="main">
+                <div id="back">
+                    <i class= "fa-solid fa-angle-left"></i>
+                    <a href="index.php" class="btn">Danh sách danh mục</a>
+                </div>
+                <div class="wrapper">
+                <h3 style="text-align: center" class="title">Thêm danh mục</h3>
                 <form method="POST">
                     <div class="form-group">
                         <label for="inputEmail4">Mã danh mục</label>
@@ -193,132 +195,13 @@
                             echo (!empty($errors['txtVitri']))?'<span class="error">'.$errors['txtVitri'].'</span>':false;
                         ?> 
                     </div>
-                    <button type="submit" class="btn btn-primary">Ghi dữ liệu</button>
+                    <div id="button_add">
+                        <button type="submit" class="btn btn-primary" id="btnSubmit">Ghi dữ liệu</button>
+                    </div>
                 </form> 
-                <script>
-                function convertToSlug(str) {
-                    // Chuyển các ký tự có dấu thành không dấu và chuyển sang chữ thường
-                    str = str.toLowerCase().replace(/ă/g, 'a').replace(/â/g, 'a').replace(/đ/g, 'd').replace(/ê/g, 'e').replace(/ô/g, 'o').replace(/ơ/g, 'o').replace(/ư/g, 'u').replace(/ơ/g, 'o').replace(/ư/g, 'u').replace(/ /g, '-');
-                    return str;
-                }
-                function updateInput2() {
-                    var input1Value = document.getElementById("txtDanhMuc").value;x
-                    document.getElementById("txtDuongDan").value =convertToSlug(input1Value) +'.php';
-                }
-            </script>
+                </div>
             </div>
         </main>
-        <div class="right">
-            <div class="top">
-                <button id="menu_btn">
-                    <i class="fa-solid fa-bars"></i>
-                </button>
-                <div class="theme-toggler">
-                    <i class="fa-regular fa-sun active"></i>
-                    <i class="fa-solid fa-moon"></i>
-                </div>
-                <div class="profile">
-                    <div class="info">
-                        <p>Hey, <b>Bình đẹp trai</b></p>
-                        <small class="text-muted"> Admin</small>
-                    </div>
-                    <div class="profile-photo">
-                        <img src="/assets/img/baby_homeAbout.webp" alt="">
-                    </div>
-                </div>
-            </div>
-
-            <!-- END OF TOP -->
-            <div class="recent_updates">
-                <h2>Recent Updates</h2>
-                <div class="updates">
-                    <div class="update">
-                        <div class="profile_photo">
-                            <img src="" alt="">
-                        </div>
-                        <div class="message">
-                            <p><b>Thùy Linh</b> received his order of Night lion tech GPS drone.</p>
-                            <small class="text-muted">2 Minutes Ago</small>
-                        </div>
-                    </div>
-
-                    <div class="update">
-                        <div class="profile_photo">
-                            <img src="" alt="">
-                        </div>
-                        <div class="message">
-                            <p><b>Cường</b> received his order of Night lion tech GPS drone.</p>
-                            <small class="text-muted">2 Minutes Ago</small>
-                        </div>
-                    </div>
-
-                    <div class="update">
-                        <div class="profile_photo">
-                            <img src="" alt="">
-                        </div>
-                        <div class="message">
-                            <p><b>Quang kun</b> received his order of Night lion tech GPS drone.</p>
-                            <small class="text-muted">2 Minutes Ago</small>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <!-- -------------------END OF RECENT UPDATES ------------------ -->
-            <div class="sales_analytics">
-                <h2>Sales Analytics</h2>
-                <div class="item online">
-                    <div class="icon">
-                        <i class="fa-solid fa-cart-shopping"></i>
-                    </div>
-                    <div class="right">
-                        <div class="info">
-                            <h3>ONLINE ORDERS</h3>
-                            <small class="text-muted">Last 24 Hours</small>
-                        </div>
-                        <h5 class="success"> +39%</h5>
-                        <h3>3849</h3>
-                    </div>
-                </div>
-
-
-                <div class="item customers">
-                    <div class="icon">
-                        <i class="fa-solid fa-cart-shopping"></i>
-                    </div>
-                    <div class="right">
-                        <div class="info">
-                            <h3>ONLINE ORDERS</h3>
-                            <small class="text-muted">Last 24 Hours</small>
-                        </div>
-                        <h5 class="danger"> +20%</h5>
-                        <h3>3849</h3>
-                    </div>
-                </div>
-
-
-                <div class="item boom">
-                    <div class="icon">
-                        <i class="fa-solid fa-bomb"></i>
-                    </div>
-                    <div class="right">
-                        <div class="info">
-                            <h3>BOM ORDERS</h3>
-                            <small class="text-muted">Last 24 Hours</small>
-                        </div>
-                        <h5 class="danger"> -20%</h5>
-                        <h3>3849</h3>
-                    </div>
-                </div>
-
-                <div class="item add_product">
-                    <div>
-                        <i class="fa-solid fa-square-plus"></i>
-                        <h3>Add Product</h3>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
     <script>
         function convertToSlug(str) {
             // Chuyển các ký tự có dấu thành không dấu và chuyển sang chữ thường

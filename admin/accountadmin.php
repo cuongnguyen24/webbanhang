@@ -21,7 +21,6 @@ $username = $_SESSION["username"]; // Lấy tên tài khoản từ session
   ?>
   <div class="main__layout__account">
     <div class="main__layout__container main__layout__container__2">
-
       <div class="card card-left" style="width: 30%; height: 100%">
         <div class="card-body">
           <h2 class="card-title">
@@ -47,8 +46,6 @@ $username = $_SESSION["username"]; // Lấy tên tài khoản từ session
             mysqli_close($conn);
             ?>
             <?php echo $name; ?>
-
-
 
           </h2>
           <hr>

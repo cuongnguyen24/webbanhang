@@ -9,7 +9,7 @@
     $giaBan="";   
     $moTaSanPham="";
     $sanphamAll = [];
-    $query="select sanpham.*,sanphamsize.soLuong, sanphamsize.maSize from sanpham INNER JOIN sanphamsize WHERE sanpham.maSanPham = sanphamsize.maSanPham and sanpham.maSanPham='".$maSanPham."'";  
+    $query="select sanpham.*,sizesanpham.soLuong, sizesanpham.maSize from sanpham INNER JOIN sizesanpham WHERE sanpham.maSanPham = sizesanpham.maSanPham and sanpham.maSanPham='".$maSanPham."'";  
     $result= mysqli_query($conn, $query);
     if(mysqli_num_rows($result)>0){
         while($row = mysqli_fetch_assoc($result)){
@@ -22,8 +22,7 @@
         }
     }
 ?>  
-<a href="index.php" class="btn">Danh sách sản phẩm</a>
-<hr/>
+
 <?php
     function uploadImage($id, $conn){        
         
@@ -194,48 +193,39 @@
                     }   
                 }; 
             }
-             
-            $conn= mysqli_connect("localhost","root","","webbanhang1");
-            if(!$conn)
-            {
-                echo 'Kết nối không thành công, lỗi:'.mysqli_connect_error();
-            }
-            else{
-                $query="UPDATE sanpham SET tenSanPham='".$tenSanPham."',maNhaCungCap='".$maNhaCungCap."',maQuanLy='ql01',maDanhMuc='".$maDanhMuc."',giaBan='".$giaBan."',moTaSanPham='".$moTaSanPham."' where maSanPham='".$maSanPham."'"; 
-                uploadImage($maSanPham, $conn);
-                $result= mysqli_query($conn, $query);
-
-                foreach ($items as $index => $item) {
-                    $id_size =  $item["maSize"];
-                    $qSPSize="select * from sanphamsize where maSanPham = '$maSanPham' and maSize = '$id_size'";                     
-                    $rsSPSize= mysqli_query($conn, $qSPSize);
-                    if (isset($_POST[$id_size]) && isset($_POST[$id_size . '_text'])){
-                        $value = $_POST[$id_size . '_text'];
-                        if(mysqli_fetch_assoc($rsSPSize) == 0){
-                            $querySize = "INSERT INTO sanphamsize VALUES('".$maSanPham."','".$id_size."','".$value."')";
-                            mysqli_query($conn, $querySize);
-                        }else{
-                            $querySize = "UPDATE sanphamsize SET soLuong = $value Where maSanPham = '$maSanPham' and maSize = '$id_size' ";
-                            mysqli_query($conn, $querySize);
-                        }                       
+            $query="UPDATE sanpham SET tenSanPham='".$tenSanPham."',maNhaCungCap='".$maNhaCungCap."',maQuanLy='ql01',maDanhMuc='".$maDanhMuc."',giaBan='".$giaBan."',moTaSanPham='".$moTaSanPham."' where maSanPham='".$maSanPham."'"; 
+            uploadImage($maSanPham, $conn);
+            $result= mysqli_query($conn, $query);
+            foreach ($items as $index => $item) {
+                $id_size =  $item["maSize"];
+                $qSPSize="select * from sizesanpham where maSanPham = '$maSanPham' and maSize = '$id_size'";                     
+                $rsSPSize= mysqli_query($conn, $qSPSize);
+                if (isset($_POST[$id_size]) && isset($_POST[$id_size . '_text'])){
+                    $value = $_POST[$id_size . '_text'];
+                    if(mysqli_fetch_assoc($rsSPSize) == 0){
+                        $querySize = "INSERT INTO sizesanpham VALUES('".$maSanPham."','".$id_size."','".$value."')";
+                        mysqli_query($conn, $querySize);
                     }else{
-                        $queryDeleteSize = "DELETE FROM sanphamsize WHERE  maSanPham = '$maSanPham' and maSize = '$id_size'";
-                        echo $queryDeleteSize;
-                        mysqli_query($conn, $queryDeleteSize);
-                    }
-                    
+                        $querySize = "UPDATE sizesanpham SET soLuong = $value Where maSanPham = '$maSanPham' and maSize = '$id_size' ";
+                        mysqli_query($conn, $querySize);
+                    }                       
+                }else{
+                    $queryDeleteSize = "DELETE FROM sizesanpham WHERE  maSanPham = '$maSanPham' and maSize = '$id_size'";
+                    echo $queryDeleteSize;
+                    mysqli_query($conn, $queryDeleteSize);
                 }
-                if($result>0)
-                  echo '<script>
-                    alert("Cập nhật thành công");
-                    window.location.href="index.php";
-                     </script>';
-                else 
-                    echo 'Lỗi sửa dữ liệu';
+                
             }
-           
+            if($result>0)
+                echo '<script>
+                alert("Cập nhật thành công");
+                window.location.href="index.php";
+                    </script>';
+            else 
+                echo 'Lỗi sửa dữ liệu';
         }
-}
+        
+        }
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -244,7 +234,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard</title>
     <link rel="stylesheet" href="../style.css">
-    <link rel="stylesheet" href="../nhacungcap.css">
+    <link rel="stylesheet" href="../add.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
         integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
@@ -316,170 +306,174 @@
             </div>
         </aside>
         <main>
-            <div class="recent-order">
-                <a href="index.php" class="btn">Danh sách sản phẩm</a>
-                <hr />
-                <h3 style="text-align: center">Sửa sản phẩm</h3>
-                <form method="POST">
+            <div class="main">
+                <div id="back">
+                    <i class= "fa-solid fa-angle-left"></i>
+                    <a href="index.php" class="btn">Danh sách sản phẩm</a>
+                </div>
+                <div class="wrapper">
+                <h3 style="text-align: center" class="title">Sửa sản phẩm</h3>
+                <form method="POST" id="form" enctype="multipart/form-data">
                 <div class="form-group">
-            <label for="masv">Mã sản phẩm</label>
-            <input type="text" class="form-control" id="txtid" name="txtid" value=<?php  echo $maSanPham ?> disabled>                
-        </div>
-        <div class="form-group">
-            <label for="tensv">Tên sản phẩm</label>
-            <input type="text" class="form-control" name="tenSanPham"  placeholder="Hãy nhập tên sản phẩm..." value="<?php echo $tenSanPham; ?>">
-            <?php 
-                    echo (!empty($errors['tenSanPham']))?'<span class="error">'.$errors['tenSanPham'].'</span>':false;
-                ?>                
-        </div>
+                    <label for="masv">Mã sản phẩm</label>
+                    <input type="text" class="form-control" id="txtid" name="txtid" value=<?php  echo $maSanPham ?> disabled>                
+                </div>
+                <div class="form-group">
+                    <label for="tensv">Tên sản phẩm</label>
+                    <input type="text" class="form-control" name="tenSanPham"  placeholder="Hãy nhập tên sản phẩm..." value="<?php echo $tenSanPham; ?>">
+                    <?php 
+                            echo (!empty($errors['tenSanPham']))?'<span class="error">'.$errors['tenSanPham'].'</span>':false;
+                        ?>                
+                </div>
         
-        <div class="form-group">
-            <label for="">Nhà cung cấp</label>
-            <select name="cboNhaCungCap">
-                <option value="">Chọn Nhà Cung Cấp</option>
-                <?php 
-                    if(!$conn)
-                    {
-                        echo 'Kết nối không thành công, lỗi:'.mysqli_connect_error();
-                    }
-                    else{                       
-                        $query= "select *from nhacungcap order by tenNhaCungCap" ;                        
-                        $result= mysqli_query($conn, $query);
-                        while($row=mysqli_fetch_assoc($result)){
-                            ?>
-                                <option <?php if(isset($maNhaCungCap) && $maNhaCungCap == $row['maNhaCungCap']) echo "selected='selected'"; ?>  value="<?php echo $row['maNhaCungCap'];?>"><?php echo $row['tenNhaCungCap'];?></option>
-                            <?php 
-                        }
-                    }
-                ?>
-            </select>
-            <span class="error"><?php if(isset($errors['cboNhaCungCap'])) echo $errors['cboNhaCungCap'] ;?></span>
-        </div>
+                <div class="form-group">
+                    <label for="">Nhà cung cấp</label>
+                    <select name="cboNhaCungCap" class="form-control">
+                        <option value="">Chọn Nhà Cung Cấp</option>
+                        <?php 
+                            if(!$conn)
+                            {
+                                echo 'Kết nối không thành công, lỗi:'.mysqli_connect_error();
+                            }
+                            else{                       
+                                $query= "select *from nhacungcap order by tenNhaCungCap" ;                        
+                                $result= mysqli_query($conn, $query);
+                                while($row=mysqli_fetch_assoc($result)){
+                                    ?>
+                                        <option <?php if(isset($maNhaCungCap) && $maNhaCungCap == $row['maNhaCungCap']) echo "selected='selected'"; ?>  value="<?php echo $row['maNhaCungCap'];?>"><?php echo $row['tenNhaCungCap'];?></option>
+                                    <?php 
+                                }
+                            }
+                        ?>
+                    </select>
+                    <span class="error"><?php if(isset($errors['cboNhaCungCap'])) echo $errors['cboNhaCungCap'] ;?></span>
+                </div>
 
-        <div class="form-group">
-            <label for="">Danh mục</label>
-            <select name="cboDanhMuc">
-                <option value="">Chọn danh mục</option>              
-                <?php 
-                    if(!$conn)
-                    {
-                        echo 'Kết nối không thành công, lỗi:'.mysqli_connect_error();
-                    }
-                    else{
-                        $query= "select *from danhmuc order by tenDanhMuc" ;                  
-                        $result= mysqli_query($conn, $query);
-                        while($row=mysqli_fetch_assoc($result)){
-                            ?>
-                                <option <?php if(isset($maDanhMuc) && $maDanhMuc == $row['maDanhMuc']) echo "selected='selected'"; ?> value="<?php echo $row['maDanhMuc'];?>"><?php echo $row['tenDanhMuc'];?></option>
-                            <?php 
-                        }
-                    }
-                ?>
-            </select>
-            <span class="error"><?php if(isset($errors['cboDanhMuc'])) echo $errors['cboDanhMuc'] ;?></span>
-        </div>
+                <div class="form-group">
+                    <label for="">Danh mục</label>
+                    <select name="cboDanhMuc" class="form-control">
+                        <option value="">Chọn danh mục</option>              
+                        <?php 
+                            if(!$conn)
+                            {
+                                echo 'Kết nối không thành công, lỗi:'.mysqli_connect_error();
+                            }
+                            else{
+                                $query= "select *from danhmuc order by tenDanhMuc" ;                  
+                                $result= mysqli_query($conn, $query);
+                                while($row=mysqli_fetch_assoc($result)){
+                                    ?>
+                                        <option <?php if(isset($maDanhMuc) && $maDanhMuc == $row['maDanhMuc']) echo "selected='selected'"; ?> value="<?php echo $row['maDanhMuc'];?>"><?php echo $row['tenDanhMuc'];?></option>
+                                    <?php 
+                                }
+                            }
+                        ?>
+                    </select>
+                    <span class="error"><?php if(isset($errors['cboDanhMuc'])) echo $errors['cboDanhMuc'] ;?></span>
+                </div>
 
-        <div class="form-group">
-        <label for="">Size - Số lượng sản phẩm</label>
-            <?php 
-                $maSizeHienthi = [];
-                foreach ($items as $index => $item) {
-                    $id_size = $item["maSize"];
-                    $ten_size = $item['tenSize'];                        
-                    foreach ($sanphamAll as $id => $sp){
-                        if($sp["maSize"] === $id_size){
-                            $maSizeHienthi[] = $sp["maSize"];
-                            $soluong1 = $sp['soLuong'];
-                            echo "<div style='display: flex'>";
-                            echo "<input checked type='checkbox' id='$id_size' name='$id_size' onchange='toggleInput(\"$id_size\")'>";
-                            echo "<label for='$id_size'>$ten_size</label>";
-                            echo "<input type='text' id='{$id_size}_text' name='{$id_size}_text' value=$soluong1>";
-                            echo "</div>";
+                <div class="form-group">
+                <label for="">Size - Số lượng sản phẩm</label>
+                    <?php 
+                        $maSizeHienthi = [];
+                        foreach ($items as $index => $item) {
+                            $id_size = $item["maSize"];
+                            $ten_size = $item['tenSize'];                        
+                            foreach ($sanphamAll as $id => $sp){
+                                if($sp["maSize"] === $id_size){
+                                    $maSizeHienthi[] = $sp["maSize"];
+                                    $soluong1 = $sp['soLuong'];
+                                    echo "<div style='display: flex; margin-top:5px'>";
+                                    echo "<input checked type='checkbox' id='$id_size' name='$id_size' onchange='toggleInput(\"$id_size\")'>";
+                                    echo "<label for='$id_size'>$ten_size</label>";
+                                    echo "<input type='text' style='border: 1px solid #f1eeee;margin-left:10px;border-radius:10px' 'id='{$id_size}_text' name='{$id_size}_text' value=$soluong1>";
+                                    echo "</div>";
+                                }
+                            }                                      
+                            if(in_array($id_size, $maSizeHienthi)==false){
+                                echo "<div style='display: flex; margin-top:5px'>";
+                                echo "<input type='checkbox' id='$id_size' name='$id_size' onchange='toggleInput(\"$id_size\")'>";
+                                echo "<label for='$id_size'>$ten_size</label>";
+                                echo "<input type='text'style='border: 1px solid #f1eeee;margin-left:10px;border-radius:10px'  id='{$id_size}_text' name='{$id_size}_text' disabled>";
+                                echo "</div>";
+                            }                    
+                            
                         }
-                    }                                      
-                    if(in_array($id_size, $maSizeHienthi)==false){
-                        echo "<div style='display: flex'>";
-                        echo "<input type='checkbox' id='$id_size' name='$id_size' onchange='toggleInput(\"$id_size\")'>";
-                        echo "<label for='$id_size'>$ten_size</label>";
-                        echo "<input type='text' id='{$id_size}_text' name='{$id_size}_text' disabled>";
-                        echo "</div>";
-                    }                    
-                    
-                }
-            ?>
-            <span class="error">
-                <?php 
-                    if(isset($errors['cboMaSize'])) echo $errors['cboMaSize'] ;
-                    if(isset($errors['soLuong'])) echo $errors['soLuong'] ;
-                ?>
-            </span> 
-        </div>
-        <div class="form-group">
-            <label for="">Giá bán</label>
-            <input type="text" class="form-control" name="giaBan"  placeholder="Hãy nhập giá bán sản phẩm..." value="<?php echo $giaBan; ?>">
-            <?php 
-                    echo (!empty($errors['giaBan']))?'<span class="error">'.$errors['giaBan'].'</span>':false;
-                ?>                
-        </div>
-        
-        <div class="form-group">
-            <label for="">Mô tả sản phẩm</label>
-            <textarea name="mota" id="mota" class="form-control" placeholder="Hãy nhập mô tả sản phẩm..."><?php echo $moTaSanPham; ?></textarea> 
-            <?php 
-                    echo (!empty($errors['mota']))?'<span class="error">'.$errors['mota'].'</span>':false;
-            ?>                
-        </div>
-        <div class="form-group">
-            <label for="">Hình ảnh</label>
-            <input type="hidden" name="arr" id="anhXoa" value = "0">
-            </br>
-            <?php 
-                    if(!$conn)
-                    {
-                        echo 'Kết nối không thành công, lỗi:'.mysqli_connect_error();
-                    }
-                    else{
-                        $query= "select * from anhsanpham where  maSanPham ='".$maSanPham."'";                                      
-                        $result= mysqli_query($conn, $query);                       
-                        echo '<div class="row" style="display: flex">';
-                        while($row=mysqli_fetch_assoc($result)){
-                            ?>       
-                                <?php $id = $row["maAnh"]  ?>                       
-                                <div class="mx-auto d-block">
-                                    <a onclick="myFunction('<?php echo $id ?>')">
-                                        <i class="fa fa-window-close" id=<?php echo "icon".$id ?>></i>
-                                    </a>
-                                    <img id=<?php echo $row["maAnh"] ?> src =<?php echo $row["duongDanAnh"] ?> width="200px" height="180px"/>                                    
-                                </div>                                    
-                            <?php 
+                    ?>
+                    <span class="error">
+                        <?php 
+                            if(isset($errors['cboMaSize'])) echo $errors['cboMaSize'] ;
+                            if(isset($errors['soLuong'])) echo $errors['soLuong'] ;
+                        ?>
+                    </span> 
+                </div>
+                <div class="form-group">
+                    <label for="">Giá bán</label>
+                    <input type="text" class="form-control" name="giaBan"  placeholder="Hãy nhập giá bán sản phẩm..." value="<?php echo $giaBan; ?>">
+                    <?php 
+                            echo (!empty($errors['giaBan']))?'<span class="error">'.$errors['giaBan'].'</span>':false;
+                        ?>                
+                </div>
+                
+                <div class="form-group">
+                    <label for="">Mô tả sản phẩm</label>
+                    <textarea name="mota" id="mota" class="form-control" placeholder="Hãy nhập mô tả sản phẩm..."><?php echo $moTaSanPham; ?></textarea> 
+                    <?php 
+                            echo (!empty($errors['mota']))?'<span class="error">'.$errors['mota'].'</span>':false;
+                    ?>                
+                 </div>
+                <div class="form-group">
+                    <label for="">Hình ảnh</label>
+                    <input type="hidden" name="arr" id="anhXoa" value = "0">
+                    </br>
+                    <?php 
+                            if(!$conn)
+                            {
+                                echo 'Kết nối không thành công, lỗi:'.mysqli_connect_error();
+                            }
+                            else{
+                                $query= "select * from anhsanpham where  maSanPham ='".$maSanPham."'";                                      
+                                $result= mysqli_query($conn, $query);                       
+                                echo '<div class="row" style="display: flex">';
+                                while($row=mysqli_fetch_assoc($result)){
+                                    ?>       
+                                        <?php $id = $row["maAnh"]  ?>                       
+                                        <div class="mx-auto d-block">
+                                            <a onclick="myFunction(<?php echo $id ?>)">
+                                                <i class="fa fa-window-close" id=<?php echo "icon".$id ?>></i>
+                                            </a>
+                                            <img id=<?php echo $id ?> src =<?php echo $row["duongDanAnh"] ?> width="200px" height="180px"/>                                    
+                                        </div>                                    
+                                    <?php 
+                                }
+                                echo "</div>";  
+                            }
+                        ?>
+                    <input style="margin-top:10px" name ="fileToUpload[]" type="file" multiple>
+                </div> 
+                    <button type="submit" class="btn btn-primary" name="btnSave">Ghi dữ liệu</button>
+                </form>
+                </div>
+                </div>
+                <script>
+                    let array = new Array();
+                    function myFunction(id){                
+                        let img = document.getElementById(id);     
+                        img.style.display = "none";
+                        let icon = document.getElementById("icon" + id);     
+                        icon.style.display = "none";
+                        array.push(id);
+                        let imgXoa = document.getElementById("anhXoa"); 
+                        imgXoa.value = JSON.stringify(array);       
+                    }     
+                </script>
+                <script>
+                        function toggleInput(checkboxId) {
+                            var checkbox = document.getElementById(checkboxId);
+                            var textInput = document.getElementById(checkboxId + '_text');
+                            textInput.disabled = !checkbox.checked;            
                         }
-                        echo "</div>";  
-                    }
-                ?>
-            <input style="margin-top:10px" name ="fileToUpload[]" type="file" multiple>
-        </div> 
-            <button type="submit" class="btn btn-primary" name="btnSave">Ghi dữ liệu</button>
-        </form>
-        </div>
-        <script>
-            let array = new Array();
-            function myFunction(id){
-                let img = document.getElementById(id);     
-                img.setAttribute('hidden', true);
-                let icon = document.getElementById("icon" + id);     
-                icon.classList.add('hidden');
-                array.push(id);
-                let imgXoa = document.getElementById("anhXoa"); 
-                imgXoa.value = JSON.stringify(array);       
-            }     
-        </script>
-        <script>
-                function toggleInput(checkboxId) {
-                    var checkbox = document.getElementById(checkboxId);
-                    var textInput = document.getElementById(checkboxId + '_text');
-                    textInput.disabled = !checkbox.checked;            
-                }
-            </script>
+                </script>
 </main>
 </body>
 </html>

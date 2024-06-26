@@ -174,30 +174,24 @@
             $maDanhMuc=$_POST['cboDanhMuc'];         
             $giaBan=$_POST['giaBan'];   
             $moTaSanPham=$_POST['mota'];
-            $conn= mysqli_connect("localhost","root","","webbanhang1");
-            if(!$conn)
-            {
-                echo 'Kết nối không thành công, lỗi:'.mysqli_connect_error();
-            }
-            else{
-                $query="INSERT INTO sanpham VALUES('".$id."','".$tenSanPham."','".$maNhaCungCap."','".$maDanhMuc."','ql01','".$giaBan."','".$moTaSanPham."')";  
-                $result= mysqli_query($conn, $query);
-                foreach ($items as $index => $item) {
-                    $id_size =  $item["maSize"];
-                    if (isset($_POST[$id_size]) && isset($_POST[$id_size . '_text'])){
-                        $value = $_POST[$id_size . '_text'];
-                        $querySize = "INSERT INTO sanphamsize VALUES('".$id."','".$id_size."','".$value."')";
-                        mysqli_query($conn, $querySize);
-                    }
-                    
+            $query="INSERT INTO sanpham VALUES('".$id."','".$tenSanPham."','".$maNhaCungCap."','".$maDanhMuc."','ql01','".$giaBan."','".$moTaSanPham."')";  
+            $result= mysqli_query($conn, $query);
+            foreach ($items as $index => $item) {
+                $id_size =  $item["maSize"];
+                if (isset($_POST[$id_size]) && isset($_POST[$id_size . '_text'])){
+                    $value = $_POST[$id_size . '_text'];
+                    $querySize = "INSERT INTO sizesanpham VALUES('".$id."','".$id_size."','".$value."')";
+                    mysqli_query($conn, $querySize);
                 }
-                if($result>0)
-                    echo 'Thêm mới thành công';
-                else 
-                    echo 'Lỗi thêm mới';
+                
             }
-        }
             uploadImage($id, $conn);
+            if($result>0)
+                echo 'Thêm mới thành công';
+            else 
+                echo 'Lỗi thêm mới';
+        }
+            
     }
 ?>
 <!DOCTYPE html>
@@ -207,10 +201,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard</title>
     <link rel="stylesheet" href="../style.css">
-    <link rel="stylesheet" href="../nhacungcap.css">
+    <link rel="stylesheet" href="../add.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
         integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
+        <style>
+            .input_sl{
+                margin-left: 20px;
+            }
+        </style>
 </head>
 <body>
     <div class="container">
@@ -278,10 +277,13 @@
             </div>
         </aside>
         <main>
-            <div class="recent-order">
-                <a href="index.php" class="btn">Danh sách sản phẩm</a>
-                <hr />
-                <h3 style="text-align: center">Thêm mới sản phẩm</h3>
+            <div class="main">
+                <div id="back">
+                    <i class= "fa-solid fa-angle-left"></i>
+                    <a href="index.php" class="btn">Danh sách sản phẩm</a>
+                </div>
+                <div class="wrapper">
+                <h3 style="text-align: center" class="title">Thêm mới sản phẩm</h3>
                 <form method="POST">
                     <div class="form-group">
                         <label for="masv">Mã sản phẩm</label>
@@ -297,9 +299,8 @@
         
                     <div class="form-group">
                         <label for="">Nhà cung cấp</label>
-                        <select name="cboNhaCungCap">
+                        <select name="cboNhaCungCap" class="form-control">
                             <option value="">Chọn Nhà Cung Cấp</option>
-             
                             <?php 
                                 if(!$conn)
                                 {
@@ -322,9 +323,8 @@
 
                     <div class="form-group">
                         <label for="">Danh mục</label>
-                        <select name="cboDanhMuc">
+                        <select name="cboDanhMuc" class="form-control">
                             <option value="">Chọn danh mục</option>
-                            <!-- <option <?php if(isset($cboDanhMuc) && $cboDanhMuc=="") echo "selected='selected'"; ?> value="0">Tiến sĩ</option> -->
                             <?php 
                                 require_once '../../connect.php';  
                                 $query= "select *from danhmuc order by tenDanhMuc" ;                       
@@ -345,10 +345,12 @@
                                 foreach ($items as $index => $item) {
                                     $id_size = $item["maSize"];
                                     $ten_size = $item['tenSize'];
-                                    echo "<div style='display: flex'>";
+                                    echo "<div style='display: flex; margin-top:5px'>";
                                     echo "<input type='checkbox' id='$id_size' name='$id_size' onchange='toggleInput(\"$id_size\")'>";
                                     echo "<label for='$id_size'>$ten_size</label>";
-                                    echo "<input type='text' id='{$id_size}_text' name='{$id_size}_text' disabled>";
+                                    echo "<div class='input_sl'>";
+                                    echo "<input type='text' style='border: 1px solid #f1eeee;'' id='{$id_size}_text' name='{$id_size}_text' disabled>";
+                                    echo "</div>";
                                     echo "</div>";
                                 }
                             ?>
@@ -378,122 +380,12 @@
                         <label for="">Hình ảnh</label>
                         <input name ="fileToUpload[]" type="file" multiple>
                     </div>
-                            <button type="submit" class="btn btn-primary">Ghi dữ liệu</button>
+                    <div id="button_add">
+                        <button type="submit" class="btn btn-primary" id="btnSubmit">Ghi dữ liệu</button>
+                    </div>
                     </form> 
                     </div>
-        </main>
-        <!-- <div class="right">
-            <div class="top">
-                <button id="menu_btn">
-                    <i class="fa-solid fa-bars"></i>
-                </button>
-                <div class="theme-toggler">
-                    <i class="fa-regular fa-sun active"></i>
-                    <i class="fa-solid fa-moon"></i>
-                </div>
-                <div class="profile">
-                    <div class="info">
-                        <p>Hey, <b>Bình đẹp trai</b></p>
-                        <small class="text-muted"> Admin</small>
-                    </div>
-                    <div class="profile-photo">
-                        <img src="/assets/img/baby_homeAbout.webp" alt="">
-                    </div>
-                </div>
-            </div> -->
-
-            <!-- END OF TOP -->
-            <!-- <div class="recent_updates">
-                <h2>Recent Updates</h2>
-                <div class="updates">
-                    <div class="update">
-                        <div class="profile_photo">
-                            <img src="" alt="">
-                        </div>
-                        <div class="message">
-                            <p><b>Thùy Linh</b> received his order of Night lion tech GPS drone.</p>
-                            <small class="text-muted">2 Minutes Ago</small>
-                        </div>
-                    </div>
-
-                    <div class="update">
-                        <div class="profile_photo">
-                            <img src="" alt="">
-                        </div>
-                        <div class="message">
-                            <p><b>Cường</b> received his order of Night lion tech GPS drone.</p>
-                            <small class="text-muted">2 Minutes Ago</small>
-                        </div>
-                    </div>
-
-                    <div class="update">
-                        <div class="profile_photo">
-                            <img src="" alt="">
-                        </div>
-                        <div class="message">
-                            <p><b>Quang kun</b> received his order of Night lion tech GPS drone.</p>
-                            <small class="text-muted">2 Minutes Ago</small>
-                        </div>
-                    </div>
-                </div>
-            </div> -->
-            <!-- -------------------END OF RECENT UPDATES ------------------ -->
-            <!-- <div class="sales_analytics">
-                <h2>Sales Analytics</h2>
-                <div class="item online">
-                    <div class="icon">
-                        <i class="fa-solid fa-cart-shopping"></i>
-                    </div>
-                    <div class="right">
-                        <div class="info">
-                            <h3>ONLINE ORDERS</h3>
-                            <small class="text-muted">Last 24 Hours</small>
-                        </div>
-                        <h5 class="success"> +39%</h5>
-                        <h3>3849</h3>
-                    </div>
-                </div> -->
-
-
-                <!-- <div class="item customers">
-                    <div class="icon">
-                        <i class="fa-solid fa-cart-shopping"></i>
-                    </div>
-                    <div class="right">
-                        <div class="info">
-                            <h3>ONLINE ORDERS</h3>
-                            <small class="text-muted">Last 24 Hours</small>
-                        </div>
-                        <h5 class="danger"> +20%</h5>
-                        <h3>3849</h3>
-                    </div>
-                </div> -->
-
-
-                <!-- <div class="item boom">
-                    <div class="icon">
-                        <i class="fa-solid fa-bomb"></i>
-                    </div>
-                    <div class="right">
-                        <div class="info">
-                            <h3>BOM ORDERS</h3>
-                            <small class="text-muted">Last 24 Hours</small>
-                        </div>
-                        <h5 class="danger"> -20%</h5>
-                        <h3>3849</h3>
-                    </div>
-                </div>
-
-                <div class="item add_product">
-                    <div>
-                        <i class="fa-solid fa-square-plus"></i>
-                        <h3>Add Product</h3>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div> -->
-    
+                </main>
 </body>
 <script>
         function toggleInput(checkboxId) {

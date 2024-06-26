@@ -56,8 +56,7 @@
   
 
   <?php
-    require_once '../admin/connect.php';
-
+    require_once './admin/connect.php';
     if (isset($_POST["dangnhap"])) {
         $tk = $_POST["user_name_lg"];
         $mk = $_POST["passlg"];

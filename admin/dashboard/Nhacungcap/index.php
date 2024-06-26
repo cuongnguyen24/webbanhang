@@ -113,19 +113,18 @@
            
     ?>
         <main>
-            <h1>Dashboard</h1>
-            <div class="recent-order">
-                <div class="title">
-                    <h2>DANH SÁCH NHÀ CUNG CẤP</h2>
+        <div class="recent-order">
+            <div class="main__layout">
+            <div id="title_form">
+                <label >QUẢN LÝ NHÀ CUNG CẤP</label>
+                </div> 
+                <div class="add">
+                    <label for="">Danh sách nhà cung cấp</label>
+                    <a id="add_button" href="add.php">
+                        <i class="fa-solid fa-plus"></i>
+                        THÊM NHÀ CUNG CẤP
+                    </a>
                 </div>
-                <div class="container-xl">
-                    <div class="g-2 align-items-center" style=" margin-bottom: 20px;">
-                        <div class="col-4" style="margin-top:10px; width: 18%;">
-                            <a href="add.php" class="btn btn-outline-primary active w-100">
-                                Thêm mới
-                            </a>
-                        </div>
-                    </div>
                     <div class="col">
                         <div class="card">
                             <div class="card-body border-bottom py-3">
@@ -162,8 +161,7 @@
                                             <th>Số điện thoại</th>
                                             <th>Địa chỉ</th>
                                             <th>Email</th>
-                                            <th></th>
-                                            <th></th>
+                                            <th>Thao tác</th>
                                         </tr>
                                     </thead>
                                     <tbody id="body_table">
@@ -199,12 +197,10 @@
                                                                  <a href="sua.php?maNhaCungCap='.$row["maNhaCungCap"].'">
                                                                      <i class="fa-sharp fa-solid fa-pen" style="color: #ff3d3d;"></i>
                                                                  </a>
-                                                            </td>
-                                                            <td>
-                                                              <a onclick="return confirm(\'Bạn có chắc chắn muốn xóa không\');" href="xoa.php?maNhaCungCap='.$row["maNhaCungCap"].'">
+                                                                 <a onclick="return confirm(\'Bạn có chắc chắn muốn xóa không\');" href="xoa.php?maNhaCungCap='.$row["maNhaCungCap"].'">
                                                                      <i class="fa-solid fa-trash" style="color: #fa1100;"></i>
-                                                                 </a>
-                                                            </td>                                          
+                                                                </a>
+                                                            </td>                                         
                                                          </tr>';
                                                $i++;
                                              }
@@ -263,122 +259,10 @@
                         </div>
                     </div>
                 </div>
-        </main>
+            
+            </main>
 
         <!-- -------------------END OF MAIN --------------------- -->
-
-        <div class="right">
-            <div class="top">
-                <button id="menu_btn">
-                    <i class="fa-solid fa-bars"></i>
-                </button>
-                <div class="theme-toggler">
-                    <i class="fa-regular fa-sun active"></i>
-                    <i class="fa-solid fa-moon"></i>
-                </div>
-                <div class="profile">
-                    <div class="info">
-                        <p>Hey, <b>Bình đẹp trai</b></p>
-                        <small class="text-muted"> Admin</small>
-                    </div>
-                    <div class="profile-photo">
-                        <img src="/assets/img/baby_homeAbout.webp" alt="">
-                    </div>
-                </div>
-            </div>
-
-            <!-- END OF TOP -->
-            <div class="recent_updates">
-                <h2>Recent Updates</h2>
-                <div class="updates">
-                    <div class="update">
-                        <div class="profile_photo">
-                            <img src="" alt="">
-                        </div>
-                        <div class="message">
-                            <p><b>Thùy Linh</b> received his order of Night lion tech GPS drone.</p>
-                            <small class="text-muted">2 Minutes Ago</small>
-                        </div>
-                    </div>
-
-                    <div class="update">
-                        <div class="profile_photo">
-                            <img src="" alt="">
-                        </div>
-                        <div class="message">
-                            <p><b>Cường</b> received his order of Night lion tech GPS drone.</p>
-                            <small class="text-muted">2 Minutes Ago</small>
-                        </div>
-                    </div>
-
-                    <div class="update">
-                        <div class="profile_photo">
-                            <img src="" alt="">
-                        </div>
-                        <div class="message">
-                            <p><b>Quang kun</b> received his order of Night lion tech GPS drone.</p>
-                            <small class="text-muted">2 Minutes Ago</small>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <!-- -------------------END OF RECENT UPDATES ------------------ -->
-            <div class="sales_analytics">
-                <h2>Sales Analytics</h2>
-                <div class="item online">
-                    <div class="icon">
-                        <i class="fa-solid fa-cart-shopping"></i>
-                    </div>
-                    <div class="right">
-                        <div class="info">
-                            <h3>ONLINE ORDERS</h3>
-                            <small class="text-muted">Last 24 Hours</small>
-                        </div>
-                        <h5 class="success"> +39%</h5>
-                        <h3>3849</h3>
-                    </div>
-                </div>
-
-
-                <div class="item customers">
-                    <div class="icon">
-                        <i class="fa-solid fa-cart-shopping"></i>
-                    </div>
-                    <div class="right">
-                        <div class="info">
-                            <h3>ONLINE ORDERS</h3>
-                            <small class="text-muted">Last 24 Hours</small>
-                        </div>
-                        <h5 class="danger"> +20%</h5>
-                        <h3>3849</h3>
-                    </div>
-                </div>
-
-
-                <div class="item boom">
-                    <div class="icon">
-                        <i class="fa-solid fa-bomb"></i>
-                    </div>
-                    <div class="right">
-                        <div class="info">
-                            <h3>BOM ORDERS</h3>
-                            <small class="text-muted">Last 24 Hours</small>
-                        </div>
-                        <h5 class="danger"> -20%</h5>
-                        <h3>3849</h3>
-                    </div>
-                </div>
-
-                <div class="item add_product">
-                    <div>
-                        <i class="fa-solid fa-square-plus"></i>
-                        <h3>Add Product</h3>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
     <script>
     const current_page = +document.getElementById("current_page").value;
     console.log(current_page);

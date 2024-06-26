@@ -20,6 +20,25 @@
             }
         }            
     } 
+    $query1 = "select * from sanpham where maDanhMuc = '$maDanhMuc'";
+    $result1 = mysqli_query($conn, $query1);
+    if(mysqli_num_rows($resul1)>0)
+    {
+        while ($row = mysqli_fetch_assoc($result1)){
+            $maSanPham= $row['maSanPham'];
+            $sql1="select * from anhsanpham where maSanPham='$maSanPham'";
+            $rs= mysqli_query($conn, $sql1);
+            while($row = mysqli_fetch_assoc($rs)){
+                unlink($row['duongDanAnh']);
+                $query="delete from anhsanpham where maAnh=".$row['maAnh'];                     
+                $result= mysqli_query($conn, $query);
+            }   
+           
+            $query="delete from sanpham where maSanPham='$maSanPham'";      
+            echo $query;      
+            $result= mysqli_query($conn, $query);
+        }            
+    } 
     $query="delete from danhmuc where maDanhMuc='$maDanhMuc'";            
     $result= mysqli_query($conn, $query);
     if($result>0)
