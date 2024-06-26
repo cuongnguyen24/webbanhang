@@ -412,6 +412,11 @@ hr{
     padding-left: 10px;
 }
 
+.card-body a:hover {
+    text-decoration: underline;
+}
+  
+
 .card-body table td{
     padding: 20px;
 }
@@ -419,3 +424,19 @@ hr{
 .default-address {
     color: red;
 }
+
+.card-body table {
+    border-collapse: collapse; /* Tạo border cho table */
+    width: 100%; 
+}
+  
+.card-body table th, .card-body table td {
+    text-align: left; /* Căn trái */
+    padding: 10px;
+}
+
+.card-body table td:last-child {
+    text-align: right; /* Căn phải cho cột chứa sửa/xóa */
+}
+
+  
