@@ -1,5 +1,5 @@
 <?php
-  session_start();
+  // session_start();
 
 ?>
 <form action="" method="POST">
@@ -56,7 +56,7 @@
   
 
   <?php
-    include  "../includes/connect.php";
+    include  ( $_SERVER['DOCUMENT_ROOT'] . "/webbanhang/collections/includes/connect.php");
 
     if (isset($_POST["dangnhap"])) {
         $tk = $_POST["user_name_lg"];
