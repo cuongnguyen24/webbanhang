@@ -1,4 +1,42 @@
 
+<?php
+session_start();
+$username = $_SESSION["username"]; // Lấy tên tài khoản từ session
+require_once ($_SERVER['DOCUMENT_ROOT'] .'/webbanhang/admin/connect.php');
+
+// Lấy dữ liệu từ CSDL
+// GROUP_CONCAT - kết hợp tất cả các kích cỡ (size) của mỗi sản phẩm thành một chuỗi, ngăn cách bởi dấu phẩy
+//  ORDER BY size.tenSize sắp xếp các kích cỡ theo thứ tự tăng dần.
+$sql = "SELECT sanpham.*, GROUP_CONCAT(size.tenSize ORDER BY size.tenSize SEPARATOR ', ') as sizes, anhSanPham.duongDanAnh 
+        FROM sanpham
+        INNER JOIN sizesanpham ON sanpham.maSanPham = sizesanpham.maSanPham
+        INNER JOIN size ON sizesanpham.maSize = size.maSize
+        INNER JOIN anhSanPham ON sanpham.maSanPham = anhSanPham.maSanPham
+        GROUP BY sanpham.maSanPham, anhSanPham.duongDanAnh 
+";
+$result = mysqli_query($conn, $sql);
+$sanphams = [];
+if (mysqli_num_rows($result) > 0) {
+    while ($row = mysqli_fetch_assoc($result)) {
+        $sanphams[] = $row;
+    }
+}
+
+// Lấy maKhachHang theo bảng taikhoan dựa vào username
+$sql_get_khachHang = "SELECT khachhang.maKhachHang FROM khachhang 
+                    INNER JOIN taikhoan ON khachhang.maTaiKhoan = taikhoan.maTaiKhoan
+                    WHERE tenTaiKhoan = '$username'";
+$result_maKhachHang = mysqli_query($conn, $sql_get_khachHang);
+if (mysqli_num_rows($result_maKhachHang) > 0) {
+    $row_maKhachHang = mysqli_fetch_assoc($result_maKhachHang); // Sửa tên biến từ $result_maKhachHang thành $row_maKhachHang
+    $maKhachHang = $row_maKhachHang['maKhachHang'];
+} else {
+    // Xử lý khi không tìm thấy tên tài khoản (username) trong bảng taikhoan
+    die("Không tìm thấy tên tài khoản trong CSDL");
+}
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -12,10 +50,10 @@
 <body>
 <?php
         
-        include  "../includes/login.php";
-        include  "../includes/header.php";
+        include ($_SERVER['DOCUMENT_ROOT'] . '/webbanhang/collections/includes/login.php');
+        include($_SERVER['DOCUMENT_ROOT'] . '/webbanhang/collections/includes/header.php');
         
-    ?>
+        ?>
     <div class="main-layout">
         <div class="collection template-collection">
             <div class="breadcrum-shop ">
@@ -355,19 +393,20 @@
                     </div> -->
                     <!-- ------------------PRODUCT LIST------------------------------- -->
                     <div class="collection-wrap-product-list">
-                        
+                        <?php if (!empty($sanphams)) : ?>
+                            <?php foreach ($sanphams as $sanpham) : ?>
                         <!-- PRODUCT -->
                         <div class="pro-loop">
                             <div class="pro-loop-wrap">
                                 <div class="pro-loop-image">
-                                    <a href="/webbanhang/products/bo-lien-coc-mau-xanh-da-troi" class="pro-loop-image-item">			
+                                    <a href="<?php echo $sanpham['chitietsp']; ?>" class="pro-loop-image-item">			
                                         <picture>
-                                                <source srcset="//product.hstatic.net/200000692427/product/bo_lien_coc_mau_xanh_da_troi_b3fe0c6792494eb8bee9adeb6a435526_medium.jpg" data-srcset="//product.hstatic.net/200000692427/product/bo_lien_coc_mau_xanh_da_troi_b3fe0c6792494eb8bee9adeb6a435526_medium.jpg" media="(max-width: 767px)">
-                                                <img class=" lazyloaded" src="//product.hstatic.net/200000692427/product/bo_lien_coc_mau_xanh_da_troi_b3fe0c6792494eb8bee9adeb6a435526_grande.jpg" data-src="//product.hstatic.net/200000692427/product/bo_lien_coc_mau_xanh_da_troi_b3fe0c6792494eb8bee9adeb6a435526_grande.jpg" alt="Bộ liền cộc màu xanh da trời" style="max-width: 237.5px;">
+                                                <source srcset="<?php echo $sanpham['duongDanAnh']; ?>" data-srcset="<?php echo $sanpham['duongDanAnh']; ?>" media="(max-width: 767px)" alt="img <?php echo $sanpham['tenSanPham']; ?>">
+                                                <img class=" lazyloaded" src="<?php echo $sanpham['duongDanAnh']; ?>" data-src="<?php echo $sanpham['duongDanAnh']; ?>" alt="<?php echo $sanpham['tenSanPham']; ?>" style="max-width: 237.5px;">
                                         </picture>
                                         <picture>
-                                                <source srcset="//product.hstatic.net/200000692427/product/nous_-_nu_basic_-_nb2s24-op1-m01-pb_-_bo_lien_coc_mau_xanh_da_troi__3__daaf49b58e2b4f038ce146c46ac6bfec_medium.jpg" data-srcset="//product.hstatic.net/200000692427/product/nous_-_nu_basic_-_nb2s24-op1-m01-pb_-_bo_lien_coc_mau_xanh_da_troi__3__daaf49b58e2b4f038ce146c46ac6bfec_medium.jpg" media="(max-width: 767px)">
-                                                <img class=" lazyloaded" src="//product.hstatic.net/200000692427/product/nous_-_nu_basic_-_nb2s24-op1-m01-pb_-_bo_lien_coc_mau_xanh_da_troi__3__daaf49b58e2b4f038ce146c46ac6bfec_grande.jpg" data-src="//product.hstatic.net/200000692427/product/nous_-_nu_basic_-_nb2s24-op1-m01-pb_-_bo_lien_coc_mau_xanh_da_troi__3__daaf49b58e2b4f038ce146c46ac6bfec_grande.jpg" alt="Bộ liền cộc màu xanh da trời" style="max-width: 237.5px;">
+                                                <source srcset="<?php echo $sanpham['duongDanAnh']; ?>" data-srcset="<?php echo $sanpham['duongDanAnh']; ?>" media="(max-width: 767px)" alt="img <?php echo $sanpham['tenSanPham']; ?>">
+                                                <img class=" lazyloaded" src="<?php echo $sanpham['duongDanAnh']; ?>" data-src="<?php echo $sanpham['duongDanAnh']; ?>" alt="<?php echo $sanpham['tenSanPham']; ?>" style="max-width: 237.5px;">
                                         </picture>
                                  </a>
 
@@ -379,213 +418,22 @@
                                     </div>
                                 </div>
                                 <h3 class="pro-loop-name">
-							        <a href="/products/bo-lien-coc-mau-xanh-da-troi" title="Bộ liền cộc màu xanh da trời">Bộ liền cộc màu xanh da trời</a>
+							        <a href="/products/bo-lien-coc-mau-xanh-da-troi" title="<?php echo $sanpham['tenSanPham']; ?>"><?php echo $sanpham['tenSanPham']; ?></a>
 	                            </h3>
                                 <div class="pro-loop-price">
-					                <span>185,000₫</span>
+					                <span><?php echo number_format($sanpham['giaBan'], 0, ',', '.'); ?>đ</span>
 	                            </div>
-                            </div>
-                        </div>
-                        <!-------------------------------------------------- END PRODUCT ----------------------------------->
 
-
-                        <!-- PRODUCT -->
-                        <div class="pro-loop">
-                            <div class="pro-loop-wrap">
-                                <div class="pro-loop-image">
-                                    <a href="/products/bo-lien-coc-mau-xanh-da-troi" class="pro-loop-image-item">			
-                                        <picture>
-                                                <source srcset="//product.hstatic.net/200000692427/product/bo_lien_coc_mau_xanh_da_troi_b3fe0c6792494eb8bee9adeb6a435526_medium.jpg" data-srcset="//product.hstatic.net/200000692427/product/bo_lien_coc_mau_xanh_da_troi_b3fe0c6792494eb8bee9adeb6a435526_medium.jpg" media="(max-width: 767px)">
-                                                <img class=" lazyloaded" src="//product.hstatic.net/200000692427/product/bo_lien_coc_mau_xanh_da_troi_b3fe0c6792494eb8bee9adeb6a435526_grande.jpg" data-src="//product.hstatic.net/200000692427/product/bo_lien_coc_mau_xanh_da_troi_b3fe0c6792494eb8bee9adeb6a435526_grande.jpg" alt="Bộ liền cộc màu xanh da trời" style="max-width: 237.5px;">
-                                        </picture>
-                                        <picture>
-                                                <source srcset="//product.hstatic.net/200000692427/product/nous_-_nu_basic_-_nb2s24-op1-m01-pb_-_bo_lien_coc_mau_xanh_da_troi__3__daaf49b58e2b4f038ce146c46ac6bfec_medium.jpg" data-srcset="//product.hstatic.net/200000692427/product/nous_-_nu_basic_-_nb2s24-op1-m01-pb_-_bo_lien_coc_mau_xanh_da_troi__3__daaf49b58e2b4f038ce146c46ac6bfec_medium.jpg" media="(max-width: 767px)">
-                                                <img class=" lazyloaded" src="//product.hstatic.net/200000692427/product/nous_-_nu_basic_-_nb2s24-op1-m01-pb_-_bo_lien_coc_mau_xanh_da_troi__3__daaf49b58e2b4f038ce146c46ac6bfec_grande.jpg" data-src="//product.hstatic.net/200000692427/product/nous_-_nu_basic_-_nb2s24-op1-m01-pb_-_bo_lien_coc_mau_xanh_da_troi__3__daaf49b58e2b4f038ce146c46ac6bfec_grande.jpg" alt="Bộ liền cộc màu xanh da trời" style="max-width: 237.5px;">
-                                        </picture>
-                                 </a>
-
-                                    <div class="pro-loop-cart-icon">
-                                    <button type="button" class="setQuickview" data-handle="bo-lien-coc-mau-xanh-da-troi">
-                                        <img src="https://file.hstatic.net/200000692427/file/asset_2_901a91642639466aa75b2019a34ccebd.svg" alt="add to cart">
-                                        <span>Thêm vào giỏ hàng</span> 
-                                    </button>
-                                    </div>
+                                
                                 </div>
-                                <h3 class="pro-loop-name">
-							        <a href="/products/bo-lien-coc-mau-xanh-da-troi" title="Bộ liền cộc màu xanh da trời">Bộ liền cộc màu xanh da trời</a>
-	                            </h3>
-                                <div class="pro-loop-price">
-					                <span>185,000₫</span>
-	                            </div>
                             </div>
+                        <?php endforeach; ?>
+                    <?php else : ?>
+                        <p>Không có sản phẩm nào.</p>
+                    <?php endif; ?>
+                            
                         </div>
                         <!-------------------------------------------------- END PRODUCT ----------------------------------->
-
-
-                        <!-- PRODUCT -->
-                        <div class="pro-loop">
-                            <div class="pro-loop-wrap">
-                                <div class="pro-loop-image">
-                                    <a href="/products/bo-lien-coc-mau-xanh-da-troi" class="pro-loop-image-item">			
-                                        <picture>
-                                                <source srcset="//product.hstatic.net/200000692427/product/bo_lien_coc_mau_xanh_da_troi_b3fe0c6792494eb8bee9adeb6a435526_medium.jpg" data-srcset="//product.hstatic.net/200000692427/product/bo_lien_coc_mau_xanh_da_troi_b3fe0c6792494eb8bee9adeb6a435526_medium.jpg" media="(max-width: 767px)">
-                                                <img class=" lazyloaded" src="//product.hstatic.net/200000692427/product/bo_lien_coc_mau_xanh_da_troi_b3fe0c6792494eb8bee9adeb6a435526_grande.jpg" data-src="//product.hstatic.net/200000692427/product/bo_lien_coc_mau_xanh_da_troi_b3fe0c6792494eb8bee9adeb6a435526_grande.jpg" alt="Bộ liền cộc màu xanh da trời" style="max-width: 237.5px;">
-                                        </picture>
-                                        <picture>
-                                                <source srcset="//product.hstatic.net/200000692427/product/nous_-_nu_basic_-_nb2s24-op1-m01-pb_-_bo_lien_coc_mau_xanh_da_troi__3__daaf49b58e2b4f038ce146c46ac6bfec_medium.jpg" data-srcset="//product.hstatic.net/200000692427/product/nous_-_nu_basic_-_nb2s24-op1-m01-pb_-_bo_lien_coc_mau_xanh_da_troi__3__daaf49b58e2b4f038ce146c46ac6bfec_medium.jpg" media="(max-width: 767px)">
-                                                <img class=" lazyloaded" src="//product.hstatic.net/200000692427/product/nous_-_nu_basic_-_nb2s24-op1-m01-pb_-_bo_lien_coc_mau_xanh_da_troi__3__daaf49b58e2b4f038ce146c46ac6bfec_grande.jpg" data-src="//product.hstatic.net/200000692427/product/nous_-_nu_basic_-_nb2s24-op1-m01-pb_-_bo_lien_coc_mau_xanh_da_troi__3__daaf49b58e2b4f038ce146c46ac6bfec_grande.jpg" alt="Bộ liền cộc màu xanh da trời" style="max-width: 237.5px;">
-                                        </picture>
-                                 </a>
-
-                                    <div class="pro-loop-cart-icon">
-                                    <button type="button" class="setQuickview" data-handle="bo-lien-coc-mau-xanh-da-troi">
-                                        <img src="https://file.hstatic.net/200000692427/file/asset_2_901a91642639466aa75b2019a34ccebd.svg" alt="add to cart">
-                                        <span>Thêm vào giỏ hàng</span> 
-                                    </button>
-                                    </div>
-                                </div>
-                                <h3 class="pro-loop-name">
-							        <a href="/products/bo-lien-coc-mau-xanh-da-troi" title="Bộ liền cộc màu xanh da trời">Bộ liền cộc màu xanh da trời</a>
-	                            </h3>
-                                <div class="pro-loop-price">
-					                <span>185,000₫</span>
-	                            </div>
-                            </div>
-                        </div>
-                        <!-------------------------------------------------- END PRODUCT ----------------------------------->
-
-
-                        <!-- PRODUCT -->
-                        <div class="pro-loop">
-                            <div class="pro-loop-wrap">
-                                <div class="pro-loop-image">
-                                    <a href="/products/bo-lien-coc-mau-xanh-da-troi" class="pro-loop-image-item">			
-                                        <picture>
-                                                <source srcset="//product.hstatic.net/200000692427/product/bo_lien_coc_mau_xanh_da_troi_b3fe0c6792494eb8bee9adeb6a435526_medium.jpg" data-srcset="//product.hstatic.net/200000692427/product/bo_lien_coc_mau_xanh_da_troi_b3fe0c6792494eb8bee9adeb6a435526_medium.jpg" media="(max-width: 767px)">
-                                                <img class=" lazyloaded" src="//product.hstatic.net/200000692427/product/bo_lien_coc_mau_xanh_da_troi_b3fe0c6792494eb8bee9adeb6a435526_grande.jpg" data-src="//product.hstatic.net/200000692427/product/bo_lien_coc_mau_xanh_da_troi_b3fe0c6792494eb8bee9adeb6a435526_grande.jpg" alt="Bộ liền cộc màu xanh da trời" style="max-width: 237.5px;">
-                                        </picture>
-                                        <picture>
-                                                <source srcset="//product.hstatic.net/200000692427/product/nous_-_nu_basic_-_nb2s24-op1-m01-pb_-_bo_lien_coc_mau_xanh_da_troi__3__daaf49b58e2b4f038ce146c46ac6bfec_medium.jpg" data-srcset="//product.hstatic.net/200000692427/product/nous_-_nu_basic_-_nb2s24-op1-m01-pb_-_bo_lien_coc_mau_xanh_da_troi__3__daaf49b58e2b4f038ce146c46ac6bfec_medium.jpg" media="(max-width: 767px)">
-                                                <img class=" lazyloaded" src="//product.hstatic.net/200000692427/product/nous_-_nu_basic_-_nb2s24-op1-m01-pb_-_bo_lien_coc_mau_xanh_da_troi__3__daaf49b58e2b4f038ce146c46ac6bfec_grande.jpg" data-src="//product.hstatic.net/200000692427/product/nous_-_nu_basic_-_nb2s24-op1-m01-pb_-_bo_lien_coc_mau_xanh_da_troi__3__daaf49b58e2b4f038ce146c46ac6bfec_grande.jpg" alt="Bộ liền cộc màu xanh da trời" style="max-width: 237.5px;">
-                                        </picture>
-                                 </a>
-
-                                    <div class="pro-loop-cart-icon">
-                                    <button type="button" class="setQuickview" data-handle="bo-lien-coc-mau-xanh-da-troi">
-                                        <img src="https://file.hstatic.net/200000692427/file/asset_2_901a91642639466aa75b2019a34ccebd.svg" alt="add to cart">
-                                        <span>Thêm vào giỏ hàng</span> 
-                                    </button>
-                                    </div>
-                                </div>
-                                <h3 class="pro-loop-name">
-							        <a href="/products/bo-lien-coc-mau-xanh-da-troi" title="Bộ liền cộc màu xanh da trời">Bộ liền cộc màu xanh da trời</a>
-	                            </h3>
-                                <div class="pro-loop-price">
-					                <span>185,000₫</span>
-	                            </div>
-                            </div>
-                        </div>
-                        <!-------------------------------------------------- END PRODUCT ----------------------------------->
-
-
-                        <!-- PRODUCT -->
-                        <div class="pro-loop">
-                            <div class="pro-loop-wrap">
-                                <div class="pro-loop-image">
-                                    <a href="/products/bo-lien-coc-mau-xanh-da-troi" class="pro-loop-image-item">			
-                                        <picture>
-                                                <source srcset="//product.hstatic.net/200000692427/product/bo_lien_coc_mau_xanh_da_troi_b3fe0c6792494eb8bee9adeb6a435526_medium.jpg" data-srcset="//product.hstatic.net/200000692427/product/bo_lien_coc_mau_xanh_da_troi_b3fe0c6792494eb8bee9adeb6a435526_medium.jpg" media="(max-width: 767px)">
-                                                <img class=" lazyloaded" src="//product.hstatic.net/200000692427/product/bo_lien_coc_mau_xanh_da_troi_b3fe0c6792494eb8bee9adeb6a435526_grande.jpg" data-src="//product.hstatic.net/200000692427/product/bo_lien_coc_mau_xanh_da_troi_b3fe0c6792494eb8bee9adeb6a435526_grande.jpg" alt="Bộ liền cộc màu xanh da trời" style="max-width: 237.5px;">
-                                        </picture>
-                                        <picture>
-                                                <source srcset="//product.hstatic.net/200000692427/product/nous_-_nu_basic_-_nb2s24-op1-m01-pb_-_bo_lien_coc_mau_xanh_da_troi__3__daaf49b58e2b4f038ce146c46ac6bfec_medium.jpg" data-srcset="//product.hstatic.net/200000692427/product/nous_-_nu_basic_-_nb2s24-op1-m01-pb_-_bo_lien_coc_mau_xanh_da_troi__3__daaf49b58e2b4f038ce146c46ac6bfec_medium.jpg" media="(max-width: 767px)">
-                                                <img class=" lazyloaded" src="//product.hstatic.net/200000692427/product/nous_-_nu_basic_-_nb2s24-op1-m01-pb_-_bo_lien_coc_mau_xanh_da_troi__3__daaf49b58e2b4f038ce146c46ac6bfec_grande.jpg" data-src="//product.hstatic.net/200000692427/product/nous_-_nu_basic_-_nb2s24-op1-m01-pb_-_bo_lien_coc_mau_xanh_da_troi__3__daaf49b58e2b4f038ce146c46ac6bfec_grande.jpg" alt="Bộ liền cộc màu xanh da trời" style="max-width: 237.5px;">
-                                        </picture>
-                                 </a>
-
-                                    <div class="pro-loop-cart-icon">
-                                    <button type="button" class="setQuickview" data-handle="bo-lien-coc-mau-xanh-da-troi">
-                                        <img src="https://file.hstatic.net/200000692427/file/asset_2_901a91642639466aa75b2019a34ccebd.svg" alt="add to cart">
-                                        <span>Thêm vào giỏ hàng</span> 
-                                    </button>
-                                    </div>
-                                </div>
-                                <h3 class="pro-loop-name">
-							        <a href="/products/bo-lien-coc-mau-xanh-da-troi" title="Bộ liền cộc màu xanh da trời">Bộ liền cộc màu xanh da trời</a>
-	                            </h3>
-                                <div class="pro-loop-price">
-					                <span>185,000₫</span>
-	                            </div>
-                            </div>
-                        </div>
-                        <!-------------------------------------------------- END PRODUCT ----------------------------------->
-
-
-                        <!-- PRODUCT -->
-                        <div class="pro-loop">
-                            <div class="pro-loop-wrap">
-                                <div class="pro-loop-image">
-                                    <a href="/products/bo-lien-coc-mau-xanh-da-troi" class="pro-loop-image-item">			
-                                        <picture>
-                                                <source srcset="//product.hstatic.net/200000692427/product/bo_lien_coc_mau_xanh_da_troi_b3fe0c6792494eb8bee9adeb6a435526_medium.jpg" data-srcset="//product.hstatic.net/200000692427/product/bo_lien_coc_mau_xanh_da_troi_b3fe0c6792494eb8bee9adeb6a435526_medium.jpg" media="(max-width: 767px)">
-                                                <img class=" lazyloaded" src="//product.hstatic.net/200000692427/product/bo_lien_coc_mau_xanh_da_troi_b3fe0c6792494eb8bee9adeb6a435526_grande.jpg" data-src="//product.hstatic.net/200000692427/product/bo_lien_coc_mau_xanh_da_troi_b3fe0c6792494eb8bee9adeb6a435526_grande.jpg" alt="Bộ liền cộc màu xanh da trời" style="max-width: 237.5px;">
-                                        </picture>
-                                        <picture>
-                                                <source srcset="//product.hstatic.net/200000692427/product/nous_-_nu_basic_-_nb2s24-op1-m01-pb_-_bo_lien_coc_mau_xanh_da_troi__3__daaf49b58e2b4f038ce146c46ac6bfec_medium.jpg" data-srcset="//product.hstatic.net/200000692427/product/nous_-_nu_basic_-_nb2s24-op1-m01-pb_-_bo_lien_coc_mau_xanh_da_troi__3__daaf49b58e2b4f038ce146c46ac6bfec_medium.jpg" media="(max-width: 767px)">
-                                                <img class=" lazyloaded" src="//product.hstatic.net/200000692427/product/nous_-_nu_basic_-_nb2s24-op1-m01-pb_-_bo_lien_coc_mau_xanh_da_troi__3__daaf49b58e2b4f038ce146c46ac6bfec_grande.jpg" data-src="//product.hstatic.net/200000692427/product/nous_-_nu_basic_-_nb2s24-op1-m01-pb_-_bo_lien_coc_mau_xanh_da_troi__3__daaf49b58e2b4f038ce146c46ac6bfec_grande.jpg" alt="Bộ liền cộc màu xanh da trời" style="max-width: 237.5px;">
-                                        </picture>
-                                 </a>
-
-                                    <div class="pro-loop-cart-icon">
-                                    <button type="button" class="setQuickview" data-handle="bo-lien-coc-mau-xanh-da-troi">
-                                        <img src="https://file.hstatic.net/200000692427/file/asset_2_901a91642639466aa75b2019a34ccebd.svg" alt="add to cart">
-                                        <span>Thêm vào giỏ hàng</span> 
-                                    </button>
-                                    </div>
-                                </div>
-                                <h3 class="pro-loop-name">
-							        <a href="/products/bo-lien-coc-mau-xanh-da-troi" title="Bộ liền cộc màu xanh da trời">Bộ liền cộc màu xanh da trời</a>
-	                            </h3>
-                                <div class="pro-loop-price">
-					                <span>185,000₫</span>
-	                            </div>
-                            </div>
-                        </div>
-                        <!-------------------------------------------------- END PRODUCT ----------------------------------->
-
-
-                        <!-- PRODUCT -->
-                        <div class="pro-loop">
-                            <div class="pro-loop-wrap">
-                                <div class="pro-loop-image">
-                                    <a href="/products/bo-lien-coc-mau-xanh-da-troi" class="pro-loop-image-item">			
-                                        <picture>
-                                                <source srcset="//product.hstatic.net/200000692427/product/bo_lien_coc_mau_xanh_da_troi_b3fe0c6792494eb8bee9adeb6a435526_medium.jpg" data-srcset="//product.hstatic.net/200000692427/product/bo_lien_coc_mau_xanh_da_troi_b3fe0c6792494eb8bee9adeb6a435526_medium.jpg" media="(max-width: 767px)">
-                                                <img class=" lazyloaded" src="//product.hstatic.net/200000692427/product/bo_lien_coc_mau_xanh_da_troi_b3fe0c6792494eb8bee9adeb6a435526_grande.jpg" data-src="//product.hstatic.net/200000692427/product/bo_lien_coc_mau_xanh_da_troi_b3fe0c6792494eb8bee9adeb6a435526_grande.jpg" alt="Bộ liền cộc màu xanh da trời" style="max-width: 237.5px;">
-                                        </picture>
-                                        <picture>
-                                                <source srcset="//product.hstatic.net/200000692427/product/nous_-_nu_basic_-_nb2s24-op1-m01-pb_-_bo_lien_coc_mau_xanh_da_troi__3__daaf49b58e2b4f038ce146c46ac6bfec_medium.jpg" data-srcset="//product.hstatic.net/200000692427/product/nous_-_nu_basic_-_nb2s24-op1-m01-pb_-_bo_lien_coc_mau_xanh_da_troi__3__daaf49b58e2b4f038ce146c46ac6bfec_medium.jpg" media="(max-width: 767px)">
-                                                <img class=" lazyloaded" src="//product.hstatic.net/200000692427/product/nous_-_nu_basic_-_nb2s24-op1-m01-pb_-_bo_lien_coc_mau_xanh_da_troi__3__daaf49b58e2b4f038ce146c46ac6bfec_grande.jpg" data-src="//product.hstatic.net/200000692427/product/nous_-_nu_basic_-_nb2s24-op1-m01-pb_-_bo_lien_coc_mau_xanh_da_troi__3__daaf49b58e2b4f038ce146c46ac6bfec_grande.jpg" alt="Bộ liền cộc màu xanh da trời" style="max-width: 237.5px;">
-                                        </picture>
-                                 </a>
-
-                                    <div class="pro-loop-cart-icon">
-                                    <button type="button" class="setQuickview" data-handle="bo-lien-coc-mau-xanh-da-troi">
-                                        <img src="https://file.hstatic.net/200000692427/file/asset_2_901a91642639466aa75b2019a34ccebd.svg" alt="add to cart">
-                                        <span>Thêm vào giỏ hàng</span> 
-                                    </button>
-                                    </div>
-                                </div>
-                                <h3 class="pro-loop-name">
-							        <a href="/products/bo-lien-coc-mau-xanh-da-troi" title="Bộ liền cộc màu xanh da trời">Bộ liền cộc màu xanh da trời</a>
-	                            </h3>
-                                <div class="pro-loop-price">
-					                <span>185,000₫</span>
-	                            </div>
-                            </div>
-                        </div>
-                        <!-------------------------------------------------- END PRODUCT ----------------------------------->
-
 
 
                     </div>
@@ -594,11 +442,11 @@
             </div>
         </div>
     </div>
-
-
+</div>
 
     <?php
         include "../includes/footer.php";
+        
     ?>
     
 </body>

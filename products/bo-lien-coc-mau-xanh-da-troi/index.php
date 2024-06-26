@@ -1,4 +1,5 @@
 
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -7,8 +8,10 @@
   <title>Khách hàng</title>
   <link rel="stylesheet" href="/webbanhang/assets/style.css" />
   <link rel="stylesheet" href="/webbanhang/assets/reset.css" />
+  <link rel="stylesheet" href="../assets/cuongstyle.css" />
+  
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-  <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+  <link rel="stylesheet" href="/webbanhang/assets/w3.css">
 </head>
 <body>
 <?php
@@ -119,14 +122,6 @@
                                 </div>
 
                                 <div class="product-swatch">
-                                    <div class="selector-wrapper"><label for="productSelect-option-0">Màu sắc</label><select class="single-option-selector" data-option="option1" id="productSelect-option-0"><option value="Xanh">Xanh</option></select></div><div class="selector-wrapper"><label for="productSelect-option-1">Kích thước</label><select class="single-option-selector" data-option="option2" id="productSelect-option-1"><option value="0M">0M</option><option value="3M">3M</option><option value="6M">6M</option><option value="9M">9M</option></select></div><input id="productSelect" name="id" style="display: none;">
-                                    <div class="product-sw-line product-sw-option-1 product-sw-color" data-option="option1">
-                                        <div class="dflex-new">
-                                            <div class="product-sw-title a">Màu sắc</div>
-                                            
-                                        </div>
-                                        <div class="product-sw-select"><div class="product-sw-select-item sw-link sw-color soldOut " data-url="/products/bo-lien-coc-ke-vang-theu-hinh-tho" data-pid="1053163269" data-title="Vàng"><div class="product-sw-select-item-span"><span style="background-image: url(https://product.hstatic.net/200000692427/product/bo_lien_coc_ke_vang_theu_hinh_tho_fdabbd4ed0ee4d04a361a6c992b72031.jpg)" class="sw-color-vang">Vàng</span></div></div><div class="product-sw-select-item sw-link sw-color  active" data-url="/products/bo-lien-coc-mau-xanh-da-troi" data-pid="1053163265" data-title="Xanh"><div class="product-sw-select-item-span"><span style="background-image: url(https://product.hstatic.net/200000692427/product/bo_lien_coc_mau_xanh_da_troi_b3fe0c6792494eb8bee9adeb6a435526.jpg)" class="sw-color-xanh">Xanh</span></div></div><div class="product-sw-select-item sw-link sw-color  " data-url="/products/bo-lien-coc-mau-xanh-cham-bi" data-pid="1053163262" data-title="Xanh"><div class="product-sw-select-item-span"><span style="background-image: url(https://product.hstatic.net/200000692427/product/nous_-_nu_basic_-_nb2s24-op1-u01-pg_-_bo_lien_coc_mau_xanh_cham_bi_a21a2633cdc04f6ca5f34058d0645ba7.jpg)" class="sw-color-xanh">Xanh</span></div></div></div>
-                                    </div>
                                     <div class="product-sw-line product-sw-option-2 product-sw-size" data-option="option2">
                                         <div class="dflex-new">
                                             <div class="product-sw-title a">Kích thước</div>
@@ -134,7 +129,21 @@
                                             <a class="sizeGuide" href="javascript:void(0);" data-fancybox="sizechart" data-src="#sizechart">Hướng dẫn chọn size</a>
                                             
                                         </div>
-                                        <div class="product-sw-select"><div class="product-sw-select-item soldOut " data-cus="0 - 3M" data-height="55 - 61" data-weight="3.5 - 5.5" data-option2="0M"><div class="product-sw-select-item-span">0M</div></div><div class="product-sw-select-item soldOut " data-cus="3 - 6M" data-height="61 - 67" data-weight="5.5 - 7.5" data-option2="3M"><div class="product-sw-select-item-span">3M</div></div><div class="product-sw-select-item  " data-cus="6 - 9M" data-height="67 - 72" data-weight="7.5 - 9.5" data-option2="6M"><div class="product-sw-select-item-span">6M</div></div><div class="product-sw-select-item  " data-cus="9 - 12M" data-height="70 - 77" data-weight="8.5 - 10.5" data-option2="9M"><div class="product-sw-select-item-span">9M</div></div><div class="select-size-info" style="display: none; left: 0px;"><p>Thông số</p><h6 class="measure-cus">Độ tuổi: <b>0 - 3M</b></h6><div class="measure-wrapper"><span class="measure-height">Chiều cao: <b>55 - 61 cm</b></span><span class="empty-border"></span><span class="measure-weight">Cân nặng: <b>3.5 - 5.5 kg</b></span></div></div></div>
+                                        <div class="product-sw-select">
+                                            <div class="product-sw-select-item soldOut " data-cus="0 - 3M" data-height="55 - 61" data-weight="3.5 - 5.5" data-option2="0M">
+                                                <div class="product-sw-select-item-span">0M</div>
+                                            </div>
+                                            
+                                            <div class="product-sw-select-item active " data-cus="3 - 6M" data-height="61 - 67" data-weight="5.5 - 7.5" data-option2="3M">
+                                                <div class="product-sw-select-item-span">3M</div>
+                                            </div>
+                                            <div class="product-sw-select-item  " data-cus="6 - 9M" data-height="67 - 72" data-weight="7.5 - 9.5" data-option2="6M">
+                                                <div class="product-sw-select-item-span">6M</div>
+                                            </div>
+                                            <div class="product-sw-select-item  " data-cus="9 - 12M" data-height="70 - 77" data-weight="8.5 - 10.5" data-option2="9M">
+                                                <div class="product-sw-select-item-span">9M</div>
+                                            </div>
+                                            <div class="select-size-info" style="display: none; left: 0px;"><p>Thông số</p><h6 class="measure-cus">Độ tuổi: <b>0 - 3M</b></h6><div class="measure-wrapper"><span class="measure-height">Chiều cao: <b>55 - 61 cm</b></span><span class="empty-border"></span><span class="measure-weight">Cân nặng: <b>3.5 - 5.5 kg</b></span></div></div></div>
                                     </div>
                                 </div>
 
@@ -150,8 +159,8 @@
                                         </div>
                                     </div> 
                                     <div class="groupAdd_btn">
-                                        <button type="button" class="btn_addCart" id="addToCart">Thêm vào giỏ hàng</button>
-                                        <button type="button" class="btn_addCheckout btn_pink" id="addToCheckout"> Mua ngay</button>
+                                        <button type="button" class="btn_addCart d-none" id="addToCart">Thêm vào giỏ hàng</button>
+                                        <button type="button" class="btn_addCheckout btn_pink d-none" id="addToCheckout"> Mua ngay</button>
                                         <div class="productWishlist d-flex d-lg-none"> 
                                             <a href="/pages/wishlist" class="setWishlist" data-handle="bo-lien-coc-mau-xanh-da-troi"><i class="lni lni-heart"></i></a>
                                         </div>
