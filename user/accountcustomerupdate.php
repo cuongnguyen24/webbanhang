@@ -128,7 +128,7 @@ mysqli_close($conn);
           <hr>
           <?php if ($role == 3) { ?>
           <li class="list-group-item">
-            <p><a class="link-opacity-100 text-body-secondary" href="#">Đơn hàng</a></p>
+            <p><a class="link-opacity-100 text-body-secondary" href="./ordercustomer.php">Đơn hàng</a></p>
           </li>
           <hr>
           <li class="list-group-item">

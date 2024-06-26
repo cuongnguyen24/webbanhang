@@ -1,6 +1,12 @@
 <?php
 session_start();
+if (!isset($_SESSION["username"])) {
+    header("Location: ../index.php?showLogin=true");
+    exit();
+}
+
 $username = $_SESSION["username"]; // Lấy tên tài khoản từ session
+
 require_once '../admin/connect.php';
 
 // Lấy maKhachHang từ bảng khachhang dựa vào tên tài khoản
@@ -77,10 +83,9 @@ $_SESSION['totalProducts'] = $totalProducts; // Lưu giá trị vào session
                                         <input type="hidden" name="maSanPham" value="<?php echo $item['maSanPham']; ?>">
                                         <input type="hidden" name="size" value="<?php echo $item['maSize']; ?>">
                                         <div class="quantity-controls">
-                                            <label for="quantity_<?php echo $item['maSanPham']; ?>">Số lượng:</label>
-                                            <button type="button" class="quantity-btn" onclick="updateQuantity(<?php echo $item['maSanPham']; ?>, -1)">-</button>
-                                            <input type="number" id="quantity_<?php echo $item['maSanPham']; ?>" name="quantity" value="<?php echo $item['soLuong']; ?>" min="1">
-                                            <button type="button" class="quantity-btn" onclick="updateQuantity(<?php echo $item['maSanPham']; ?>, 1)">+</button>
+                                            <p>Số lượng: <?php echo $item['soLuong']; ?></p>
+                                            <!-- <label for="quantity_<?php echo $item['maSanPham']; ?>">Số lượng:</label>
+                                            <input type="number" id="quantity_<?php echo $item['maSanPham']; ?>" name="quantity" value="<?php echo $item['soLuong']; ?>" min="1"> -->
                                         </div>
                                     </form>
                                     <form action="deletecart.php" method="get" onsubmit="return confirm('Bạn có chắc chắn muốn xóa sản phẩm này khỏi giỏ hàng?');">
@@ -112,19 +117,7 @@ $_SESSION['totalProducts'] = $totalProducts; // Lưu giá trị vào session
     </div>
     <?php include '../layout/footer.php'; ?>
 
-    <script>
-        function updateQuantity(maSanPham, amount) {
-            const input = document.getElementById('quantity_' + maSanPham);
-            let newQuantity = parseInt(input.value) + amount;
-            if (newQuantity < 1) {
-                newQuantity = 1; // Đảm bảo số lượng không nhỏ hơn 1
-            }
-            input.value = newQuantity;
-
-            // Tự động submit form sau khi thay đổi số lượng
-            document.getElementById('form_' + maSanPham).submit();
-        }
-    </script>
+    
 </body>
 
 </html>

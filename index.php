@@ -73,10 +73,18 @@
                         ?>
                         <span class="cart-count count"><?php echo $totalProducts; ?></span>
                     </button>
+                    
+                    
 
                     <script>
                         function goToCart() {
-                            window.location.href = "./user/cart.php";
+                            <?php if (!isset($_SESSION["loged"])) { ?>
+                                // nếu chưa đăng nhập thì show login
+                                showLogIn();
+                            <?php } else { ?>
+                                // Đăng nhập rồi thì vào cart
+                                window.location.href = "./user/cart.php";
+                                <?php } ?>
                         }
                     </script>
                 </div>
