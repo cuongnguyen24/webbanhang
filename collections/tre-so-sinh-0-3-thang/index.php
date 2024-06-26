@@ -7,12 +7,11 @@ require_once ($_SERVER['DOCUMENT_ROOT'] .'/webbanhang/admin/connect.php');
 // Lấy dữ liệu từ CSDL
 // GROUP_CONCAT - kết hợp tất cả các kích cỡ (size) của mỗi sản phẩm thành một chuỗi, ngăn cách bởi dấu phẩy
 //  ORDER BY size.tenSize sắp xếp các kích cỡ theo thứ tự tăng dần.
-$sql = "SELECT sanpham.*, GROUP_CONCAT(size.tenSize ORDER BY size.tenSize SEPARATOR ', ') as sizes, anhSanPham.duongDanAnh 
+$sql = "SELECT sanpham.*, GROUP_CONCAT(size.tenSize ORDER BY size.tenSize SEPARATOR ', ') as sizes
         FROM sanpham
         INNER JOIN sizesanpham ON sanpham.maSanPham = sizesanpham.maSanPham
         INNER JOIN size ON sizesanpham.maSize = size.maSize
-        INNER JOIN anhSanPham ON sanpham.maSanPham = anhSanPham.maSanPham
-        GROUP BY sanpham.maSanPham, anhSanPham.duongDanAnh 
+        GROUP BY sanpham.maSanPham
 ";
 $result = mysqli_query($conn, $sql);
 $sanphams = [];
@@ -401,12 +400,12 @@ if (mysqli_num_rows($result_maKhachHang) > 0) {
                                 <div class="pro-loop-image">
                                     <a href="<?php echo $sanpham['chitietsp']; ?>" class="pro-loop-image-item">			
                                         <picture>
-                                                <source srcset="<?php echo $sanpham['duongDanAnh']; ?>" data-srcset="<?php echo $sanpham['duongDanAnh']; ?>" media="(max-width: 767px)" alt="img <?php echo $sanpham['tenSanPham']; ?>">
-                                                <img class=" lazyloaded" src="<?php echo $sanpham['duongDanAnh']; ?>" data-src="<?php echo $sanpham['duongDanAnh']; ?>" alt="<?php echo $sanpham['tenSanPham']; ?>" style="max-width: 237.5px;">
+                                                <source srcset="<?php echo $sanpham['duongDanAnhChung']; ?>" data-srcset="<?php echo $sanpham['duongDanAnhChung']; ?>" media="(max-width: 767px)" alt="img <?php echo $sanpham['tenSanPham']; ?>">
+                                                <img class=" lazyloaded" src="<?php echo $sanpham['duongDanAnhChung']; ?>" data-src="<?php echo $sanpham['duongDanAnhChung']; ?>" alt="<?php echo $sanpham['tenSanPham']; ?>" style="max-width: 237.5px;">
                                         </picture>
                                         <picture>
-                                                <source srcset="<?php echo $sanpham['duongDanAnh']; ?>" data-srcset="<?php echo $sanpham['duongDanAnh']; ?>" media="(max-width: 767px)" alt="img <?php echo $sanpham['tenSanPham']; ?>">
-                                                <img class=" lazyloaded" src="<?php echo $sanpham['duongDanAnh']; ?>" data-src="<?php echo $sanpham['duongDanAnh']; ?>" alt="<?php echo $sanpham['tenSanPham']; ?>" style="max-width: 237.5px;">
+                                                <source srcset="<?php echo $sanpham['duongDanAnhChung']; ?>" data-srcset="<?php echo $sanpham['duongDanAnhChung']; ?>" media="(max-width: 767px)" alt="img <?php echo $sanpham['tenSanPham']; ?>">
+                                                <img class=" lazyloaded" src="<?php echo $sanpham['duongDanAnhChung']; ?>" data-src="<?php echo $sanpham['duongDanAnhChung']; ?>" alt="<?php echo $sanpham['tenSanPham']; ?>" style="max-width: 237.5px;">
                                         </picture>
                                  </a>
 
