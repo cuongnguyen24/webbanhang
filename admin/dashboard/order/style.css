@@ -5,6 +5,17 @@
 main{
     width: 1200px;
 }
+.aaaa{
+    height: 50px;
+    background-color: transparent;
+}
+.wrapper{
+    overflow-x: auto;
+    overflow-x: hidden;
+    width: auto;
+    max-height: 500px;
+    width: 1240px;
+}
 #title_form{
     color: #ca877e;
     font-size: 40px;
@@ -63,7 +74,8 @@ main{
 }
 /* table */
 table{
-    margin-top: 50px;
+    max-height: 400px;
+    overflow: auto;
     width: 1230px;
     font-size: 13px;
     border-collapse: collapse;
@@ -75,6 +87,8 @@ table th{
     padding: 8px;
     background-color: #ca877e;
     color: #ffffff;
+    position: sticky;
+    top: 0;
 }
 table tbody{
     border: 1px solid #ddd;

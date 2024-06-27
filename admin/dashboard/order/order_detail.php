@@ -100,7 +100,7 @@
                         <button name="btnSearch" id="btnSearch" ><i class="fa-solid fa-magnifying-glass"></i></button>
                     </form>
                 </div>
-                
+                <div class="aaaa"></div>
                 <div class="wrapper" id="tblQLTK" style="display: <?php echo isset($_POST['btnSearch']) && !empty($_POST['txtSearch']) ? 'none' : 'block'; ?>">
                 <!-- table -->
                 <table>
@@ -240,9 +240,9 @@
                         </tbody>
                     </table>
                 </div>
-                <div id="order_detail">
-                    aaa
-                </div>
+                <?php
+                    require_once 'detail.php';
+                ?>
                 <script src="./order_detail.js"></script>
         </main>
     </div>

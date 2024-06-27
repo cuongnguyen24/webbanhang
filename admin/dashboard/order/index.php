@@ -99,7 +99,7 @@
                         <button name="btnSearch" id="btnSearch" ><i class="fa-solid fa-magnifying-glass"></i></button>
                     </form>
                 </div>
-                
+                <div class="aaaa"></div>
                 <div class="wrapper" id="tblQLTK" style="display: <?php echo isset($_POST['btnSearch']) && !empty($_POST['txtSearch']) ? 'none' : 'block'; ?>">
                 <!-- table -->
                 <table>
@@ -208,7 +208,7 @@
                                         <td><?php echo $row['maKhachHang'] ?></td>
                                         <td><?php echo $formattedNgayLapDon ?></td>
                                         <td>
-                                            <a id="detail_button" title="Xem chi tiết đơn hàng" href="/webbanhang/admin/dashboard/order/order_detail.php?smnv=<?php echo $row['maDonHang'] ?> ">
+                                            <a id="detail_button" title="Xem chi tiết đơn hàng" href="/webbanhang/admin/dashboard/order/order_detail.php?smdh=<?php echo $row['maDonHang'] ?> ">
                                                 <i class="fa-solid fa-eye"></i>
                                             </a>
                                         </td>
