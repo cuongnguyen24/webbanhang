@@ -29,7 +29,7 @@
         
         // Define maxsize for files i.e 2MB
         $maxsize = 2 * 1024 * 1024; 
-    
+        $duongdanchung;
         // Checks if user sent an empty form 
         if(!empty(array_filter($_FILES['fileToUpload']['name']))) {
     
@@ -42,7 +42,7 @@
                 $file_name = $dt.'.'.strtolower($file_ext);
                 // Set upload file path
                 $filepath = $upload_dir.$file_name;
-    
+                $duongdanchung = $filepath;
                 // Check file type is allowed or not
                 if(in_array(strtolower($file_ext), $allowed_types)) {
     
@@ -80,8 +80,10 @@
                 } 
                 $query = "INSERT INTO anhsanpham VALUES('".$id."','".$filepath."', '".Null."')";     
                 mysqli_query($conn, $query);
+                
             }
         }
+        return $duongdanchung;
     }   
 ?>
 <?php
@@ -114,13 +116,13 @@
             $cboDanhMuc= $_POST['cboDanhMuc'];
         }
         foreach ($items as $index => $item) {
-            $id =  $item["maSize"];
+            $id_size =  $item["maSize"];
             // if(empty($_POST[$id])){
             //     $errors['cboMaSize']="Bạn cần chọn size";
             // }
            
-                if (isset($_POST[$id]) && isset($_POST[$id . '_text'])) {
-                    $value = $_POST[$id . '_text'];
+                if (isset($_POST[$id_size]) && isset($_POST[$id_size . '_text'])) {
+                    $value = $_POST[$id_size . '_text'];
                     if(empty(trim($value))){
                         $errors['soLuong']='Không được để trống số lượng của size'.$item["tenSize"];
                         break;
@@ -169,12 +171,15 @@
         }
         else{
             $masv = $id;
+            echo $id;
             $tenSanPham= $_POST['tenSanPham'];
             $maNhaCungCap=$_POST['cboNhaCungCap'];
             $maDanhMuc=$_POST['cboDanhMuc'];         
             $giaBan=$_POST['giaBan'];   
+            $chitietsp=$_POST['chitietsp'];
             $moTaSanPham=$_POST['mota'];
-            $query="INSERT INTO sanpham VALUES('".$id."','".$tenSanPham."','".$maNhaCungCap."','".$maDanhMuc."','ql01','".$giaBan."','".$moTaSanPham."')";  
+            $query="INSERT INTO sanpham VALUES('".$id."','".$tenSanPham."','".$maNhaCungCap."','".$maDanhMuc."','ql01','".$giaBan."','".$moTaSanPham."','".$chitietsp."','')";  
+            echo $query;
             $result= mysqli_query($conn, $query);
             foreach ($items as $index => $item) {
                 $id_size =  $item["maSize"];
@@ -185,7 +190,10 @@
                 }
                 
             }
-            uploadImage($id, $conn);
+            $duongdanchung = uploadImage($id, $conn);
+            echo $duongdanchung;
+            $query1="UPDATE sanpham SET duongDanAnhChung='".$duongdanchung." 'where maSanPham='".$id."'"; 
+            mysqli_query($conn, $query1);
             if($result>0)
                 echo 'Thêm mới thành công';
             else 
@@ -248,7 +256,7 @@
                     <h3>Nhà cung cấp</h3>
                 </a>
 
-                <a href="../message/" class="">
+                <a href="../DanhMuc/" class="">
                     <i class="fa-regular fa-envelope"></i>
                     <h3>Danh mục</h3>
                     <span class="message-count">26</span>
@@ -284,14 +292,14 @@
                 </div>
                 <div class="wrapper">
                 <h3 style="text-align: center" class="title">Thêm mới sản phẩm</h3>
-                <form method="POST">
+                <form method="POST" enctype="multipart/form-data">
                     <div class="form-group">
                         <label for="masv">Mã sản phẩm</label>
                         <input type="text" class="form-control" name="txtid" value=<?php  echo $id?> disabled>                
                     </div>
                     <div class="form-group">
                         <label for="tensv">Tên sản phẩm</label>
-                        <input type="text" class="form-control" name="tenSanPham"  placeholder="Hãy nhập tên sản phẩm..." value="<?php if(isset($tenSanPham)) echo $tenSanPham; ?>">
+                        <input type="text" class="form-control" id= "txtSanPham" name="tenSanPham"  placeholder="Hãy nhập tên sản phẩm..." oninput="updateInput2()" value="<?php if(isset($tenSanPham)) echo $tenSanPham; ?>">
                     <?php 
                             echo (!empty($errors['tenSanPham']))?'<span class="error">'.$errors['tenSanPham'].'</span>':false;
                     ?>                
@@ -368,6 +376,18 @@
                                 echo (!empty($errors['giaBan']))?'<span class="error">'.$errors['giaBan'].'</span>':false;
                         ?>                
                     </div>
+
+                    <div class="form-group">
+                        <label for="inputAddress2"> Link chi tiết sản phẩm </label>
+                        <input type="text" class="form-control" id="chitietsp" name="chitietsp" placeholder="Link chi tiết sản phẩm" value="<?php if(isset($chitietsp)) echo $chitietsp; ?>">
+                        
+                    </div>
+
+                    <!-- <div class="form-group">
+                        <label for="inputAddress2"> Đường dẫn ảnh chung </label>
+                        <input type="text" class="form-control" id="duongdanchung" name="duongdanchung" placeholder="Đường dẫn ảnh chung" value="<?php if(isset($duongdanchung)) echo $duongdanchung; ?>">
+                        
+                    </div> -->
         
                     <div class="form-group">
                         <label for="">Mô tả sản phẩm</label>
@@ -394,4 +414,18 @@
             textInput.disabled = !checkbox.checked;
         }
 </script>
+<script>
+        function convertToSlug(str) {
+            // Chuyển các ký tự có dấu thành không dấu và chuyển sang chữ thường
+            str = str.toLowerCase().replace(/ă/g, 'a').replace(/â/g, 'a').replace(/đ/g, 'd').replace(/ê/g, 'e').replace(/ô/g, 'o').replace(/ơ/g, 'o').replace(/ư/g, 'u').replace(/ơ/g, 'o').replace(/ư/g, 'u').replace(/ /g, '-');
+            return str;
+        }
+        function removeAccents(str) {
+                return str.normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+            }
+        function updateInput2() {
+            var input1Value = document.getElementById("txtSanPham").value;
+            document.getElementById("chitietsp").value = '/webbanhang/products/' + removeAccents(convertToSlug(input1Value))+'/';
+        }
+    </script>
 </html>

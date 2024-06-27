@@ -7,6 +7,7 @@
     $soLuong="";
     $maSize="";      
     $giaBan="";   
+    $chitietsp="";
     $moTaSanPham="";
     $sanphamAll = [];
     $query="select sanpham.*,sizesanpham.soLuong, sizesanpham.maSize from sanpham INNER JOIN sizesanpham WHERE sanpham.maSanPham = sizesanpham.maSanPham and sanpham.maSanPham='".$maSanPham."'";  
@@ -18,6 +19,7 @@
             $maNhaCungCap=$row["maNhaCungCap"];
             $maDanhMuc=$row["maDanhMuc"];                
             $giaBan=$row["giaBan"];
+            $chitietsp=$row["chitietsp"];
             $moTaSanPham=$row["moTaSanPham"];                
         }
     }
@@ -31,7 +33,7 @@
         
         // Define maxsize for files i.e 2MB
         $maxsize = 2 * 1024 * 1024; 
-    
+        $filePathChung = '';
         // Checks if user sent an empty form 
         if(!empty(array_filter($_FILES['fileToUpload']['name']))) {
     
@@ -81,11 +83,14 @@
                     echo "Error uploading {$file_name} "; 
                     echo "({$file_ext} file type is not allowed)<br / >";
                 } 
+                
                 $query = "INSERT INTO anhsanpham VALUES('".$id."','".$filepath."', '".Null."')";         
                 mysqli_query($conn, $query);
                 $file_name = "";
+                $filePathChung = $filepath;
             }
         }
+        return $filePathChung;
     }   
 ?>
 <?php
@@ -174,12 +179,11 @@
             <?php
         }
         else{            
-           
             $tenSanPham= $_POST['tenSanPham'];
             $maNhaCungCap=$_POST['cboNhaCungCap'];
             $maDanhMuc=$_POST['cboDanhMuc'];      
-            $giaBan=$_POST['giaBan'];   
-            $moTaSanPham=$_POST['mota'];
+            $giaBan=$_POST['giaBan'];  
+            $chitietsp=$_POST['chitietsp'];
             $arr= json_decode($_POST['arr']); 
             if($arr > 0){
                 foreach($arr as  $item){
@@ -193,8 +197,8 @@
                     }   
                 }; 
             }
-            $query="UPDATE sanpham SET tenSanPham='".$tenSanPham."',maNhaCungCap='".$maNhaCungCap."',maQuanLy='ql01',maDanhMuc='".$maDanhMuc."',giaBan='".$giaBan."',moTaSanPham='".$moTaSanPham."' where maSanPham='".$maSanPham."'"; 
-            uploadImage($maSanPham, $conn);
+            $duongdanchung = uploadImage($maSanPham, $conn);
+            $query="UPDATE sanpham SET tenSanPham='".$tenSanPham."',maNhaCungCap='".$maNhaCungCap."',maQuanLy='ql01',maDanhMuc='".$maDanhMuc."',giaBan='".$giaBan."',chitietsp='".$chitietsp."',moTaSanPham='".$moTaSanPham."' where maSanPham='".$maSanPham."'"; 
             $result= mysqli_query($conn, $query);
             foreach ($items as $index => $item) {
                 $id_size =  $item["maSize"];
@@ -277,7 +281,7 @@
                     <h3>Nhà cung cấp</h3>
                 </a>
 
-                <a href="../message/" class="">
+                <a href="../DanhMuc/" class="">
                     <i class="fa-regular fa-envelope"></i>
                     <h3>Danh mục</h3>
                     <span class="message-count">26</span>
@@ -416,6 +420,17 @@
                 </div>
                 
                 <div class="form-group">
+                        <label for="inputAddress2"> Link chi tiết sản phẩm </label>
+                        <input type="text" class="form-control" id="chitietsp" name="chitietsp" placeholder="Link chi tiết sản phẩm" value="<?php if(isset($chitietsp)) echo $chitietsp; ?>">
+                        
+                </div>
+
+                <!-- <div class="form-group">
+                        <label for="inputAddress2"> Đường dẫn ảnh chung </label>
+                        <input type="text" class="form-control" id="duongdanchung" name="duongdanchung" placeholder="Đường dẫn ảnh chung" value="<?php if(isset($duongdanchung)) echo $duongdanchung; ?>">     
+                </div> -->
+
+                <div class="form-group">
                     <label for="">Mô tả sản phẩm</label>
                     <textarea name="mota" id="mota" class="form-control" placeholder="Hãy nhập mô tả sản phẩm..."><?php echo $moTaSanPham; ?></textarea> 
                     <?php 
@@ -451,29 +466,45 @@
                         ?>
                     <input style="margin-top:10px" name ="fileToUpload[]" type="file" multiple>
                 </div> 
-                    <button type="submit" class="btn btn-primary" name="btnSave">Ghi dữ liệu</button>
+                <div id="button_add">
+                        <button type="submit" class="btn btn-primary" name="btnSave" id="btnSubmit">Ghi dữ liệu</button>
+                </div>
                 </form>
                 </div>
                 </div>
-                <script>
-                    let array = new Array();
-                    function myFunction(id){                
-                        let img = document.getElementById(id);     
-                        img.style.display = "none";
-                        let icon = document.getElementById("icon" + id);     
-                        icon.style.display = "none";
-                        array.push(id);
-                        let imgXoa = document.getElementById("anhXoa"); 
-                        imgXoa.value = JSON.stringify(array);       
-                    }     
-                </script>
-                <script>
-                        function toggleInput(checkboxId) {
-                            var checkbox = document.getElementById(checkboxId);
-                            var textInput = document.getElementById(checkboxId + '_text');
-                            textInput.disabled = !checkbox.checked;            
-                        }
-                </script>
+    <script>
+        let array = new Array();
+        function myFunction(id){                
+            let img = document.getElementById(id);     
+            img.style.display = "none";
+            let icon = document.getElementById("icon" + id);     
+            icon.style.display = "none";
+            array.push(id);
+            let imgXoa = document.getElementById("anhXoa"); 
+            imgXoa.value = JSON.stringify(array);       
+        }     
+    </script>
+    <script>
+            function toggleInput(checkboxId) {
+                var checkbox = document.getElementById(checkboxId);
+                var textInput = document.getElementById(checkboxId + '_text');
+                textInput.disabled = !checkbox.checked;            
+            }
+    </script>
 </main>
 </body>
+<script>
+        function convertToSlug(str) {
+            // Chuyển các ký tự có dấu thành không dấu và chuyển sang chữ thường
+            str = str.toLowerCase().replace(/ă/g, 'a').replace(/â/g, 'a').replace(/đ/g, 'd').replace(/ê/g, 'e').replace(/ô/g, 'o').replace(/ơ/g, 'o').replace(/ư/g, 'u').replace(/ơ/g, 'o').replace(/ư/g, 'u').replace(/ /g, '-');
+            return str;
+        }
+        function removeAccents(str) {
+                return str.normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+            }
+        function updateInput2() {
+            var input1Value = document.getElementById("txtSanPham").value;
+            document.getElementById("chitietsp").value = removeAccents(convertToSlug(input1Value));
+        }
+    </script>
 </html>

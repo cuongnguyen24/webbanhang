@@ -122,7 +122,7 @@
                     <h3>Nhà cung cấp</h3>
                 </a>
 
-                <a href="../message/" class="">
+                <a href="../DanhMuc/" class="">
                     <i class="fa-regular fa-envelope"></i>
                     <h3>Danh mục</h3>
                     <span class="message-count">26</span>

@@ -47,7 +47,6 @@
                         <div class="w3-container">
                             
                             </div>
-
                             <div class="w3-content" style="max-width:546px">
                             <img class="mySlides" src="//product.hstatic.net/200000692427/product/bo_lien_dai_mau_be_phoi_trang_in_hinh_con_meo_74fad5f6250d4ed9a38dbd7c7b395568_master.jpg" style="width:100%;display:none">
                             <img class="mySlides" src="//product.hstatic.net/200000692427/product/bo_lien_coc_mau_xanh_da_troi_b3fe0c6792494eb8bee9adeb6a435526_master.jpg" style="width:100%">

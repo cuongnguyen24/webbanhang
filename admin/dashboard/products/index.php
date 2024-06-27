@@ -46,7 +46,7 @@
                     <h3>Nhà cung cấp</h3>
                 </a>
 
-                <a href="../message/" class="active">
+                <a href="../DanhMuc/" class="active">
                     <i class="fa-regular fa-envelope"></i>
                     <h3>Danh mục</h3>
                     <span class="message-count">26</span>
@@ -164,12 +164,13 @@
                                     <th>TÊN DANH MỤC</th>
                                     <th>SỐ LƯỢNG - SIZE</th>               
                                     <th>GIÁ BÁN</th>
+                                    <th>Link Chi tiết sản phẩm</th>
                                     <th>MÔ TẢ SẢN PHẨM</th>
                                     <th>Ảnh sản phẩm</th>
                                     <th width="10%">THAO TÁC</th>
                                 </tr>
                             </thead>
-                            <body>
+                            <tbody id="body_table">
                             <?php    
                                 require_once '../../connect.php';
                                 $query="select sanpham.*,sizesanpham.soLuong, sizesanpham.maSize from sanpham INNER JOIN sizesanpham WHERE sanpham.maSanPham = sizesanpham.maSanPham";
@@ -228,6 +229,7 @@
                                         <td>'.getTenDM($row["maDanhMuc"]).'</td>
                                         <td>'.getSize ($row['sizes']).'</td>
                                         <td>'.$row["giaBan"].'</td>
+                                        <td>'.$row["chitietsp"].'</td>
                                         <td>'.$row["moTaSanPham"].'</td>';
                                         $q1="SELECT duongDanAnh from anhsanpham where maSanPham ='".$row["maSanPham"]."'";                       
                                         $source = mysqli_query($conn,$q1);
@@ -246,14 +248,56 @@
                                         </tr>';
                                         $i++;
                                 }
-                                if(mysqli_num_rows($result) == 0)
-                                {
-                                    echo '<h3 style="text-align:center;margin-top: -21px;">Không có dữ liệu</h3>';
-                                }
                             ?>
-                        </body>
-                        </table>
                             
+                        </tbody>
+                    </table>  
+                    <?php
+                        echo '<div id="notfound">';
+                        if(mysqli_num_rows($result) == 0)
+                        { 
+                            echo '<h3 style="text-align:center;margin-top: -21px;">Không có dữ liệu</h3>';  
+                        }
+                        echo '</div>';
+                    ?>
+                    <div class="show-pagination align-items-center">
+                                <p class="m-0">Showing <span>1</span> to
+                                    <span><?php echo $records_per_page ?></span>
+                                    of <span><?php echo $total_records ?></span> entries
+                                </p>
+                                <ul class="pagination m-0 ms-auto">
+                                    <?php                                    
+                                    if($current_page > 1){
+                                        ?> <li id="pre" class="page-item page-item-h" disabled>
+                                        <a class="page-link" href="?page=<?php echo $current_page - 1  ?>" tabindex="-1"
+                                            aria-disabled="true">
+                                            <i class="fa-solid fa-angle-left" style="color: #000000;"></i> prev
+                                        </a>
+                                    </li>';
+                                    <?php                                    
+                                    }
+                                   
+                                    for($a = 0 ; $a < $total_pages; $a++){
+                                        ?>
+                                    <li class="page-item page-<?php echo $a + 1 ?>">
+                                        <a class="page-link" href="?page=<?php echo $a + 1 ?>"><?php echo $a + 1 ?></a>
+                                    </li>
+                                    <?php
+                                    }
+                                        if($current_page < $total_pages){
+                                         ?>
+                                    <li id="next" class="page-item-h page-item">
+                                        <a class="page-link" href="?page=<?php echo  $current_page + 1 ?>">
+                                            next <i class="fa-solid fa-angle-right" style="color: #000000;"></i>
+                                        </a>
+                                    </li>
+                                    <?php
+                                        }
+                                        ?>
+                                </ul>
+                                <input type="hidden" id="total_page" value=<?php echo $total_pages ?>>
+                                <input type="hidden" id="current_page" value=<?php echo $current_page ?>>
+                            </div>
                     </div>
                 </div>
             </div>
@@ -261,5 +305,42 @@
         </div>
     </div>
 </main>
+<script>
+    const current_page = +document.getElementById("current_page").value;
+    console.log(current_page);
+    const pagei = document.getElementsByClassName(`page-${current_page}`)
+    pagei[0].classList.add("active")
+    if (+document.getElementById('total_page').value <= 1) {
+        const page1 = Array.from(document.getElementsByClassName("page-item-h"));
+        page1.map(data => data.classList.add("disabled"))
+    }
+    const inputField = document.getElementById("search");
+    inputField.addEventListener('input', function() {
+        console.log('Giá trị mới:', +document.getElementById("per_page").value);
+
+        var form_data = new FormData();
+
+        form_data.append('key', this.value);
+        form_data.append('page', +document.getElementById("per_page").value);
+        form_data.append('current_page', current_page);
+        var ajax_request = new XMLHttpRequest();
+
+        ajax_request.open('POST', 'timkiem.php');
+
+        ajax_request.send(form_data);
+
+        ajax_request.onreadystatechange = function() {
+            
+            if(ajax_request.responseText === ''){
+                document.getElementById('notfound').innerHTML = '<h3 style="text-align:center;margin-top: -21px;">Không có dữ liệu</h3>'
+                document.getElementById('body_table').innerHTML = ''
+            }else{
+                document.getElementById('body_table').innerHTML = ajax_request.responseText;
+                document.getElementById('notfound').innerHTML =''
+            }
+        }
+
+    });
+    </script>
 </body>
 </html>

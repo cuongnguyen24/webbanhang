@@ -67,7 +67,6 @@
             }
             }
 ?>
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -117,7 +116,7 @@
                     <h3>Nhà cung cấp</h3>
                 </a>
 
-                <a href="../message/" class="">
+                <a href="../DanhMuc/" class="">
                     <i class="fa-regular fa-envelope"></i>
                     <h3>Danh mục</h3>
                     <span class="message-count">26</span>
@@ -182,7 +181,7 @@
                             <?php 
                                     foreach ($categories as $key => $item)
                                     {
-                                    echo '<option name="txtDmCha" value= '.$item['maDanhMuc'].'>'.$item['tenDanhMuc'].'</option>';
+                                        echo '<option name="txtDmCha" value= '.$item['maDanhMuc'].'>'.$item['tenDanhMuc'].'</option>';
                                     }
                             ?>             
                         </select>

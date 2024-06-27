@@ -17,6 +17,14 @@
         $query="delete from anhsanpham where maAnh=".$row['maAnh'];                     
         $result= mysqli_query($conn, $query);
     }   
+
+    $sql11="select * from sizesanpham where maSanPham='$maSanPham'";
+    $rs1= mysqli_query($conn, $sql11);
+    while($row = mysqli_fetch_assoc($rs1)){
+        $id_size =  $row["maSize"];
+        $query="DELETE FROM sizesanpham WHERE  maSanPham = '$maSanPham' and maSize = '$id_size'";                     
+        mysqli_query($conn, $query);
+    }   
     $query="delete from sanpham where maSanPham='$maSanPham'";      
     echo $query;      
     $result= mysqli_query($conn, $query);

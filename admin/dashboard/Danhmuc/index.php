@@ -47,7 +47,7 @@
                     <h3>Nhà cung cấp</h3>
                 </a>
 
-                <a href="../message/" class="active">
+                <a href="../DanhMuc/" class="active">
                     <i class="fa-regular fa-envelope"></i>
                     <h3>Danh mục</h3>
                     <span class="message-count">26</span>
@@ -143,7 +143,7 @@
                                                 aria-label="Search invoice">
                                         </div> -->
                                         <form  action="" id="search_form">
-                                            <input type="text" name="txtSearch" id="txtSearch" placeholder="   Tìm họ tên danh mục">
+                                            <input type="text" name="txtSearch" id="search" placeholder="   Tìm họ tên danh mục">
                                             <button name="btnSearch" id="btnSearch" ><i class="fa-solid fa-magnifying-glass"></i></button>
                                         </form>
                                     </div>
@@ -171,7 +171,7 @@
                                             <th>THAO TÁC</th>
                                         </tr>
                                     </thead>
-                                    <body>
+                                    <tbody id="body_table">
                                     <?php
                                         $query="select * from danhmuc order by viTri asc";
                                         $result = mysqli_query($conn,$query);
@@ -192,16 +192,17 @@
                                             }
                                             return $tendanhmuccha;
                                         }
-                                        function showCategories( $categories, $parent_id = -1, $char = '')
+                                        
+                                        function showCategories( $categories, $parent_id = -1, $char = '', $i=1)
                                         {                                     
-                                            $i=1;
+                                            
                                             foreach ($categories as $key => $item)
                                             {
                                                 // Nếu là chuyên mục con thì hiển thị
                                                 if ($item['danhMucCha'] == $parent_id || $item['danhMucCha'] == '' )
                                                 {                                                    
                                                     echo '<tr>   
-                                                        <td>'.($i++).'</td>                  
+                                                        <td>'.($i).'</td>                  
                                                         <td>'.$item["maDanhMuc"].'</td>
                                                         <td class="tenDM">'.$char." ".$item["tenDanhMuc"].'</td>                      
                                                         <td>'.getTenDanhMuc($item["danhMucCha"]).'</td>
@@ -219,7 +220,8 @@
                                                     // Xóa chuyên mục đã lặp
                                                     unset($categories[$key]); 
                                                     // Tiếp tục đệ quy để tìm chuyên mục con của chuyên mục đang lặp
-                                                    showCategories($categories, $item['maDanhMuc'], $char.'-----');
+                                                    $i++;
+                                                    showCategories($categories, $item['maDanhMuc'], $char.'-----', $i);
                                                    
                                                 }  
                                             }  
@@ -230,8 +232,16 @@
                                             echo '<h3 style="text-align:center;margin-top: -21px;">Không có dữ liệu</h3>';
                                         }
                                     ?>
-                                </body>
-                                </table>     
+                                </tbody>
+                                </table> 
+                                <?php
+                                echo '<div id="notfound">';
+                                if(mysqli_num_rows($result) == 0)
+                                { 
+                                    echo '<h3 style="text-align:center;margin-top: -21px;">Không có dữ liệu</h3>';  
+                                }
+                                echo '</div>';
+                                ?>    
                             </div>
                         </div>
                     </div>
@@ -241,5 +251,31 @@
 
         <!-- -------------------END OF MAIN --------------------- -->
 </body>
+<script>
+    const inputField = document.getElementById("search");
+    inputField.addEventListener('input', function() {
+        console.log('Giá trị mới:', this.value);
 
+        var form_data = new FormData();
+
+        form_data.append('key', this.value);    
+
+        var ajax_request = new XMLHttpRequest();
+
+        ajax_request.open('POST', 'timkiem.php');
+
+        ajax_request.send(form_data);
+
+        ajax_request.onreadystatechange = function() {
+            
+            if(ajax_request.responseText === ''){
+                document.getElementById('notfound').innerHTML = '<h3 style="text-align:center;margin-top: -21px;">Không có dữ liệu</h3>'
+                document.getElementById('body_table').innerHTML = ''
+            }else{
+                document.getElementById('body_table').innerHTML = ajax_request.responseText;
+                document.getElementById('notfound').innerHTML =''
+            }
+        }
+    });
+</script>
 </html>

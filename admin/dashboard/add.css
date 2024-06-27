@@ -32,7 +32,6 @@
 
 .form-group{
     width: 500px;
-    height: 80px;
     display: flex;
     flex-direction: column;
     justify-content: center;
