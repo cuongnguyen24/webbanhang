@@ -96,7 +96,7 @@
                 <div class="search">
                     <form method="POST" action="" id="search_form">
                         <input type="text" name="txtSearch" id="txtSearch" placeholder="   Tìm họ tên nhân viên">
-                        <button name="btnSearch" id="btnSearch" ><i class="fa-solid fa-magnifying-glass"></i></button>
+                        <button name="btnSearch" id="btnSearch" title="Tìm kiếm theo tên nhân viên"><i class="fa-solid fa-magnifying-glass"></i></button>
                     </form>
                 </div>
                 <div class="aaaa"></div>
@@ -158,7 +158,6 @@
                                     <?php
                                 }
                             } else {
-                                echo "Không có dữ liệu";
                             }
                             ?>
                         </tbody>
@@ -221,7 +220,6 @@
                                         <?php
                                     }
                                 } else {
-                                    echo "Không có dữ liệu";
                                 }
                             }
                             ?>

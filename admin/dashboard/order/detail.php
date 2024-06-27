@@ -111,6 +111,7 @@
                         </thead>
                         <tbody>
                             <?php
+                            $num_detail = 1;
                                 $sql_table = "SELECT * FROM chitietdonhang WHERE maDonHang = '$maDonHang'";
                                 $result_table = mysqli_query($conn, $sql_table);
                                 if (mysqli_num_rows($result) > 0) {
@@ -118,7 +119,7 @@
                                             
                                             ?>
                                             <tr>
-                                                <td><?php echo ($num++) ?></td>
+                                                <td><?php echo ($num_detail++) ?></td>
                                                 <td><?php echo $maDonHang ?></td>
                                                 <td><?php echo $row_table['maSanPham'] ?></td>
                                                 <td><?php echo $row_table['soLuong'] ?></td>
@@ -238,7 +239,9 @@
                 <a id="cancel_button">
                 Đóng
                 </a>
+                
             </div>
+            
         </div>
         </div>
         <!-- xử lý sửa trạng thái đơn hàng -->
@@ -301,13 +304,18 @@ if (isset($_POST['btnStatus'])) {
                                 <option value="6">Hủy đơn</option>
                                 <option value="7">Hoàn hàng </option>
                             </select>
-                        <button name="btnStatus" type="submit" id="btnStatus">
-                            Xác nhận
-                        </button>
+                        <div class="flex_button">
+                            <button name="btnStatus" type="submit" id="btnStatus">
+                                Xác nhận
+                            </button>
+                            <button type ="submit" id="btnCloseStatus">Đóng</button>
+                        </div>
+                        <div id="bot"></div>
+                        
                 </div>
             </div>
         </form>
-        
+        <script src="./order_detail.js"></script>
       <script src="./detail.js"></script>
     </div>
     

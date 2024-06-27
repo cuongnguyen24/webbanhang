@@ -61,7 +61,7 @@
     margin-right: 10px
 }
 #order_code{
-    color: #765341;
+    color: #ffffff;
     margin-left: 10px;
 }
 .left .element_1st .right .status{
@@ -125,6 +125,7 @@
     justify-content: center;
     align-items: center;
     background-color: #e1c3b6;
+    color: white;
 }
 .left .element_2nd .content{
     display: flex;
@@ -180,6 +181,7 @@
     font-family: arial;
     font-weight: 550;
     height: 30px;
+    color: white;
 }
 .right .element_1st .content {
     display: flex;
@@ -208,6 +210,7 @@
     font-weight: 550;
     height: 30px;
     background-color: #e1c3b6;
+    color: white;
 }
 .right .element_2nd .top{
     display: flex;
@@ -259,7 +262,7 @@
     display: flex;
     width: 400px;
     height: 50px;
-    background-color: #c1a69a;
+    background-color: #e1c3b6;
     justify-content: center;
     align-items: center;
     color: white;
@@ -270,7 +273,7 @@
 /* sửa trạng thái đơn hàng */
 #status_edit{
     width: 300px;
-    height: 130px;
+    height: 150px;
     background-color: #ffffff;
     position: fixed;
     top: 20%;
@@ -315,5 +318,24 @@
     margin: 0 auto;
     margin-top: 20px;
 }
-
+#btnCloseStatus{
+    cursor: pointer;
+    margin-top: 20px;
+    width: 100px;
+    height: 30px;
+    border-radius: 10px;
+    background-color: #8f8d8d;
+    color: #ffffff;
+    margin: 0 auto;
+    margin-top: 20px;
+}
+.flex_button{
+    display: flex;
+    justify-content: center;
+    margin-bottom: 10px;
+}
+#bot{
+    background-color: transparent;
+    height: 10px;
+}
 

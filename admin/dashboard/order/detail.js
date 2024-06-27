@@ -1,8 +1,8 @@
 document.getElementById('status_button').addEventListener("click",function(){
-    var order_detail = document.getElementById('status_edit');
-    if (order_detail.style.display === "none"){
-        order_detail.style.display = "block";
+    var status_edit = document.getElementById('status_edit');
+    if (status_edit.style.display === "none"){
+        status_edit.style.display = "block";
     }else {
-        order_detail.style.display = "none";
+        status_edit.style.display = "none";
     }
 })

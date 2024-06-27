@@ -94,9 +94,14 @@
                 </div>
                 <!-- search_html -->
                 <div class="search">
+                    
+                <label >Tìm kiếm đơn hàng</label>
                     <form method="POST" action="" id="search_form">
-                        <input type="text" name="txtSearch" id="txtSearch" placeholder="   Tìm họ tên nhân viên">
-                        <button name="btnSearch" id="btnSearch" ><i class="fa-solid fa-magnifying-glass"></i></button>
+                        <label id="tungay">Từ ngày: </label>
+                        <input type="date" name="start_date" id="start_date" placeholder="Từ ngày">
+                        <label >Đến ngày: </label>
+                        <input type="date" name="end_date" id="end_date" placeholder="Đến ngày">
+                        <button name="btnSearch" id="btnSearch" title="Tìm danh sách đơn hàng theo ngày"><i class="fa-solid fa-filter"></i></i></button>
                     </form>
                 </div>
                 <div class="aaaa"></div>
@@ -120,7 +125,23 @@
                         <tbody>
                             <?php
                             $num = 1;
+                            $start_date = isset($_POST['start_date']) ? $_POST['start_date'] : '';
+                            $end_date = isset($_POST['end_date']) ? $_POST['end_date'] : '';
                             $sql = "SELECT * FROM donhang";
+                            $conditions = [];
+                            // dùng mảng để lưu trữ ngày
+                            if (!empty($start_date)) {
+                                $conditions[] = "ngayLapDon >= '$start_date'";
+                                // nếu chỉ nhập ngày bắt đầu thì tìm từ ngày đó đi
+                            }
+                            if (!empty($end_date)) {
+                                $conditions[] = "ngayLapDon <= '$end_date'";
+                                 // nếu chỉ nhập ngày kết thúc thì tìm từ ngày trở lại
+                            }
+                            if (count($conditions) > 0) {
+                                $sql .= " WHERE " . implode(' AND ', $conditions);
+                            }
+                            
                             $result = mysqli_query($conn, $sql);
                             if (mysqli_num_rows($result) > 0) {
                                 while ($row = mysqli_fetch_assoc($result)) {
@@ -233,7 +254,6 @@
                                     <?php
                                 }
                             } else {
-                                echo "Không có dữ liệu";
                             }
                             ?>
                         </tbody>
