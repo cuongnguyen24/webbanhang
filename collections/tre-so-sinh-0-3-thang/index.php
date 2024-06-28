@@ -1,7 +1,7 @@
 
 <?php
 session_start();
-$username = $_SESSION["username"]; // Lấy tên tài khoản từ session
+// $username = $_SESSION["username"]; // Lấy tên tài khoản từ session
 require_once ($_SERVER['DOCUMENT_ROOT'] .'/webbanhang/admin/connect.php');
 
 // Lấy dữ liệu từ CSDL
@@ -22,17 +22,17 @@ if (mysqli_num_rows($result) > 0) {
 }
 
 // Lấy maKhachHang theo bảng taikhoan dựa vào username
-$sql_get_khachHang = "SELECT khachhang.maKhachHang FROM khachhang 
-                    INNER JOIN taikhoan ON khachhang.maTaiKhoan = taikhoan.maTaiKhoan
-                    WHERE tenTaiKhoan = '$username'";
-$result_maKhachHang = mysqli_query($conn, $sql_get_khachHang);
-if (mysqli_num_rows($result_maKhachHang) > 0) {
-    $row_maKhachHang = mysqli_fetch_assoc($result_maKhachHang); // Sửa tên biến từ $result_maKhachHang thành $row_maKhachHang
-    $maKhachHang = $row_maKhachHang['maKhachHang'];
-} else {
-    // Xử lý khi không tìm thấy tên tài khoản (username) trong bảng taikhoan
-    die("Không tìm thấy tên tài khoản trong CSDL");
-}
+// $sql_get_khachHang = "SELECT khachhang.maKhachHang FROM khachhang 
+//                     INNER JOIN taikhoan ON khachhang.maTaiKhoan = taikhoan.maTaiKhoan
+//                     WHERE tenTaiKhoan = '$username'";
+// $result_maKhachHang = mysqli_query($conn, $sql_get_khachHang);
+// if (mysqli_num_rows($result_maKhachHang) > 0) {
+//     $row_maKhachHang = mysqli_fetch_assoc($result_maKhachHang); // Sửa tên biến từ $result_maKhachHang thành $row_maKhachHang
+//     $maKhachHang = $row_maKhachHang['maKhachHang'];
+// } else {
+//     // Xử lý khi không tìm thấy tên tài khoản (username) trong bảng taikhoan
+//     die("Không tìm thấy tên tài khoản trong CSDL");
+// }
 
 ?>
 

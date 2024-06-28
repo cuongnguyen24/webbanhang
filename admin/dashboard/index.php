@@ -183,15 +183,31 @@ if ($result) {
 }
 
 // Lấy tổng sp đã bán lấy theo tình trạng đã duyệt = 2, liên quan đến chi tiết đơn hàng
-$sql = "SELECT sanpham.maSanPham, sanpham.tenSanPham, SUM(chitietdonhang.soLuong) as soLuongSPDaBan
-        FROM donhang
-        INNER JOIN chitietdonhang ON donhang.maDonHang = chitietdonhang.maDonHang
-        INNER JOIN sanpham ON chitietdonhang.maSanPham = sanpham.maSanPham
-        WHERE donhang.tinhTrang NOT IN (1, 5, 6, 7)
-        GROUP BY sanpham.maSanPham, sanpham.tenSanPham
-        ORDER BY soLuongSPDaBan DESC
-        LIMIT 5
-        ";
+$sql =
+    "WITH soLuongBan AS (
+    SELECT sanpham.maSanPham, sanpham.tenSanPham, SUM(chitietdonhang.soLuong) AS soLuongSPDaBan
+    FROM donhang
+    INNER JOIN chitietdonhang ON donhang.maDonHang = chitietdonhang.maDonHang
+    INNER JOIN sanpham ON chitietdonhang.maSanPham = sanpham.maSanPham
+    WHERE donhang.tinhTrang NOT IN (1, 5, 6, 7)
+    GROUP BY sanpham.maSanPham, sanpham.tenSanPham
+    ORDER BY soLuongSPDaBan DESC
+    LIMIT 5
+),
+tongSoLuong AS (
+    SELECT maSanPham, SUM(soLuong) AS tongSoLuong
+    FROM sizesanpham
+    GROUP BY maSanPham
+)
+SELECT
+    soLuongBan.maSanPham,
+    soLuongBan.tenSanPham,
+    soLuongBan.soLuongSPDaBan,
+    tongSoLuong.tongSoLuong - soLuongBan.soLuongSPDaBan AS soLuongTonKho
+FROM soLuongBan
+INNER JOIN tongSoLuong ON soLuongBan.maSanPham = tongSoLuong.maSanPham
+ORDER BY soLuongBan.soLuongSPDaBan DESC
+";
 $result_topSP = mysqli_query($conn, $sql);
 
 
@@ -365,12 +381,13 @@ $result_topSP = mysqli_query($conn, $sql);
                                 $maSpBanChay = $row['maSanPham'];
                                 $tenSpBanChay = $row['tenSanPham'];
                                 $soLuongSpBanChay = $row['soLuongSPDaBan'];
+                                $soLuongTonKho = $row['soLuongTonKho'];
                         ?>
                                 <tr>
                                     <td><?php echo $tenSpBanChay; ?></td>
                                     <td><?php echo $maSpBanChay; ?></td>
                                     <td><?php echo $soLuongSpBanChay; ?></td>
-                                    <td class="warning">2500</td>
+                                    <td class="warning"><?php echo $soLuongTonKho; ?></td>
                                     <td class="primary"><a href="">Chi tiết</a></td>
                                 </tr>
                         <?php
