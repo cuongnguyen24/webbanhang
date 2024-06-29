@@ -20,10 +20,9 @@ if (mysqli_num_rows($result_maKhachHang) > 0) {
     $maKhachHang = $row_maKhachHang['maKhachHang'];
 
     // Lấy thông tin sản phẩm trong giỏ hàng của khách hàng từ bảng giohang
-    $sql_cart = "SELECT giohang.*, sanpham.tenSanPham, sanpham.giaBan, anhSanPham.duongDanAnh, size.tenSize 
+    $sql_cart = "SELECT giohang.*, sanpham.tenSanPham, sanpham.giaBan, sanpham.duongDanAnhChung, size.tenSize 
                  FROM giohang 
                  INNER JOIN sanpham ON giohang.maSanPham = sanpham.maSanPham 
-                 INNER JOIN anhSanPham ON sanpham.maSanPham = anhSanPham.maSanPham 
                  INNER JOIN size ON giohang.maSize = size.maSize 
                  WHERE giohang.maKhachHang = '$maKhachHang'";
     $result_cart = mysqli_query($conn, $sql_cart);
@@ -74,7 +73,7 @@ $_SESSION['totalProducts'] = $totalProducts; // Lưu giá trị vào session
                     <?php if (!empty($cart)) : ?>
                         <?php foreach ($cart as $item) : ?>
                             <div class="cart-item">
-                                <img src="<?php echo $item['duongDanAnh']; ?>" alt="img <?php echo $item['tenSanPham']; ?>">
+                                <img src="<?php echo $item['duongDanAnhChung']; ?>" alt="img <?php echo $item['tenSanPham']; ?>">
                                 <div class="item-details">
                                     <h2><?php echo $item['tenSanPham']; ?></h2>
                                     <p>Giá: <?php echo number_format($item['giaBan'], 0, ',', '.'); ?> VND</p>
