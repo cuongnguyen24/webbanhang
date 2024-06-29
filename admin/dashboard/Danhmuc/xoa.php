@@ -22,7 +22,7 @@
     } 
     $query1 = "select * from sanpham where maDanhMuc = '$maDanhMuc'";
     $result1 = mysqli_query($conn, $query1);
-    if(mysqli_num_rows($resul1)>0)
+    if(mysqli_num_rows($result1)>0)
     {
         while ($row = mysqli_fetch_assoc($result1)){
             $maSanPham= $row['maSanPham'];

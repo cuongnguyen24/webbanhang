@@ -61,14 +61,21 @@
             $query="INSERT INTO danhmuc VALUES('".$maDanhMuc."', '".$tenDanhMuc."','".$url."','".$danhMucCha."','".$vitri."')"; 
             $result= mysqli_query($conn, $query);
             if($result>0)
-                echo 'Thêm mới thành công';
+            echo '<script>
+                alert("Thêm thành công");
+                window.location.href = "./index.php";
+            </script>';
             else 
-                echo 'Lỗi thêm mới';
+            echo '<script>
+                alert("Thêm thất bại");
+                window.location.href = "./index.php";
+            </script>';
             }
             }
 ?>
 <!DOCTYPE html>
 <html lang="en">
+    
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
