@@ -108,7 +108,6 @@
                 $email = $_POST['txtEmail'];
                 $soDienThoai = $_POST['txtSoDienThoai'];
                 $ghiChu = $_POST['txtGhiChu'];
-
                 // Xử lý ngày sinh
                 $ngaySinh = date('Y-m-d', strtotime(str_replace('/', '-', $_POST['txtNgaySinh'])));
 
@@ -117,12 +116,17 @@
                     echo "<script>alert('Các trường dữ liệu không được để trống'); history.back();</script>";
                     return;
                 }
+                $emailBanDau = $row['email'];
+                $emailMoi = $_POST['txtEmail'];
                 // Kiểm tra trùng email
-                $checkEmailQuery = "SELECT * FROM nhanvien WHERE email = '$email'";
-                $checkEmailResult = mysqli_query($conn, $checkEmailQuery);
-                if ($checkEmailResult && mysqli_num_rows($checkEmailResult) > 0) {
-                    echo "<script>alert('Email đã tồn tại trong hệ thống! Vui lòng nhập email khác.'); history.back();</script>";
-                    return;
+                if ($emailMoi != $emailBanDau) {
+                    // Kiểm tra xem email mới đã tồn tại chưa
+                    $checkEmailQuery = "SELECT * FROM nhanvien WHERE email = '$emailMoi' AND email != '$emailBanDau'";
+                    $checkEmailResult = mysqli_query($conn, $checkEmailQuery);
+                    if ($checkEmailResult && mysqli_num_rows($checkEmailResult) > 0) {
+                        echo "<script>alert('Email đã tồn tại!'); history.back();</script>";
+                        exit;
+                    }
                 }
                 // Kiểm tra email
                 $emailDomain = substr($email, -10);
@@ -136,27 +140,29 @@
                     echo "<script>alert('Số điện thoại phải có từ 9 đến 11 chữ số!'); history.back();</script>";
                     return;
                 }
+                $hoTenBanDau = $row['hoTen'];
+                $hoTenMoi = $_POST['txtHoTen'];
                 // Kiểm tra tên nhân viên đã tồn tại hay chưa
-                $checkQuery = "SELECT * FROM nhanvien WHERE hoTen = '$hoTen'";
-                $checkResult = mysqli_query($conn, $checkQuery);
+                if ($hoTenMoi != $hoTenBanDau) {
+                    $checkHoTenQuery = "SELECT * FROM nhanvien WHERE hoTen = '$hoTenMoi'";
+                    $checkHoTenResult = mysqli_query($conn, $checkHoTenQuery);
+                    if ($checkHoTenResult && mysqli_num_rows($checkHoTenResult) > 0) {
+                        echo "<script>alert('Tên nhân viên đã tồn tại trong hệ thống! Vui lòng nhập tên nhân viên khác.'); history.back();</script>";
+                        exit;
+                    }
+                }
+                $tenTaiKhoanMoi = $_POST['txtTenTaiKhoan'];
+                $tenTaiKhoanBanDau = $row['tenTaiKhoan'];
+                // Nếu tên tài khoản mới khác tên tài khoản ban đầu
+                if ($tenTaiKhoanMoi != $tenTaiKhoanBanDau) {
+                    // Kiểm tra xem tên tài khoản mới đã tồn tại trong bảng taikhoan hay chưa
+                    $checkAccountQuery = "SELECT * FROM taikhoan WHERE tenTaiKhoan = '$tenTaiKhoanMoi'";
+                    $checkAccountResult = mysqli_query($conn, $checkAccountQuery);
 
-                if ($checkResult && mysqli_num_rows($checkResult) > 0) {
-                    echo "<script>alert('Tên nhân viên đã tồn tại trong hệ thống! Vui lòng nhập tên nhân viên khác.'); history.back();</script>";
-                    return;
-                }
-                // Kiểm tra tên tài khoản đã tồn tại trong bảng taikhoan
-                $checkAccountQuery = "SELECT * FROM taikhoan WHERE tenTaiKhoan = '$tenTaiKhoan'";
-                $checkAccountResult = mysqli_query($conn, $checkAccountQuery);
-                if ($checkAccountResult && mysqli_num_rows($checkAccountResult) > 0) {
-                    echo "<script>alert('Tên tài khoản đã tồn tại trong hệ thống! Vui lòng nhập thông tin khác.'); history.back();</script>";
-                    return;
-                }
-                // Kiểm tra trùng mã tài khoản
-                $checkAccountQuery = "SELECT * FROM taikhoan WHERE maTaiKhoan = '$maTaiKhoan'";
-                $checkAccountResult = mysqli_query($conn, $checkAccountQuery);
-                if ($checkAccountResult && mysqli_num_rows($checkAccountResult) > 0) {
-                    echo "<script>alert('Mã tài khoản đã tồn tại! Vui lòng nhập mã khác.'); history.back();</script>";
-                    return;
+                    if ($checkAccountResult && mysqli_num_rows($checkAccountResult) > 0) {
+                        echo "<script>alert('Tên tài khoản đã tồn tại trong hệ thống! Vui lòng nhập thông tin khác.'); history.back();</script>";
+                        return;
+                    }
                 }
                 //check trùng mã nhân viên
                 $maNhanVienBanDau = $row['maNhanVien'];
@@ -164,34 +170,52 @@
                 // Kiểm tra xem mã nhân viên mới có khác mã nhân viên ban đầu không
                 if ($maNhanVienMoi != $maNhanVienBanDau) {
                     // Kiểm tra xem mã nhân viên mới đã tồn tại chưa
-                    $checkQuery = "SELECT * FROM nhanvien WHERE maNhanVien = '$maNhanVienMoi' AND maNhanVien != '$maNhanVienBanDau'";
+                    $checkQuery = "SELECT * FROM nhanvien WHERE maNhanVien = '$maNhanVienMoi'";
                     $checkResult = mysqli_query($conn, $checkQuery);
                     if ($checkResult && mysqli_num_rows($checkResult) > 0) {
-                        echo "<script>alert('Mã nhân viên đã tồn tại!'); history.back();</script>";
+                        echo "<script>alert('Mã nhân viên đã tồn tại trong hệ thống! Vui lòng nhập mã nhân viên khác.'); history.back();</script>";
                         exit;
+                    }
+                }
+                // Kiểm tra và bắt lỗi trùng mã tài khoản
+                $maTaiKhoanMoi = $_POST['txtMaTaiKhoan'];
+                $maTaiKhoanBanDau = $row['maTaiKhoan'];
+                if ($maTaiKhoanMoi != $maTaiKhoanBanDau) {
+                    // Truy vấn kiểm tra mã tài khoản mới
+                    $checkAccountCodeQuery = "SELECT * FROM taikhoan WHERE tenTaiKhoan = '$tenTaiKhoanMoi'";
+                    $checkAccountCodeResult = mysqli_query($conn, $checkAccountCodeQuery);
+                    if ($checkAccountCodeResult && mysqli_num_rows($checkAccountCodeResult) > 0) {
+                        echo "<script>alert('Mã tài khoản đã tồn tại trong hệ thống! Vui lòng nhập thông tin khác.'); history.back();</script>";
+                        return;
                     }
                 }
                 // Kiểm tra và cập nhật thông tin tài khoản trong bảng taikhoan
                 $checkTaiKhoanQuery = "SELECT * FROM taikhoan WHERE maTaiKhoan = '$maTaiKhoan'";
                 $checkTaiKhoanResult = mysqli_query($conn, $checkTaiKhoanQuery);
-            
+
+                if (!$checkTaiKhoanResult) {
+                    echo "<script>alert('Lỗi kiểm tra tài khoản: " . mysqli_error($conn) . "'); history.back();</script>";
+                    exit;
+                }
+
                 if (mysqli_num_rows($checkTaiKhoanResult) == 0) {
                     // Nếu mã tài khoản không tồn tại, thêm mới vào bảng taikhoan
                     $insertTaiKhoanQuery = "INSERT INTO taikhoan (maTaiKhoan, tenTaiKhoan, matKhau, maPhanQuyen)
-                                           VALUES ('$maTaiKhoan', '$tenTaiKhoan', '$matKhau', '$maPhanQuyen')";
+                                        VALUES ('$maTaiKhoan', '$tenTaiKhoan', '$matKhau', '$maPhanQuyen')";
                     if (!mysqli_query($conn, $insertTaiKhoanQuery)) {
                         echo "<script>alert('Thêm mới tài khoản thất bại: " . mysqli_error($conn) . "');</script>";
                         return;
-                    }
+                    } 
                 } else {
                     // Nếu mã tài khoản đã tồn tại, cập nhật thông tin tài khoản
                     $updateTaiKhoanQuery = "UPDATE taikhoan SET tenTaiKhoan = '$tenTaiKhoan', matKhau = '$matKhau', maPhanQuyen = '$maPhanQuyen'
-                                           WHERE maTaiKhoan = '$maTaiKhoan'";
+                                        WHERE maTaiKhoan = '$maTaiKhoan'";
                     if (!mysqli_query($conn, $updateTaiKhoanQuery)) {
                         echo "<script>alert('Cập nhật tài khoản thất bại: " . mysqli_error($conn) . "');</script>";
                         return;
                     }
                 }
+
                 // Cập nhật thông tin nhân viên trong bảng nhanvien
                 $sqlNhanVien = "UPDATE nhanvien SET maNhanVien = '$maNhanVien', maTaiKhoan = '$maTaiKhoan', hoTen = '$hoTen', ngaySinh = '$ngaySinh', diaChi = '$diaChi',
                                 gioiTinh = '$gioiTinh', email = '$email', soDienThoai = '$soDienThoai', ghiChu = '$ghiChu'
@@ -253,7 +277,6 @@
                                     <option value="3">Nhân viên</option>
                                 </select>
                             </div>
-                            
                         </div>
                         <div class="attribute">
                             <label>Họ tên</label>

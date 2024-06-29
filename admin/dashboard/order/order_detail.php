@@ -81,7 +81,7 @@
          <!-- MAIN -->
         <main>
             
-<?php
+        <?php
             include_once("../../connect.php");
             ?>
             <!-- main__layout -->
@@ -95,12 +95,16 @@
                 </div>
                 <!-- search_html -->
                 <div class="search">
+                <label >Tìm kiếm đơn hàng</label>
                     <form method="POST" action="" id="search_form">
-                        <input type="text" name="txtSearch" id="txtSearch" placeholder="   Tìm họ tên nhân viên">
-                        <button name="btnSearch" id="btnSearch" ><i class="fa-solid fa-magnifying-glass"></i></button>
+                        <label id="tungay">Từ ngày: </label>
+                        <input type="date" name="start_date" id="start_date" placeholder="Từ ngày">
+                        <label >Đến ngày: </label>
+                        <input type="date" name="end_date" id="end_date" placeholder="Đến ngày">
+                        <button name="btnSearch" id="btnSearch" title="Tìm danh sách đơn hàng theo ngày"><i class="fa-solid fa-filter"></i></i></button>
                     </form>
                 </div>
-                
+                <div class="aaaa"></div>
                 <div class="wrapper" id="tblQLTK" style="display: <?php echo isset($_POST['btnSearch']) && !empty($_POST['txtSearch']) ? 'none' : 'block'; ?>">
                 <!-- table -->
                 <table>
@@ -240,9 +244,9 @@
                         </tbody>
                     </table>
                 </div>
-                <div id="order_detail">
-                    aaa
-                </div>
+                <?php
+                    require_once 'detail.php';
+                ?>
                 <script src="./order_detail.js"></script>
         </main>
     </div>
