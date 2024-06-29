@@ -198,8 +198,39 @@
                 echo 'Thêm mới thành công';
             else 
                 echo 'Lỗi thêm mới';
-        }
+
+                $foldername = $chitietsp;
+                $dir = $_SERVER['DOCUMENT_ROOT']  . $foldername ;
+    
+                $file_to_write = 'index.php';
+                $content_to_write = file($_SERVER["DOCUMENT_ROOT"] . '\webbanhang\admin\dashboard\products\create-product.txt');
+                
+                echo $dir . '/' .$file_to_write;
+                if( is_dir($dir) === false )
+                {
+                    mkdir($dir,0777,true);
+                }
+    
+                $file = fopen($dir . '/' . $file_to_write,"w");
+    
+                // a different way to write content into
+                // fwrite($file,"Hello World.");
+                foreach ($content_to_write as $line) {
+                    fwrite($file, $line);
+                }
             
+                
+                
+                // closes the file
+                fclose($file);
+    
+                // this will show the created file from the created folder on screen
+                include $dir . '/' . $file_to_write;
+    
+        }
+           
+            
+
     }
 ?>
 <!DOCTYPE html>
@@ -251,7 +282,7 @@
                     <h3>Đơn hàng</h3>
                 </a>
 
-                <a href="../Nhacungcap/" class="active">
+                <a href="../Nhacungcap/" class="">
                     <i class="fa-solid fa-clipboard"></i>
                     <h3>Nhà cung cấp</h3>
                 </a>
@@ -262,7 +293,7 @@
                     <span class="message-count">26</span>
                 </a>
 
-                <a href="../products/" class="">
+                <a href="../products/" class="active">
                     <i class="fa-solid fa-shop"></i>
                     <h3>Sản phẩm</h3>
                 </a>
@@ -413,6 +444,7 @@
             var textInput = document.getElementById(checkboxId + '_text');
             textInput.disabled = !checkbox.checked;
         }
+        
 </script>
 <script>
         function convertToSlug(str) {
