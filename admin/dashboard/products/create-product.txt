@@ -149,8 +149,7 @@
                                                     echo "Không có kết quả";
                                                     }
                                                     
-                                                    
-                                                    mysqli_close($conn);
+                                                  
                                                 
                                                 ?>
                                             </div>
