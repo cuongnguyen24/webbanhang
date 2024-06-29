@@ -263,26 +263,14 @@ $result_topSP = mysqli_query($conn, $sql);
                 <a href="./Danhmuc/" class="">
                     <i class="fa-regular fa-envelope"></i>
                     <h3>Danh mục</h3>
-                    <span class="Message-count">26</span>
+                    
                 </a>
 
                 <a href="./products/" class="">
                     <i class="fa-solid fa-shop"></i>
                     <h3>Sản phẩm</h3>
                 </a>
-                <a href="./report/" class="">
-                    <i class="fa-solid fa-exclamation"></i>
-                    <h3>Báo cáo</h3>
-                </a>
-                <a href="./settings/" class="">
-                    <i class="fa-solid fa-gear"></i>
-                    <h3>Cài đặt</h3>
-                </a>
-                <a href="">
-                    <i class="fa-solid fa-plus"></i>
-                    <h3>Thêm sản phẩm</h3>
-                </a>
-                <a href="../accountadmin.php" target="_self">
+                <a href="/webbanhang/admin/accountadmin.php" target="_self">
                     <i class="fa-solid fa-right-from-bracket"></i>
                     <h3>Quay lại</h3>
                 </a>
@@ -408,8 +396,8 @@ $result_topSP = mysqli_query($conn, $sql);
                     <i class="fa-solid fa-bars"></i>
                 </button>
                 <div class="theme-toggler">
-                    <i class="fa-regular fa-sun active"></i>
-                    <i class="fa-solid fa-moon"></i>
+                    <i class="fa-regular fa-sun active" id="lightModeToggle"></i>
+                    <i class="fa-solid fa-moon" id="darkModeToggle"></i>
                 </div>
                 <div class="profile">
                     <div class="info">
