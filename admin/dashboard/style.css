@@ -38,7 +38,6 @@
     margin: 0;
     padding: 0;
     outline: 0;
-    appearance: none;
     border: 0;
     text-decoration: none;
     list-style: none;
@@ -105,9 +104,9 @@ small {
     overflow: hidden;
 }
 
-.text-muted {
+/* .text-muted {
     color: var(--color-info-dark);
-}
+} */
 
 p {
     color: var(--color-dark-variant);
@@ -221,7 +220,7 @@ aside .sidebar a:hover i {
     margin-left: 1rem;
 }
 
-aside .sidebar .Message-count {
+aside .sidebar .message-count {
     background: var(--color-danger);
     color: var(--color-white);
     padding: 2px 10px;
