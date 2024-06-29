@@ -120,7 +120,7 @@
                                 while ($row = mysqli_fetch_assoc($result)) {
                                     $gioiTinh = ($row['gioiTinh'] == 1) ? 'Nam' : 'Nữ';
                                     $formattedNgaySinh = date('d/m/Y', strtotime($row['ngaySinh']));
-                                    if ($row['maPhanQuyen'] == 3){
+                                    if ($row['maPhanQuyen'] == 2){
                                         $maPhanQuyen = 'Nhân viên';
                                     }
                                     ?>
