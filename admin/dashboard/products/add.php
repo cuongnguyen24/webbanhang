@@ -309,7 +309,7 @@
                     <i class="fa-solid fa-plus"></i>
                     <h3>Thêm sản phẩm</h3>
                 </a>
-                <a href="/websiteechcom/admin/accountadmin.php" target="_self">
+                <a href="/webbanhang/admin/accountadmin.php" target="_self">
                     <i class="fa-solid fa-right-from-bracket"></i>
                     <h3>Quay lại</h3>
                 </a>
