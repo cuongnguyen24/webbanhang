@@ -115,7 +115,8 @@
                             $num = 1;
                             $start_date = isset($_POST['start_date']) ? $_POST['start_date'] : '';
                             $end_date = isset($_POST['end_date']) ? $_POST['end_date'] : '';
-                            $sql = "SELECT * FROM donhang";
+                            $sql = "SELECT *
+                            FROM donhang";
                             $conditions = [];
                             // dùng mảng để lưu trữ ngày
                             if (!empty($start_date)) {
@@ -217,7 +218,7 @@
                                         <td><?php echo $row['maKhachHang'] ?></td>
                                         <td><?php echo $formattedNgayLapDon ?></td>
                                         <td>
-                                            <a id="detail_button" title="Xem chi tiết đơn hàng" href="/webbanhang/admin/dashboard/order/order_detail.php?smdh=<?php echo $row['maDonHang'] ?> ">
+                                            <a id="detail_button" title="Xem chi tiết đơn hàng" href="/webbanhang/admin/dashboard/order/order_detail.php?smdh=<?php echo $row['maDonHang'] ?>">
                                                 <i class="fa-solid fa-eye"></i>
                                             </a>
                                         </td>
