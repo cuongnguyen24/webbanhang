@@ -15,8 +15,9 @@ main{
     overflow-x: auto;
     overflow-x: hidden;
     width: auto;
-    max-height: 500px;
+    max-height: 400px;
     width: 1240px;
+    z-index: 9999;
 }
 #title_form{
     color: #ca877e;
