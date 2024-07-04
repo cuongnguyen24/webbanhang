@@ -98,7 +98,7 @@
                     require_once './admin/connect.php';  
                     $query="select * from danhmuc where danhMucCha=-1";
                     $result = mysqli_query($conn,$query);
-                    $path = "collections/";
+                    $path = "";
                     if(mysqli_num_rows($result)>0)
                     {                       
                         while($rows= mysqli_fetch_assoc($result)){  
