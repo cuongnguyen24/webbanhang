@@ -199,6 +199,7 @@
             $query1="UPDATE sanpham SET duongDanAnhChung='".$duongdanchung." 'where maSanPham='".$id."'"; 
             mysqli_query($conn, $query1);
             if($result>0)
+
             {
                 echo '<script>
                     alert("Thêm thành công");
@@ -211,10 +212,12 @@
                 $content_to_write = file($_SERVER["DOCUMENT_ROOT"] . '\webbanhang\admin\dashboard\products\create-product.txt');
                 
                 echo '<br>' .$dir .$file_to_write;
+
                 if( is_dir($dir) === false )
                 {
                     mkdir($dir,0777,true);
                 }
+
 
                 $file = fopen($dir . '/' . $file_to_write,"w");
 
@@ -237,7 +240,7 @@
                     window.location.href = "./index.php";
                 </script>';
 
-            
+        
         }
            
             
@@ -320,7 +323,7 @@
                     <i class="fa-solid fa-plus"></i>
                     <h3>Thêm sản phẩm</h3>
                 </a>
-                <a href="/websiteechcom/admin/accountadmin.php" target="_self">
+                <a href="/webbanhang/admin/accountadmin.php" target="_self">
                     <i class="fa-solid fa-right-from-bracket"></i>
                     <h3>Quay lại</h3>
                 </a>
