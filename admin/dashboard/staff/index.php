@@ -132,7 +132,7 @@
                                 while ($row = mysqli_fetch_assoc($result)) {
                                     $gioiTinh = ($row['gioiTinh'] == 1) ? 'Nam' : 'Nữ';
                                     $formattedNgaySinh = date('d/m/Y', strtotime($row['ngaySinh']));
-                                    if ($row['maPhanQuyen'] == 3){
+                                    if ($row['maPhanQuyen'] == 2){
                                         $maPhanQuyen = 'Nhân viên';
                                     }
                                     ?>
@@ -213,8 +213,8 @@
                                             <td><?php echo $row['soDienThoai'] ?></td>
                                             <td><?php echo $row['ghiChu'] ?></td>
                                             <td class="act__button">
-                                                <a href="/webbanhang/admin/dashboard/staff/edit.php?smnv=<?php echo $row['maNhanVien'] ?>" class="button-link" id="edit"><i class="fa-solid fa-pen-to-square"></i></a>
-                                                <a onclick="return confirm('Bạn có muốn xóa không ?')" href="delete_account_manage.php?smnv=<?php echo $row['maNhanVien'] ?>" class="button-link" id="delete_button"><i class="fa-solid fa-trash"></i></a>
+                                            <a href="/webbanhang/admin/dashboard/staff/edit.php?smnv=<?php echo $row['maNhanVien'] ?>" class="button-link" id="edit"><i class="fa-solid fa-pen-to-square"></i></a>
+                                            <a onclick="return confirm('Bạn có muốn xóa không ?')" href="/webbanhang/admin/dashboard/staff/delete.php?smnv=<?php echo $row['maNhanVien'] ?>&smtaikhoan=<?php echo $row['maTaiKhoan'] ?>" class="button-link" id="delete_button"><i class="fa-solid fa-trash"></i></a>
                                             </td>
                                         </tr>
                                         <?php

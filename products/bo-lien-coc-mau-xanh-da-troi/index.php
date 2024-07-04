@@ -18,7 +18,6 @@
         
         include ($_SERVER['DOCUMENT_ROOT'] . '/webbanhang/collections/includes/login.php');
         include($_SERVER['DOCUMENT_ROOT'] . '/webbanhang/collections/includes/header.php');
-        
     ?>
     <div class="main-layout">
         <div class="collection template-collection">
@@ -68,12 +67,16 @@
                             </div>
                             </div>
                         </div>
+                        <?php
+                            if (isset($_POST['setWishlist'])) {
+                            }
+                        ?>
                         <div class="productWrapRight">
                             <div class="productWrapDetail">
                                 <div class="productWrapDetailTitle">
                                     <h1 class="productTitle">Bộ liền cộc màu xanh da trời</h1>
                                     <div class="productWishlist"> 
-                                        <a href="/pages/wishlist" class="setWishlist" data-handle="bo-lien-coc-mau-xanh-da-troi"><i class="fa-regular fa-heart"></i></a>
+                                        <a href="../../user/wishlist.php" class="setWishlist" data-handle="bo-lien-coc-mau-xanh-da-troi"><i class="fa-regular fa-heart"></i></a>
                                         <span>Thêm vào yêu thích</span>
                                     </div>
                                 </div>

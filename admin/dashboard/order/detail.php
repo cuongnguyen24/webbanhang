@@ -8,7 +8,6 @@
     $result = mysqli_query($conn, $sql);
     if ($result && mysqli_num_rows($result) > 0) {
         $row = mysqli_fetch_assoc($result);
-
     } else {
         echo "<script>alert('Không tìm thấy chi tiết đơn hàng'); history.back();</script>";
         exit;
@@ -104,6 +103,7 @@
                                 <th>ID</th>
                                 <th>Mã Đơn Hàng</th>
                                 <th>Mã Sản Phẩm</th>
+                                <th>Mã Size</th>
                                 <th>Số Lượng</th>
                                 <th>Đơn Giá</i></th>
                                 <th>Thành tiền</th>
@@ -122,6 +122,7 @@
                                                 <td><?php echo ($num_detail++) ?></td>
                                                 <td><?php echo $maDonHang ?></td>
                                                 <td><?php echo $row_table['maSanPham'] ?></td>
+                                                <td><?php echo $row_table['maSize'] ?></td>
                                                 <td><?php echo $row_table['soLuong'] ?></td>
                                                 <td><?php echo $row_table['donGia'] ?></td>
                                                 <td><?php echo $row_table['thanhTien'] ?></td>
@@ -248,15 +249,12 @@
         <?php
 if (isset($_POST['btnStatus'])) {
     $cboStatusOrder = $_POST['cboStatusOrder'];
-
     // Lấy trạng thái hiện tại của đơn hàng từ cơ sở dữ liệu
     $sqlGetStatus = "SELECT tinhTrang FROM donhang WHERE maDonHang = '$maDonHang'";
     $resultGetStatus = mysqli_query($conn, $sqlGetStatus);
-
     if (mysqli_num_rows($resultGetStatus) > 0) {
         $rowStatus = mysqli_fetch_assoc($resultGetStatus);
         $currentStatus = $rowStatus['tinhTrang'];
-
         // Kiểm tra nếu đơn hàng đang ở trạng thái "Đang giao" trở đi, không cho phép chuyển về trạng thái "Chờ xác nhận" hoặc "Chờ lấy hàng"
         if ($currentStatus >= 3 && $cboStatusOrder <= 2) {
             echo "<script>alert('Không thể chuyển đơn hàng về trạng thái chờ xác nhận hoặc chờ lấy hàng khi đang ở trạng thái đang giao trở đi');</script>";
@@ -266,16 +264,15 @@ if (isset($_POST['btnStatus'])) {
             if (mysqli_query($conn, $sqlStatus)) {
                 echo "<script>alert('Sửa trạng thái đơn hàng thành công');</script>";
                 echo "<script>window.history.back();</script>";
-
                 // Nếu cập nhật thành công và từ "Chờ lấy hàng" sang "Đang giao", thực hiện trừ số lượng sản phẩm
                 if ($currentStatus == 2 && $cboStatusOrder == 3) {
-                    // Lấy danh sách chi tiết đơn hàng và join với bảng sản phẩm để cập nhật số lượng
+                    // Lấy danh sách chi tiết đơn hàng và join với bảng size để cập nhật số lượng
                     $sqlUpdateQuantity = "
-                        UPDATE sanpham
-                        INNER JOIN chitietdonhang ON sanpham.maSanPham = chitietdonhang.maSanPham
-                        SET sanpham.soLuong = sanpham.soLuong - chitietdonhang.soLuong
-                        WHERE chitietdonhang.maDonHang = '$maDonHang' AND sanpham.soLuong > 0
-                    "; 
+                        UPDATE sizesanpham
+                        INNER JOIN chitietdonhang ON sizesanpham.maSanPham = chitietdonhang.maSanPham AND sizesanpham.maSize = chitietdonhang.maSize
+                        SET sizesanpham.soLuong = sizesanpham.soLuong - chitietdonhang.soLuong
+                        WHERE chitietdonhang.maSanPham = sizesanpham.maSanPham AND chitietdonhang.maSize = sizesanpham.maSize AND sizesanpham.soLuong > 0
+                    ";
                     mysqli_query($conn, $sqlUpdateQuantity);
                 }
             } else {
