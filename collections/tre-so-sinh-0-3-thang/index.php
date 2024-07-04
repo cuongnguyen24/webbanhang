@@ -4,14 +4,35 @@ session_start();
 // $username = $_SESSION["username"]; // Lấy tên tài khoản từ session
 require_once ($_SERVER['DOCUMENT_ROOT'] .'/webbanhang/admin/connect.php');
 
+
+// lấy mã danh mục theo link 
+
+
+
 // Lấy dữ liệu từ CSDL
 // GROUP_CONCAT - kết hợp tất cả các kích cỡ (size) của mỗi sản phẩm thành một chuỗi, ngăn cách bởi dấu phẩy
 //  ORDER BY size.tenSize sắp xếp các kích cỡ theo thứ tự tăng dần.
-$sql = "SELECT sanpham.*, GROUP_CONCAT(size.tenSize ORDER BY size.tenSize SEPARATOR ', ') as sizes
+
+// lấy tên danh mục dựa trên url 
+
+$URI = $_SERVER['REQUEST_URI'];
+                                    
+$query1 = "  SELECT * 
+            FROM danhmuc
+            WHERE url = '$URI' ";
+$result = mysqli_query($conn, $query1);
+$danhmuc = [];
+if (mysqli_num_rows($result) > 0) {
+    while ($row = mysqli_fetch_assoc($result)) {
+        $danhmuc[] = $row;
+    }
+}
+
+$madanhmuc = $danhmuc['maDanhMuc'];
+$sql = "SELECT *
         FROM sanpham
-        INNER JOIN sizesanpham ON sanpham.maSanPham = sizesanpham.maSanPham
-        INNER JOIN size ON sizesanpham.maSize = size.maSize
-        GROUP BY sanpham.maSanPham
+        INNER JOIN danhmuc ON sanpham.maDanhMuc = danhmuc.maDanhMuc
+        WHERE sanpham.maDanhMuc = $madanhmuc
 ";
 $result = mysqli_query($conn, $sql);
 $sanphams = [];
@@ -21,18 +42,6 @@ if (mysqli_num_rows($result) > 0) {
     }
 }
 
-// Lấy maKhachHang theo bảng taikhoan dựa vào username
-// $sql_get_khachHang = "SELECT khachhang.maKhachHang FROM khachhang 
-//                     INNER JOIN taikhoan ON khachhang.maTaiKhoan = taikhoan.maTaiKhoan
-//                     WHERE tenTaiKhoan = '$username'";
-// $result_maKhachHang = mysqli_query($conn, $sql_get_khachHang);
-// if (mysqli_num_rows($result_maKhachHang) > 0) {
-//     $row_maKhachHang = mysqli_fetch_assoc($result_maKhachHang); // Sửa tên biến từ $result_maKhachHang thành $row_maKhachHang
-//     $maKhachHang = $row_maKhachHang['maKhachHang'];
-// } else {
-//     // Xử lý khi không tìm thấy tên tài khoản (username) trong bảng taikhoan
-//     die("Không tìm thấy tên tài khoản trong CSDL");
-// }
 
 ?>
 
@@ -50,7 +59,7 @@ if (mysqli_num_rows($result) > 0) {
 <?php
         
         include ($_SERVER['DOCUMENT_ROOT'] . '/webbanhang/collections/includes/login.php');
-        include($_SERVER['DOCUMENT_ROOT'] . '/webbanhang/collections/includes/header.php');
+        include($_SERVER['DOCUMENT_ROOT'] . '/webbanhang/layout/header.php');
         
         ?>
     <div class="main-layout">
@@ -63,7 +72,7 @@ if (mysqli_num_rows($result) > 0) {
                         </li>
                         <li class="breadcrum-item active">
                             <span style="padding-right: 12px;">/</span>
-                            <span>Trẻ sơ sinh bộ dài tay</span>
+                            <span><?php echo $danhmuc['tenDanhMuc']?></span>
                         </li>
                         
                     </ol>
@@ -398,14 +407,20 @@ if (mysqli_num_rows($result) > 0) {
                         <div class="pro-loop">
                             <div class="pro-loop-wrap">
                                 <div class="pro-loop-image">
-                                    <a href="<?php echo $sanpham['chitietsp']; ?>" class="pro-loop-image-item">			
+                                    <a href="<?php echo $sanpham['chitietsp']; ?>" class="pro-loop-image-item">		
+                                        <?php
+                                             $q1="SELECT duongDanAnh from anhsanpham where maSanPham ='".$sanpham['maSanPham']."'";
+                                             $source = mysqli_query($conn,$q1);
+                                             $row1= mysqli_fetch_assoc($source);
+                                             
+                                        ?>	
                                         <picture>
-                                                <source srcset="<?php echo $sanpham['duongDanAnhChung']; ?>" data-srcset="<?php echo $sanpham['duongDanAnhChung']; ?>" media="(max-width: 767px)" alt="img <?php echo $sanpham['tenSanPham']; ?>">
-                                                <img class=" lazyloaded" src="<?php echo $sanpham['duongDanAnhChung']; ?>" data-src="<?php echo $sanpham['duongDanAnhChung']; ?>" alt="<?php echo $sanpham['tenSanPham']; ?>" style="max-width: 237.5px;">
+                                                <source srcset="<?php echo '/webbanhang/admin/dashboard/products/'. $row1["duongDanAnh"]; ?>" data-srcset="<?php echo '/webbanhang/admin/dashboard/products/'. $row1["duongDanAnh"]; ?>" media="(max-width: 767px)" alt="img <?php echo $sanpham['tenSanPham']; ?>">
+                                                <img class=" lazyloaded" src="<?php echo '/webbanhang/admin/dashboard/products/'. $row1["duongDanAnh"]; ?>" data-src="<?php echo '/webbanhang/admin/dashboard/products/'. $row1["duongDanAnh"]; ?>" alt="<?php echo $sanpham['tenSanPham']; ?>" style="max-width: 237.5px;">
                                         </picture>
                                         <picture>
-                                                <source srcset="<?php echo $sanpham['duongDanAnhChung']; ?>" data-srcset="<?php echo $sanpham['duongDanAnhChung']; ?>" media="(max-width: 767px)" alt="img <?php echo $sanpham['tenSanPham']; ?>">
-                                                <img class=" lazyloaded" src="<?php echo $sanpham['duongDanAnhChung']; ?>" data-src="<?php echo $sanpham['duongDanAnhChung']; ?>" alt="<?php echo $sanpham['tenSanPham']; ?>" style="max-width: 237.5px;">
+                                                <source srcset="<?php echo '/webbanhang/admin/dashboard/products/'. $row1["duongDanAnh"]; ?>" data-srcset="<?php echo '/webbanhang/admin/dashboard/products/'. $row1["duongDanAnh"]; ?>" media="(max-width: 767px)" alt="img <?php echo $sanpham['tenSanPham']; ?>">
+                                                <img class=" lazyloaded" src="<?php echo '/webbanhang/admin/dashboard/products/'. $row1["duongDanAnh"]; ?>" data-src="<?php echo '/webbanhang/admin/dashboard/products/'. $row1["duongDanAnh"]; ?>" alt="<?php echo $sanpham['tenSanPham']; ?>" style="max-width: 237.5px;">
                                         </picture>
                                  </a>
 

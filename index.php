@@ -98,23 +98,24 @@
                     require_once './admin/connect.php';  
                     $query="select * from danhmuc where danhMucCha=-1";
                     $result = mysqli_query($conn,$query);
+                    $path = "collections/";
                     if(mysqli_num_rows($result)>0)
                     {                       
                         while($rows= mysqli_fetch_assoc($result)){  
-                            echo '<li class="hasChild thoi--so-sinh"><a href="'.$rows["url"].'">'.$rows["tenDanhMuc"].' <i class="fa-solid fa-chevron-down"></i>  </a>';                           
+                            echo '<li class="hasChild thoi--so-sinh"><a href="'.$path.$rows["url"].'">'.$rows["tenDanhMuc"].' <i class="fa-solid fa-chevron-down"></i>  </a>';                           
                             $queryChild="select * from danhmuc where danhMucCha='".$rows["maDanhMuc"]."' order by vitri asc ";
                             $resultChild= mysqli_query($conn,$queryChild);                                                 
                             if(mysqli_num_rows($resultChild)>0) 
                             {
                                 echo '<ul class="FadeIn header__menu1 sub__menu1">'; 
                                 while($rowChild= mysqli_fetch_assoc($resultChild)){
-                                    echo    '<li class="hasChild"><a href="'.$rowChild["url"].'">'.$rowChild["tenDanhMuc"].' </a>';
+                                    echo    '<li class="hasChild"><a href="'.$path.$rowChild["url"].'">'.$rowChild["tenDanhMuc"].' </a>';
                                     $queryChild1="select * from danhmuc where danhMucCha='".$rowChild["maDanhMuc"]."' order by vitri asc";
                                     $resultChild1= mysqli_query($conn,$queryChild1); 
                                     if(mysqli_num_rows($resultChild1)>0) {                                           
                                         echo ' <ul class="header__menu2">';
                                             while($rowChild1= mysqli_fetch_assoc($resultChild1)){
-                                                echo '<li><a href="'.$rowChild1["url"].'">'.$rowChild1["tenDanhMuc"].'</a></li>';
+                                                echo '<li><a href="'.$path.$rowChild1["url"].'">'.$rowChild1["tenDanhMuc"].'</a></li>';
                                                 
                                             }
                                         echo '</ul>';                                           
@@ -177,7 +178,7 @@
                 </div>
                 <div class="buttons">
                     <button id="prev">
-                        << /button>
+                        <
                             <button id="next">></button>
                 </div>
                 <ul class="dots">

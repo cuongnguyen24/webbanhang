@@ -66,67 +66,41 @@
                 <li>
                 <a href="#">Giới thiệu Nous</a>
                 </li>
-                <li class="hasChild thoi-trang-so-sinh">
-                    <a href="">Thời trang sơ sinh
-                        <i class="fa-solid fa-chevron-down"></i>
+                <?php 
+                    require_once './admin/connect.php';  
+                    $query="select * from danhmuc where danhMucCha=-1";
+                    $result = mysqli_query($conn,$query);
+                    $path = "collections/";
+                    if(mysqli_num_rows($result)>0)
+                    {                       
+                        while($rows= mysqli_fetch_assoc($result)){  
+                            echo '<li class="hasChild thoi--so-sinh"><a href="'.$path.$rows["url"].'">'.$rows["tenDanhMuc"].' <i class="fa-solid fa-chevron-down"></i>  </a>';                           
+                            $queryChild="select * from danhmuc where danhMucCha='".$rows["maDanhMuc"]."' order by vitri asc ";
+                            $resultChild= mysqli_query($conn,$queryChild);                                                 
+                            if(mysqli_num_rows($resultChild)>0) 
+                            {
+                                echo '<ul class="FadeIn header__menu1 sub__menu1">'; 
+                                while($rowChild= mysqli_fetch_assoc($resultChild)){
+                                    echo    '<li class="hasChild"><a href="'.$path.$rowChild["url"].'">'.$rowChild["tenDanhMuc"].' </a>';
+                                    $queryChild1="select * from danhmuc where danhMucCha='".$rowChild["maDanhMuc"]."' order by vitri asc";
+                                    $resultChild1= mysqli_query($conn,$queryChild1); 
+                                    if(mysqli_num_rows($resultChild1)>0) {                                           
+                                        echo ' <ul class="header__menu2">';
+                                            while($rowChild1= mysqli_fetch_assoc($resultChild1)){
+                                                echo '<li><a href="'.$path.$rowChild1["url"].'">'.$rowChild1["tenDanhMuc"].'</a></li>';
+                                                
+                                            }
+                                        echo '</ul>';                                           
+                                    }  
+                                    echo   '</li>';                                     
+                                }    
+                                echo "</ul>";                              
+                            }                               
+                            echo '</li>';
+                        }                           
                         
-                    </a>
-                    <ul class="FadeIn header__menu1 sub__menu1 ">
-                        <li class="hasChild">
-                            <a href="">Sơ sinh 0-3 tháng</a>
-                            <ul class="header__menu2">
-                                <li><a href="">Bộ liền</a></li>
-                                <li><a href="">Bộ dài tay</a></li>
-                            </ul>
-                        </li>
-                        <li class="hasChild">
-                            <a href="">Bé 3-24 tháng</a>
-                            <ul class="header__menu2">
-                                <li><a href="">Áo khoác</a></li>
-                                <li><a href="">Bộ liền</a></li>
-                                <li><a href="">Bộ cộc tay</a></li>
-                                <li><a href="">Bộ dài tay</a></li>
-                                <li><a href="">Bộ quần yếm</a></li>
-                                <li><a href="">Váy</a></li>
-                                <li><a href="">Quần</a></li>
-                                <li><a href="">Set quà tặng</a></li>
-                            </ul>
-                        </li>
-                        <li class="hasChild">
-                            <a href="">Phụ kiện</a>
-                            <ul class="header__menu2">
-                                <li><a href="">Set phụ kiện</a></li>
-                                <li><a href="">Mũ</a></li>
-                                <li><a href="">Bao tay bao chân</a></li>
-                                <li><a href="">Yếm</a></li>
-                                <li><a href="">Gối</a></li>
-                                <li><a href="">Khăn sữa</a></li>
-                                <li><a href="">Khăn đa năng</a></li>
-                                <li><a href="">Giày</a></li>
-                                <li><a href="">Chăn ủ</a></li>
-                            </ul>
-                        </li>
-                        <div class="hasChild">
-                            <li > <a href="">Set quà tặng</a></li>
-                            <li > <a href="">Nous Premium</a></li>
-                            <li > <a href="">Nous Petit à Petit</a></li>
-                            <li >
-                                <a href="">Bộ sưu tập</a>
-                                <ul class="header__menu2">                                    
-                                    <li><a href="">Hàng mới</a></li>
-                                    <li><a href="">Christmas wonderland 2023</a></li>                                    
-                                </ul>
-                            </li>
-                        </div>
-                        
-                    </ul>
-                </li>
-                <li class="hasChild thoi-trang-cho-be-2-6y">
-                    <a href="">Thời trang cho bé 2-6y
-                        <i class="fa-solid fa-chevron-down"></i>
-                    </a>
-                    
-                </li>
+                    }
+                ?>
                 <li class="hasChild bo-suu-tap">
                     <a href="">Bộ sưu tập
                         <i class="fa-solid fa-chevron-down"></i>

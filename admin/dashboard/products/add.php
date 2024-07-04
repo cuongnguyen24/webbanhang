@@ -26,10 +26,9 @@
         
         $upload_dir = 'uploads/';
         $allowed_types = array('jpg', 'png', 'jpeg', 'gif', 'webp');
-        
+        $first_img = '';
         // Define maxsize for files i.e 2MB
         $maxsize = 2 * 1024 * 1024; 
-        $duongdanchung;
         // Checks if user sent an empty form 
         if(!empty(array_filter($_FILES['fileToUpload']['name']))) {
     
@@ -78,12 +77,17 @@
                     echo "Error uploading {$file_name} "; 
                     echo "({$file_ext} file type is not allowed)<br / >";
                 } 
+                if($_FILES['fileToUpload']['tmp_name'][0])
+                {
+                    $first_img = $duongdanchung;
+                }
                 $query = "INSERT INTO anhsanpham VALUES('".$id."','".$filepath."', '".Null."')";     
                 mysqli_query($conn, $query);
                 
             }
+            
         }
-        return $duongdanchung;
+        return $first_img;
     }   
 ?>
 <?php
@@ -191,15 +195,53 @@
                 
             }
             $duongdanchung = uploadImage($id, $conn);
-            echo $duongdanchung;
+            
             $query1="UPDATE sanpham SET duongDanAnhChung='".$duongdanchung." 'where maSanPham='".$id."'"; 
             mysqli_query($conn, $query1);
             if($result>0)
-                echo 'Thêm mới thành công';
-            else 
-                echo 'Lỗi thêm mới';
-        }
+            {
+                echo '<script>
+                    alert("Thêm thành công");
+                    window.location.href = "./index.php";
+                </script>';
+                $foldername = $chitietsp;
+                $dir = $_SERVER['DOCUMENT_ROOT']  . $foldername ;
+
+                $file_to_write = 'index.php';
+                $content_to_write = file($_SERVER["DOCUMENT_ROOT"] . '\webbanhang\admin\dashboard\products\create-product.txt');
+                
+                echo '<br>' .$dir .$file_to_write;
+                if( is_dir($dir) === false )
+                {
+                    mkdir($dir,0777,true);
+                }
+
+                $file = fopen($dir . '/' . $file_to_write,"w");
+
+                
+                foreach ($content_to_write as $line) {
+                    fwrite($file, $line);
+                }
+        
             
+            
+                
+                fclose($file);
+
+                include $dir . '/' . $file_to_write;
+                
+            }
+            else 
+               echo '<script>
+                    alert("Thêm thất bại");
+                    window.location.href = "./index.php";
+                </script>';
+
+            
+        }
+           
+            
+
     }
 ?>
 <!DOCTYPE html>
@@ -251,7 +293,7 @@
                     <h3>Đơn hàng</h3>
                 </a>
 
-                <a href="../Nhacungcap/" class="active">
+                <a href="../Nhacungcap/" class="">
                     <i class="fa-solid fa-clipboard"></i>
                     <h3>Nhà cung cấp</h3>
                 </a>
@@ -262,7 +304,7 @@
                     <span class="message-count">26</span>
                 </a>
 
-                <a href="../products/" class="">
+                <a href="../products/" class="active">
                     <i class="fa-solid fa-shop"></i>
                     <h3>Sản phẩm</h3>
                 </a>
@@ -413,6 +455,7 @@
             var textInput = document.getElementById(checkboxId + '_text');
             textInput.disabled = !checkbox.checked;
         }
+        
 </script>
 <script>
         function convertToSlug(str) {
