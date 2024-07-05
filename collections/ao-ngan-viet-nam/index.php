@@ -412,6 +412,7 @@ if (mysqli_num_rows($result) > 0) {
                                 <div class="pro-loop-image">
                                     <a href="<?php echo $sanpham['chitietsp']; ?>" class="pro-loop-image-item">		
                                         <?php
+                                            require_once ($_SERVER['DOCUMENT_ROOT'] .'/webbanhang/admin/connect.php');
                                              $q1="SELECT duongDanAnh from anhsanpham where maSanPham ='".$sanpham['maSanPham']."'";
                                              $source = mysqli_query($conn,$q1);
                                              $row1= mysqli_fetch_assoc($source);
@@ -447,7 +448,8 @@ if (mysqli_num_rows($result) > 0) {
                         <?php endforeach; ?>
                     <?php else : ?>
                         <p>Không có sản phẩm nào.</p>
-                    <?php endif; ?>
+                    <?php endif; 
+                    ?>
                             
                         </div>
                         <!-------------------------------------------------- END PRODUCT ----------------------------------->
@@ -462,6 +464,7 @@ if (mysqli_num_rows($result) > 0) {
 </div>
 
     <?php
+        
         include "../includes/footer.php";
         
     ?>

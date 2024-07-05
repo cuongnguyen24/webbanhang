@@ -103,7 +103,7 @@ $role = isset($_SESSION["role"]) ? $_SESSION["role"] : null;
                             }                               
                             echo '</li>';
                         }                           
-                        mysqli_close($conn);
+                        
                     }
                 ?>
                 <li class="hasChild thoi-trang-cho-be-2-6y">

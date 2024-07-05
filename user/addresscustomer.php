@@ -2,25 +2,6 @@
 session_start();
 $username = $_SESSION["username"]; // Lấy tên tài khoản từ session
 require_once '../admin/connect.php';
-$sql = "SELECT khachhang.hoTen, khachhang.email, khachhang.soDienThoai, khachhang.maDiaChi, khachhang.maKhachHang FROM taikhoan
-            INNER JOIN khachhang ON taikhoan.maTaiKhoan = khachhang.maTaiKhoan WHERE taikhoan.tenTaiKhoan = '$username'";
-$result = mysqli_query($conn, $sql);
-if (mysqli_num_rows($result) > 0) {
-  while ($row = mysqli_fetch_assoc($result)) {
-    $name = $row["hoTen"];
-    $diachi = $row["maDiaChi"];
-    $makhach = $row["maKhachHang"];
-  }
-} else {
-  echo "Không có kết quả";
-}
-
-$sql1 = "SELECT diachi.tenDiaChi, diachi.tinhTrang, diachi.maDiaChi FROM khachhang 
-                INNER JOIN taikhoan ON khachhang.maTaiKhoan = taikhoan.maTaiKhoan
-                INNER JOIN diachi ON khachhang.maKhachHang = diachi.maKhachHang
-                WHERE taikhoan.tenTaiKhoan = '$username';
-                ";
-          $result = mysqli_query($conn, $sql1);
 
 ?>
 <!DOCTYPE html>
@@ -48,6 +29,28 @@ $sql1 = "SELECT diachi.tenDiaChi, diachi.tinhTrang, diachi.maDiaChi FROM khachha
             <div class="user-icon">
               <i class="fa-regular fa-user"></i>
             </div>
+            <?php
+            $sql = "SELECT khachhang.hoTen, khachhang.email, khachhang.soDienThoai, khachhang.maDiaChi, khachhang.maKhachHang FROM taikhoan
+            INNER JOIN khachhang ON taikhoan.maTaiKhoan = khachhang.maTaiKhoan WHERE taikhoan.tenTaiKhoan = '$username'";
+            $result = mysqli_query($conn, $sql);
+            if (mysqli_num_rows($result) > 0) {
+              while ($row = mysqli_fetch_assoc($result)) {
+                $name = $row["hoTen"];
+                $diachi = $row["maDiaChi"];
+                $makhach = $row["maKhachHang"];
+              }
+            } else {
+              echo "Không có kết quả";
+            }
+
+            $sql1 = "SELECT diachi.tenDiaChi, diachi.tinhTrang, diachi.maDiaChi FROM khachhang 
+                INNER JOIN taikhoan ON khachhang.maTaiKhoan = taikhoan.maTaiKhoan
+                INNER JOIN diachi ON khachhang.maKhachHang = diachi.maKhachHang
+                WHERE taikhoan.tenTaiKhoan = '$username';
+                ";
+             $result = mysqli_query($conn, $sql1);
+
+            ?>
             <?php echo $name; ?>
           </h2>
           <hr>
@@ -109,6 +112,7 @@ $sql1 = "SELECT diachi.tenDiaChi, diachi.tinhTrang, diachi.maDiaChi FROM khachha
   </div>
   <?php
   include '../layout/footer.php';
+  mysqli_close($conn);
   ?>
 </body>
 
