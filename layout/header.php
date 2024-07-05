@@ -31,12 +31,12 @@ $role = isset($_SESSION["role"]) ? $_SESSION["role"] : null;
                 } else {
                     $role = $_SESSION["role"];
                     if ($role == 1) {
-                        echo '<a href="../admin/accountadmin.php" class="header__btn"><strong>Tài khoản</strong><i class="fa-solid fa-user-pen"></i></a>';
+                        echo '<a href="/webbanhang/admin/accountadmin.php" class="header__btn"><strong>Tài khoản</strong><i class="fa-solid fa-user-pen"></i></a>';
                     } else if ($role == 3) {
                         echo '
-                                    <a href="../user/accountcustomer.php" class="header__btn"><strong>Tài khoản</strong><i class="fa-solid fa-user-pen"></i></a>';
+                                    <a href="/webbanhang/user/accountcustomer.php" class="header__btn"><strong>Tài khoản</strong><i class="fa-solid fa-user-pen"></i></a>';
                     } else if ($role == 2) {
-                        echo '<a href="../user/accountstaff.php" class="header__btn"><strong>Tài khoản</strong><i class="fa-solid fa-user-pen"></i></a>';
+                        echo '<a href="/webbanhang/user/accountstaff.php" class="header__btn"><strong>Tài khoản</strong><i class="fa-solid fa-user-pen"></i></a>';
                     }
                 }
                 ?>
@@ -61,7 +61,7 @@ $role = isset($_SESSION["role"]) ? $_SESSION["role"] : null;
 
                 <script>
                         function goToCart() {
-                            window.location.href = "./cart.php";
+                            window.location.href = "/webbanhang/user/cart.php";
                         }
                     </script>
             </div>
@@ -75,7 +75,7 @@ $role = isset($_SESSION["role"]) ? $_SESSION["role"] : null;
                     require_once ($_SERVER['DOCUMENT_ROOT'] .'/webbanhang/admin/connect.php');
                     $query="select * from danhmuc where danhMucCha=-1";
                     $result = mysqli_query($conn,$query);
-                    $path = "collections/";
+                    $path = "";
                     if(mysqli_num_rows($result)>0)
                     {                       
                         while($rows= mysqli_fetch_assoc($result)){  

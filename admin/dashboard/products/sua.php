@@ -133,8 +133,10 @@
             // }          
             if (isset($_POST[$id]) && isset($_POST[$id . '_text'])) {
                 $value = $_POST[$id . '_text'];
+                echo $id . $value;
                 if(empty(trim($value))){
                     $errors['soLuong']='Không được để trống số lượng của size'.$item["tenSize"];
+                    
                     break;
                 }
                 else{        
@@ -214,7 +216,8 @@
                         mysqli_query($conn, $querySize);
                     }                       
                 }else{
-                    $queryDeleteSize = "DELETE FROM sizesanpham WHERE  maSanPham = '$maSanPham' and maSize = '$id_size'";
+                    $value = 0;
+                    $queryDeleteSize = "UPDATE sizesanpham SET soLuong = $value Where maSanPham = '$maSanPham' and maSize = '$id_size'";
                     echo $queryDeleteSize;
                     mysqli_query($conn, $queryDeleteSize);
                 }

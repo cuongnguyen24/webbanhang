@@ -187,11 +187,18 @@
             $result= mysqli_query($conn, $query);
             foreach ($items as $index => $item) {
                 $id_size =  $item["maSize"];
+                
                 if (isset($_POST[$id_size]) && isset($_POST[$id_size . '_text'])){
+                   
                     $value = $_POST[$id_size . '_text'];
-                    $querySize = "INSERT INTO sizesanpham VALUES('".$id."','".$id_size."','".$value."')";
-                    mysqli_query($conn, $querySize);
+                    
                 }
+                else
+                {
+                    $value = 0;
+                }
+                $querySize = "INSERT INTO sizesanpham VALUES('".$id."','".$id_size."','".$value."')";
+                    mysqli_query($conn, $querySize);
                 
             }
             $duongdanchung = uploadImage($id, $conn);
