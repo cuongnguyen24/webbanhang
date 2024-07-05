@@ -112,7 +112,7 @@
                 $ngaySinh = date('Y-m-d', strtotime(str_replace('/', '-', $_POST['txtNgaySinh'])));
 
                 // Kiểm tra dữ liệu rỗng trước
-                if (empty($maNhanVien) || empty($tenTaiKhoan) || empty($matKhau) || empty($hoTen) || empty($ngaySinh) || empty($diaChi) || !isset($_POST['Sex']) || empty($email) || empty($soDienThoai) ) {
+                if ( empty($tenTaiKhoan) || empty($matKhau) || empty($hoTen) || empty($ngaySinh) || empty($diaChi) || !isset($_POST['Sex']) || empty($email) || empty($soDienThoai) ) {
                     echo "<script>alert('Các trường dữ liệu không được để trống'); history.back();</script>";
                     return;
                 }
@@ -178,17 +178,17 @@
                     }
                 }
                 // Kiểm tra và bắt lỗi trùng mã tài khoản
-                $maTaiKhoanMoi = $_POST['txtMaTaiKhoan'];
-                $maTaiKhoanBanDau = $row['maTaiKhoan'];
-                if ($maTaiKhoanMoi != $maTaiKhoanBanDau) {
-                    // Truy vấn kiểm tra mã tài khoản mới
-                    $checkAccountCodeQuery = "SELECT * FROM taikhoan WHERE tenTaiKhoan = '$tenTaiKhoanMoi'";
-                    $checkAccountCodeResult = mysqli_query($conn, $checkAccountCodeQuery);
-                    if ($checkAccountCodeResult && mysqli_num_rows($checkAccountCodeResult) > 0) {
-                        echo "<script>alert('Mã tài khoản đã tồn tại trong hệ thống! Vui lòng nhập thông tin khác.'); history.back();</script>";
-                        return;
-                    }
-                }
+                // $maTaiKhoanMoi = $_POST['txtMaTaiKhoan'];
+                // $maTaiKhoanBanDau = $row['maTaiKhoan'];
+                // if ($maTaiKhoanMoi != $maTaiKhoanBanDau) {
+                //     // Truy vấn kiểm tra mã tài khoản mới
+                //     $checkAccountCodeQuery = "SELECT * FROM taikhoan WHERE tenTaiKhoan = '$tenTaiKhoanMoi'";
+                //     $checkAccountCodeResult = mysqli_query($conn, $checkAccountCodeQuery);
+                //     if ($checkAccountCodeResult && mysqli_num_rows($checkAccountCodeResult) > 0) {
+                //         echo "<script>alert('Mã tài khoản đã tồn tại trong hệ thống! Vui lòng nhập thông tin khác.'); history.back();</script>";
+                //         return;
+                //     }
+                // }
                 // Kiểm tra và cập nhật thông tin tài khoản trong bảng taikhoan
                 $checkTaiKhoanQuery = "SELECT * FROM taikhoan WHERE maTaiKhoan = '$maTaiKhoan'";
                 $checkTaiKhoanResult = mysqli_query($conn, $checkTaiKhoanQuery);
@@ -245,14 +245,14 @@
                             <div class="attribute">
                                 <label>Mã Nhân Viên</label>
                                 <div class="decor">
-                                    <input type="text" class="input" id="maNhanVien" placeholder="Nhập Mã Nhân Viên" name="txtMaNhanVien" value="<?php echo $row['maNhanVien'] ?>">
+                                    <input type="text" class="input" id="maNhanVien" placeholder="Nhập Mã Nhân Viên" name="txtMaNhanVien" value="<?php echo $row['maNhanVien'] ?>" disabled>
                                 </div>
                                 
                             </div>
                             <div class="attribute">
                                 <label>Mã Tài Khoản</label>
                                 <div class="decor">
-                                    <input type="text" class="input" id="maNhanVien" placeholder="Nhập Mã Tài Khoản" name="txtMaTaiKhoan" value="<?php echo $row['maTaiKhoan'] ?>">
+                                    <input type="text" class="input" id="maNhanVien" placeholder="Nhập Mã Tài Khoản" name="txtMaTaiKhoan" value="<?php echo $row['maTaiKhoan'] ?>" disabled>
                                 </div>
                             </div>
                         </div>
