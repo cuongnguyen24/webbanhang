@@ -21,7 +21,7 @@ $sql1 = "SELECT diachi.tenDiaChi, diachi.tinhTrang, diachi.maDiaChi FROM khachha
                 WHERE taikhoan.tenTaiKhoan = '$username';
                 ";
           $result = mysqli_query($conn, $sql1);
-mysqli_close($conn);
+
 ?>
 <!DOCTYPE html>
 <html lang="en">

@@ -90,7 +90,7 @@ if (mysqli_num_rows($result) > 0) {
 } else {
   echo "Không có kết quả";
 }
-mysqli_close($conn);
+
 ?>
 <!DOCTYPE html>
 <html lang="en">

@@ -318,18 +318,7 @@
                     <i class="fa-solid fa-shop"></i>
                     <h3>Sản phẩm</h3>
                 </a>
-                <a href="../report/" class="">
-                    <i class="fa-solid fa-exclamation"></i>
-                    <h3>Báo cáo</h3>
-                </a>
-                <a href="../settings/" class="">
-                    <i class="fa-solid fa-gear"></i>
-                    <h3>Cài đặt</h3>
-                </a>
-                <a href="#">
-                    <i class="fa-solid fa-plus"></i>
-                    <h3>Thêm sản phẩm</h3>
-                </a>
+                
                 <a href="/webbanhang/admin/accountadmin.php" target="_self">
                     <i class="fa-solid fa-right-from-bracket"></i>
                     <h3>Quay lại</h3>

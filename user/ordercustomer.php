@@ -2,6 +2,40 @@
 session_start();
 $username = $_SESSION["username"]; // Lấy tên tài khoản từ session
 ?>
+
+<?php
+    require_once '../admin/connect.php';
+    $sql = "SELECT khachhang.hoTen, khachhang.email, khachhang.soDienThoai, khachhang.maDiaChi, khachhang.maKhachHang FROM taikhoan
+    INNER JOIN khachhang ON taikhoan.maTaiKhoan = khachhang.maTaiKhoan WHERE taikhoan.tenTaiKhoan = '$username'";
+
+    $sql2 = "SELECT diachi.tenDiaChi FROM khachhang 
+    INNER JOIN taikhoan ON khachhang.maTaiKhoan = taikhoan.maTaiKhoan
+    INNER JOIN diachi ON khachhang.maKhachHang = diachi.maKhachHang
+    WHERE taikhoan.tenTaiKhoan = '$username' AND diachi.tinhTrang = 1
+    ";
+
+    $result = mysqli_query($conn, $sql);
+    if (mysqli_num_rows($result) > 0) {
+      while ($row = mysqli_fetch_assoc($result)) {
+        $name = $row["hoTen"];
+        $mail = $row["email"];
+        $sdt = $row["soDienThoai"];
+        $makhach = $row["maKhachHang"];
+      }
+    } else {
+      echo "Không có kết quả";
+    }
+
+    $result2 = mysqli_query($conn, $sql2);
+    if (mysqli_num_rows($result2) > 0) {
+      while ($row = mysqli_fetch_assoc($result2)) {
+        $diachi = $row["tenDiaChi"];
+      }
+    } else {
+      $diachi = ""; // không có địa chỉ thì ko hiện gì
+    }
+            
+            ?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -19,7 +53,7 @@ $username = $_SESSION["username"]; // Lấy tên tài khoản từ session
 
 <body>
   <?php
-  require_once '../admin/connect.php';
+  
   include '../layout/header.php';
   ?>
 
@@ -31,39 +65,7 @@ $username = $_SESSION["username"]; // Lấy tên tài khoản từ session
             <div class="user-icon">
               <i class="fa-regular fa-user"></i>
             </div>
-            <?php
-
-            $sql = "SELECT khachhang.hoTen, khachhang.email, khachhang.soDienThoai, khachhang.maDiaChi, khachhang.maKhachHang FROM taikhoan
-            INNER JOIN khachhang ON taikhoan.maTaiKhoan = khachhang.maTaiKhoan WHERE taikhoan.tenTaiKhoan = '$username'";
-
-            $sql2 = "SELECT diachi.tenDiaChi FROM khachhang 
-            INNER JOIN taikhoan ON khachhang.maTaiKhoan = taikhoan.maTaiKhoan
-            INNER JOIN diachi ON khachhang.maKhachHang = diachi.maKhachHang
-            WHERE taikhoan.tenTaiKhoan = '$username' AND diachi.tinhTrang = 1;
-            ";
-
-            $result = mysqli_query($conn, $sql);
-            if (mysqli_num_rows($result) > 0) {
-              while ($row = mysqli_fetch_assoc($result)) {
-                $name = $row["hoTen"];
-                $mail = $row["email"];
-                $sdt = $row["soDienThoai"];
-                $makhach = $row["maKhachHang"];
-              }
-            } else {
-              echo "Không có kết quả";
-            }
-
-            $result2 = mysqli_query($conn, $sql2);
-            if (mysqli_num_rows($result2) > 0) {
-              while ($row = mysqli_fetch_assoc($result2)) {
-                $diachi = $row["tenDiaChi"];
-              }
-            } else {
-              $diachi = ""; // không có địa chỉ thì ko hiện gì
-            }
-            mysqli_close($conn);
-            ?>
+            
             <?php echo $name; ?>
           </h2>
           <hr>
