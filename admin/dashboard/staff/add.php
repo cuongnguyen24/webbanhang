@@ -217,10 +217,9 @@
                             <label>Mã phân quyền</label>
                             <div class="decor">
                                 <select id="phanQuyen" class="combobox" name="cbPhanQuyen">
-                                    <option value="3">Nhân viên</option>
+                                    <option value="2">Nhân viên</option>
                                 </select>
                             </div>
-                            
                         </div>
                         <div class="attribute">
                             <label>Họ tên</label>
