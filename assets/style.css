@@ -1701,8 +1701,7 @@
             }
             
             button,
-            button:hover,
-            button:focus {
+            button:hover {
                 border: none;
                 outline: none;
                 background: none;
