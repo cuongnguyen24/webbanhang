@@ -23,7 +23,7 @@
                 </div>
             </div>
             <div class="sidebar">
-            <a href="../index.php" class="">
+                <a href="../index.php" class="">
                     <i class="fa-solid fa-list"></i>
                     <h3>Thống kê</h3>
                 </a>
@@ -93,7 +93,12 @@
 
             // Xử lý ngày sinh
             $ngaySinh = date('Y-m-d', strtotime(str_replace('/', '-', $_POST['txtNgaySinh'])));
-
+            // Kiểm tra ngày sinh không lớn hơn ngày hiện tại
+            $today = date('Y-m-d');
+            if ($ngaySinh > $today) {
+                echo "<script>alert('Ngày sinh không được lớn hơn ngày hiện tại'); history.back();</script>";
+                return;
+            }
             // Kiểm tra dữ liệu rỗng trước
             if (empty($maNhanVien) || empty($tenTaiKhoan) || empty($matKhau) || empty($hoTen) || empty($ngaySinh) || empty($diaChi) || !isset($_POST['Sex']) || empty($email) || empty($soDienThoai) ) {
                 echo "<script>alert('Các trường dữ liệu không được để trống'); history.back();</script>";

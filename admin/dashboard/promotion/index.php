@@ -87,7 +87,7 @@
                 <!-- search_html -->
                 <div class="search">
                     <form method="POST" action="" id="search_form">
-                        <input type="text" name="txtSearch" id="txtSearch" placeholder="   Tìm họ tên nhân viên">
+                        <input type="text" name="txtSearch" id="txtSearch" placeholder="   Tìm tên mã khuyến mãi">
                         <button name="btnSearch" id="btnSearch" title="Tìm kiếm theo tên nhân viên"><i class="fa-solid fa-magnifying-glass"></i></button>
                     </form>
                 </div>
@@ -161,68 +161,76 @@
                     </table>
                 </div>
                 <div class="wrapper" id="tbl_after_Search" style="display: <?php echo isset($_POST['btnSearch']) && !empty($_POST['txtSearch']) ? 'block' : 'none'; ?>">
-                    <table>
+                <!-- table -->
+                <table>
                         <thead id="header__form">
                             <tr id="row">
                                 <th>ID</th>
-                                <th>Mã Nhân Viên</th>
-                                <th>Mã Tài Khoản</th>
-                                <th>Tài Khoản</th>
-                                <th>Mật Khẩu</th>
-                                <th>Mã Phân Quyền</th>
-                                <th>Họ Tên</th>
-                                <th>Ngày Sinh</th>
-                                <th>Địa chỉ</th>
-                                <th>Giới tính</th>
-                                <th>Email</th>
-                                <th>Số điện thoại</th>
-                                <th>Ghi chú</th>
-                                <th>Thao tác</th>
+                                <th>Mã Khuyến Mãi</th>
+                                <th>Tên Mã Khuyến Mãi</th>
+                                <th>Giá Trị Giảm</th>
+                                <th>Ngày Khuyến Mãi</th>
+                                <th>Ngày Hết Hạn</th>
+                                <th>Trạng Thái</th>
+                                <th>Thao Tác</th>
                             </tr>
                         </thead>
                         <tbody>
                             <?php
                             if (isset($_POST['btnSearch']) && !empty($_POST['txtSearch'])) {
-                                $key_Search = mysqli_real_escape_string($conn, $_POST['txtSearch']);
-                                $sql = "SELECT nhanvien.*, taikhoan.tenTaiKhoan, taikhoan.matKhau, taikhoan.maPhanQuyen
-                                    FROM nhanvien
-                                    JOIN taikhoan ON nhanvien.maTaiKhoan = taikhoan.maTaiKhoan 
-                                    WHERE hoTen LIKE N'%$key_Search%'";
-                                $result = mysqli_query($conn, $sql);
-                                if (mysqli_num_rows($result) > 0) {
-                                    $num = 1;
-                                    while ($row = mysqli_fetch_assoc($result)) {
-                                        $gioiTinh = ($row['gioiTinh'] == 1) ? 'Nam' : 'Nữ';
-                                        $formattedNgaySinh = date('d/m/Y', strtotime($row['ngaySinh']));
-                                        ?>
-                                        <tr>
-                                            <td><?php echo ($num++) ?></td>
-                                            <td><?php echo $row['maNhanVien'] ?></td>
-                                            <td><?php echo $row['maTaiKhoan'] ?></td>
-                                            <td><?php echo $row['tenTaiKhoan'] ?></td>
-                                            <td><?php echo $row['matKhau'] ?></td>
-                                            <td><?php echo $maPhanQuyen?></td>
-                                            <td><?php echo $row['hoTen'] ?></td>
-                                            <td><?php echo $formattedNgaySinh; ?></td>
-                                            <td><?php echo $row['diaChi'] ?></td>
-                                            <td><?php echo $gioiTinh ?></td>
-                                            <td><?php echo $row['email'] ?></td>
-                                            <td><?php echo $row['soDienThoai'] ?></td>
-                                            <td><?php echo $row['ghiChu'] ?></td>
-                                            <td class="act__button">
-                                            <a href="/webbanhang/admin/dashboard/promotion/edit.php?smnv=<?php echo $row['maKhuyenMai'] ?>" class="button-link" id="edit"><i class="fa-solid fa-pen-to-square"></i></a>
-                                            <a onclick="return confirm('Bạn có muốn xóa không ?')" href="/webbanhang/admin/dashboard/promotion/delete.php?smnv=<?php echo $row['maKhuyenMai'] ?>" class="button-link" id="delete_button"><i class="fa-solid fa-trash"></i></a>
-                                            </td>
-                                        </tr>
-                                        <?php
+                            $key_Search = mysqli_real_escape_string($conn, $_POST['txtSearch']);
+                            $num = 1;
+                            $sql = "SELECT *
+                                    FROM khuyenmai WHERE tenKhuyenMai LIKE N'%$key_Search%'";
+                            $result = mysqli_query($conn, $sql);
+                            if (mysqli_num_rows($result) > 0) {
+                                while ($row = mysqli_fetch_assoc($result)) {
+                                    $formattedNgayKhuyenMai = date('d/m/Y', strtotime($row['ngayKhuyenMai']));
+                                    $formattedNgayHetHan = date('d/m/Y', strtotime($row['ngayHetHan']));
+                                    switch ($row['trangThai']) {
+                                        case 1:
+                                            $trangThai = "Khả dụng";
+                                            $statusClass = "status_promotion_1";
+                                            break;
+                                        case 2:
+                                            $trangThai = "Không khả dụng";
+                                            $statusClass = "status_promotion_2";
+                                            break;
+                                        default:
+                                            $trangThai = "Không xác định";
+                                            $statusClass = "";
+                                            break;
                                     }
-                                } else {
+                                    $phanTram = $row['phanTram'] . "%";
+                                    ?>
+                                    <tr>
+                                        <td><?php echo ($num++) ?></td>
+                                        <td><?php echo $row['maKhuyenMai'] ?></td>
+                                        <td><?php echo $row['tenKhuyenMai'] ?></td>
+                                        <td><?php echo $phanTram ?></td>
+                                        <td><?php echo $formattedNgayKhuyenMai ?></td>
+                                        <td><?php echo $formattedNgayHetHan ?></td>
+                                        <td>
+                                        <div class="<?php echo $statusClass; ?>">
+                                                <?php echo $trangThai; ?>
+                                            </div>
+                                        </td>
+                                        <td >
+                                            <div class="act__button">
+                                            <a href="/webbanhang/admin/dashboard/promotion/edit.php?smkm=<?php echo $row['maKhuyenMai'] ?>" class="button-link" id="edit"><i class="fa-solid fa-pen-to-square"></i></a>
+                                            <a onclick="return confirm('Bạn có muốn xóa không ?')" href="/webbanhang/admin/dashboard/promotion/delete.php?smkm=<?php echo $row['maKhuyenMai'] ?>" class="button-link" id="delete_button"><i class="fa-solid fa-trash"></i></a>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <?php
                                 }
+                            } else {
                             }
+                        }
                             ?>
                         </tbody>
-                        </table>
-                        </div>
+                    </table>
+                </div>
                     </div>
                 </main>
     </div>

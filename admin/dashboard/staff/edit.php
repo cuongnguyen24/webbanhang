@@ -124,6 +124,12 @@
                     echo "<script>alert('Email phải có đuôi @gmail.com!'); history.back();</script>";
                     return;
                 }
+                // Kiểm tra ngày sinh không lớn hơn ngày hiện tại
+                    $today = date('Y-m-d');
+                    if ($ngaySinh > $today) {
+                        echo "<script>alert('Ngày sinh không được lớn hơn ngày hiện tại'); history.back();</script>";
+                        return;
+                    }
                 // Kiểm tra số điện thoại
                 $phoneLength = strlen($soDienThoai);
                 if ($phoneLength < 9 || $phoneLength > 11) {

@@ -23,7 +23,7 @@
                 </div>
             </div>
             <div class="sidebar">
-            <a href="../index.php" class="">
+                <a href="../index.php" class="">
                     <i class="fa-solid fa-list"></i>
                     <h3>Thống kê</h3>
                 </a>
@@ -94,6 +94,13 @@
             // Kiểm tra dữ liệu rỗng trước
             if ( empty($phanTram) || empty($ngayKhuyenMai) || empty($ngayHetHan) || empty($trangThai)) {
                 echo "<script>alert('Các trường dữ liệu không được để trống'); history.back();</script>";
+                return;
+            }
+            // Kiểm tra ngày bắt đầu và ngày kết thúc
+            $dateStart = strtotime($ngayKhuyenMai);
+            $dateEnd = strtotime($ngayHetHan);
+            if ($dateStart > $dateEnd) {
+                echo "<script>alert('Ngày bắt đầu khuyến mãi phải nhỏ hơn ngày kết thúc'); history.back();</script>";
                 return;
             }
             // Cập nhật thông tin khuyến mãi trong bảng khuyenmai
