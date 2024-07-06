@@ -476,3 +476,48 @@ hr{
 .card-body a:hover {
     text-decoration: none;
 } 
+
+.detail-link {
+    color: red;
+}
+
+/* Các định nghĩa CSS khác */
+
+.btn-primary {
+    background-color: #d0b49e;
+    border-color: #d0b49e;
+    margin-top: 20px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    color: #fff;
+    font-weight: 600;
+    width: 20%;
+}
+
+.btn-primary:hover {
+    background-color: #c3ae9e;
+    border-color: #c3ae9e;
+    color: #fff;
+}
+
+.btn-danger {
+    margin-top: 20px;
+    padding: 10px;
+    background-color: #dc3545;
+    border-color: #dc3545;
+    color: #fff;
+    font-weight: 600;
+}
+
+.btn-danger:hover {
+    background-color: #c82333;
+    border-color: #bd2130;
+    color: #fff;
+}
+
+.btn-danger:disabled {
+    background-color: #f8f9fa;
+    border-color: #dee2e6;
+    color: #6c757d;
+    cursor: not-allowed;
+}

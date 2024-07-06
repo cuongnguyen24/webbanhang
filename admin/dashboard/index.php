@@ -263,7 +263,7 @@ $result_topSP = mysqli_query($conn, $sql);
                 <a href="./Danhmuc/" class="">
                     <i class="fa-regular fa-envelope"></i>
                     <h3>Danh mục</h3>
-                    
+
                 </a>
 
                 <a href="./products/" class="">
@@ -290,7 +290,7 @@ $result_topSP = mysqli_query($conn, $sql);
                     <div class="middle">
                         <div class="left">
                             <h3>Tổng doanh thu</h3>
-                            <h1><?php echo "$tongDoanhThu"; ?></h1>
+                            <h1><?php echo "$tongDoanhThu"; ?> VND</h1>
                         </div>
                     </div>
                     <div class="progress">
@@ -305,6 +305,7 @@ $result_topSP = mysqli_query($conn, $sql);
                     <small class="text-muted">Trong tháng này</small>
                 </div>
                 <!-- ----------------END OF SALES--------------- -->
+                
 
                 <div class="expensive">
                     <i class="fa-solid fa-chart-line"></i>
@@ -376,7 +377,7 @@ $result_topSP = mysqli_query($conn, $sql);
                                     <td><?php echo $maSpBanChay; ?></td>
                                     <td><?php echo $soLuongSpBanChay; ?></td>
                                     <td class="warning"><?php echo $soLuongTonKho; ?></td>
-                                    <td class="primary"><a href="">Chi tiết</a></td>
+                                    <td class="primary"><a href="./products/">Chi tiết</a></td>
                                 </tr>
                         <?php
                             }
@@ -395,10 +396,10 @@ $result_topSP = mysqli_query($conn, $sql);
                 <button id="menu_btn">
                     <i class="fa-solid fa-bars"></i>
                 </button>
-                <div class="theme-toggler">
+                <!-- <div class="theme-toggler">
                     <i class="fa-regular fa-sun active" id="lightModeToggle"></i>
                     <i class="fa-solid fa-moon" id="darkModeToggle"></i>
-                </div>
+                </div> -->
                 <div class="profile">
                     <div class="info">
                         <p>Hey, <b><?php echo "$name"; ?></b></p>
@@ -414,48 +415,51 @@ $result_topSP = mysqli_query($conn, $sql);
 
             <div class="sales_analytics">
                 <h2>Sales Analytics</h2>
-                <div class="item online">
-                    <div class="icon">
-                        <i class="fa-solid fa-cart-shopping"></i>
-                    </div>
-                    <div class="right">
-                        <div class="info">
-                            <h3>Tổng số đơn hàng</h3>
-                            <small class="text-muted">Trong 24 giờ qua</small>
+                <a href="./order/">
+                    <div class="item online">
+                        <div class="icon">
+                            <i class="fa-solid fa-cart-shopping"></i>
                         </div>
-                        <h5 class="danger"><?php echo ($phanTramDonHang >= 0 ? '+' : '') . $phanTramTongDonHangTrongNgay . '%'; ?></h5>
-                        <h3><?php echo "$soLuongDonTrongNgay"; ?></h3>
-                    </div>
-                </div>
-
-
-                <div class="item customers">
-                    <div class="icon">
-                        <i class="fa-solid fa-cart-shopping"></i>
-                    </div>
-                    <div class="right">
-                        <div class="info">
-                            <h3>Đơn hàng đã gửi</h3>
-                            <small class="text-muted">Trong 24 giờ qua</small>
+                        <div class="right">
+                            <div class="info">
+                                <h3>Tổng số đơn hàng</h3>
+                                <small class="text-muted">Trong 24 giờ qua</small>
+                            </div>
+                            <h5 class="danger"><?php echo ($phanTramDonHang >= 0 ? '+' : '') . $phanTramTongDonHangTrongNgay . '%'; ?></h5>
+                            <h3><?php echo "$soLuongDonTrongNgay"; ?></h3>
                         </div>
-                        <h5 class="danger"><?php echo ($phanTramDaGui >= 0 ? '+' : '') . $phanTramDaGuiTrongNgay . '%'; ?></h5>
-                        <h3><?php echo "$soLuongDonGuiTrongNgay"; ?></h3>
                     </div>
-                </div>
-
-
-                <div class="item boom">
-                    <div class="icon">
-                        <i class="fa-solid fa-bomb"></i>
-                    </div>
-                    <div class="right">
-                        <div class="info">
-                            <h3>Đơn hàng chờ duyệt</h3>
+                </a>
+                
+                <a href="./order/">
+                    <div class="item customers">
+                        <div class="icon">
+                            <i class="fa-solid fa-cart-shopping"></i>
                         </div>
-                        <h3><?php echo "$soLuongDonChoDuyet"; ?></h3>
+                        <div class="right">
+                            <div class="info">
+                                <h3>Đơn hàng đã gửi</h3>
+                                <small class="text-muted">Trong 24 giờ qua</small>
+                            </div>
+                            <h5 class="danger"><?php echo ($phanTramDaGui >= 0 ? '+' : '') . $phanTramDaGuiTrongNgay . '%'; ?></h5>
+                            <h3><?php echo "$soLuongDonGuiTrongNgay"; ?></h3>
+                        </div>
                     </div>
-                </div>
+                </a>
 
+                <a href="./order/">
+                    <div class="item boom">
+                        <div class="icon">
+                            <i class="fa-solid fa-bomb"></i>
+                        </div>
+                        <div class="right">
+                            <div class="info">
+                                <h3>Đơn hàng chờ duyệt</h3>
+                            </div>
+                            <h3><?php echo "$soLuongDonChoDuyet"; ?></h3>
+                        </div>
+                    </div>
+                </a>
 
             </div>
         </div>
