@@ -26,13 +26,12 @@
                 </div>
 
                 <div class="header--mid__search">
-                    <form action="/search">
+                    <form action="./user/search.php" method="GET">
                         <input type="hidden" name="type" value="product">
                         <input required name="q" type="text" placeholder="sản phẩm cần tìm...">
                         <button type="submit">
                             <i class="fa-solid fa-magnifying-glass"></i>
                         </button>
-                        <div class="header--mid__search--smart"></div>
                     </form>
                 </div>
 
@@ -74,8 +73,8 @@
                         ?>
                         <span class="cart-count count"><?php echo $totalProducts; ?></span>
                     </button>
-                    
-                    
+
+
 
                     <script>
                         function goToCart() {
@@ -85,71 +84,67 @@
                             <?php } else { ?>
                                 // Đăng nhập rồi thì vào cart
                                 window.location.href = "./user/cart.php";
-                                <?php } ?>
+                            <?php } ?>
                         }
                     </script>
                 </div>
             </div>
             <div class="header--bot">
-            <ul class="header__menu">
-                <li>
-                <a href="#">Giới thiệu Nous</a>
-                </li>
-                <?php 
-                    require_once './admin/connect.php';  
-                    $query="select * from danhmuc where danhMucCha=-1";
-                    $result = mysqli_query($conn,$query);
+                <ul class="header__menu">
+                    <li>
+                        <a href="#">Giới thiệu Nous</a>
+                    </li>
+                    <?php
+                    require_once './admin/connect.php';
+                    $query = "select * from danhmuc where danhMucCha=-1";
+                    $result = mysqli_query($conn, $query);
                     $path = "";
-                    if(mysqli_num_rows($result)>0)
-                    {                       
-                        while($rows= mysqli_fetch_assoc($result)){  
-                            echo '<li class="hasChild thoi--so-sinh"><a href="'.$path.$rows["url"].'">'.$rows["tenDanhMuc"].' <i class="fa-solid fa-chevron-down"></i>  </a>';                           
-                            $queryChild="select * from danhmuc where danhMucCha='".$rows["maDanhMuc"]."' order by vitri asc ";
-                            $resultChild= mysqli_query($conn,$queryChild);                                                 
-                            if(mysqli_num_rows($resultChild)>0) 
-                            {
-                                echo '<ul class="FadeIn header__menu1 sub__menu1">'; 
-                                while($rowChild= mysqli_fetch_assoc($resultChild)){
-                                    echo    '<li class="hasChild"><a href="'.$path.$rowChild["url"].'">'.$rowChild["tenDanhMuc"].' </a>';
-                                    $queryChild1="select * from danhmuc where danhMucCha='".$rowChild["maDanhMuc"]."' order by vitri asc";
-                                    $resultChild1= mysqli_query($conn,$queryChild1); 
-                                    if(mysqli_num_rows($resultChild1)>0) {                                           
+                    if (mysqli_num_rows($result) > 0) {
+                        while ($rows = mysqli_fetch_assoc($result)) {
+                            echo '<li class="hasChild thoi--so-sinh"><a href="' . $path . $rows["url"] . '">' . $rows["tenDanhMuc"] . ' <i class="fa-solid fa-chevron-down"></i>  </a>';
+                            $queryChild = "select * from danhmuc where danhMucCha='" . $rows["maDanhMuc"] . "' order by vitri asc ";
+                            $resultChild = mysqli_query($conn, $queryChild);
+                            if (mysqli_num_rows($resultChild) > 0) {
+                                echo '<ul class="FadeIn header__menu1 sub__menu1">';
+                                while ($rowChild = mysqli_fetch_assoc($resultChild)) {
+                                    echo    '<li class="hasChild"><a href="' . $path . $rowChild["url"] . '">' . $rowChild["tenDanhMuc"] . ' </a>';
+                                    $queryChild1 = "select * from danhmuc where danhMucCha='" . $rowChild["maDanhMuc"] . "' order by vitri asc";
+                                    $resultChild1 = mysqli_query($conn, $queryChild1);
+                                    if (mysqli_num_rows($resultChild1) > 0) {
                                         echo ' <ul class="header__menu2">';
-                                            while($rowChild1= mysqli_fetch_assoc($resultChild1)){
-                                                echo '<li><a href="'.$path.$rowChild1["url"].'">'.$rowChild1["tenDanhMuc"].'</a></li>';
-                                                
-                                            }
-                                        echo '</ul>';                                           
-                                    }  
-                                    echo   '</li>';                                     
-                                }    
-                                echo "</ul>";                              
-                            }                               
+                                        while ($rowChild1 = mysqli_fetch_assoc($resultChild1)) {
+                                            echo '<li><a href="' . $path . $rowChild1["url"] . '">' . $rowChild1["tenDanhMuc"] . '</a></li>';
+                                        }
+                                        echo '</ul>';
+                                    }
+                                    echo   '</li>';
+                                }
+                                echo "</ul>";
+                            }
                             echo '</li>';
-                        }                           
-                        
+                        }
                     }
-                ?>
-                <li class="hasChild bo-suu-tap">
-                    <a href="">Bộ sưu tập
-                        <i class="fa-solid fa-chevron-down"></i>
-                    </a>
-                    
-                </li>
-                <li class="hasChild he-thong-dai-ly">
-                    <a href="">Hệ thống đại lý
-                        <i class="fa-solid fa-chevron-down"></i>
-                    </a>
-                    
-                </li>
-                <li class="hasChild lon-cung-nous">
-                    <a href="">Lớn cùng nous
-                        <i class="fa-solid fa-chevron-down"></i>
-                    </a>
-                </li>
-            </ul>
-        </div>
-        
+                    ?>
+                    <li class="hasChild bo-suu-tap">
+                        <a href="">Bộ sưu tập
+                            <i class="fa-solid fa-chevron-down"></i>
+                        </a>
+
+                    </li>
+                    <li class="hasChild he-thong-dai-ly">
+                        <a href="">Hệ thống đại lý
+                            <i class="fa-solid fa-chevron-down"></i>
+                        </a>
+
+                    </li>
+                    <li class="hasChild lon-cung-nous">
+                        <a href="">Lớn cùng nous
+                            <i class="fa-solid fa-chevron-down"></i>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+
         </div>
         <script src="./user/login.js"></script>
     </header>
@@ -179,8 +174,8 @@
                 </div>
                 <div class="buttons">
                     <button id="prev">
-                        <
-                            <button id="next">></button>
+                        < <button id="next">>
+                    </button>
                 </div>
                 <ul class="dots">
                     <li class="active"></li>
@@ -339,91 +334,91 @@
                 </div>
                 <div class="home_product_slider_wrap_body">
                     <div class="tab_content">
-                        <!-- Chưa làm được -->
+                        
                     </div>
 
-					<div class="home_product_slider_wrap_body">
-                <div class="tab_content">
-                <div class="wrapper">
-                    <ul class="container">
-                        <li class="pro">
-                            <div class="pro_container">
-                                <a href="">
-                                    <img class="img" src="./assets/img/products/bo_coc_tay_ke_xanh_la_dinh_gau_vang_d603869b28db4e379e225c0605acb7b5_large.webp" alt="">
-                                </a>
-                                <h3>
-                                    <a href="#">Bộ ba lỗ tai gấu be phối quần kẻ</a>
-                                </h3>
-                                <span>185,000₫</span>
-                            </div>
-                        </li>
+                    <div class="home_product_slider_wrap_body">
+                        <div class="tab_content">
+                            <div class="wrapper">
+                                <ul class="container">
+                                    <li class="pro">
+                                        <div class="pro_container">
+                                            <a href="">
+                                                <img class="img" src="./assets/img/products/bo_coc_tay_ke_xanh_la_dinh_gau_vang_d603869b28db4e379e225c0605acb7b5_large.webp" alt="">
+                                            </a>
+                                            <h3>
+                                                <a href="#">Bộ ba lỗ tai gấu be phối quần kẻ</a>
+                                            </h3>
+                                            <span>185,000₫</span>
+                                        </div>
+                                    </li>
 
-                        <li class="pro">
-                            <div class="pro_container">
-                                <a href="">
-                                    <img class="img" src="./assets/img/products/bo_ba_lo_ke_xanh_dinh_gau_mau_vang_20c2e1804e0443118e1ddc9caa7a25f1_large.webp" alt=""></a>
-                                <h3>
-                                    <a href="#">Bộ ba lỗ tai gấu be phối quần kẻ</a>
-                                </h3>
-                                <span>185,000₫</span>
-                            </div>
-                        </li>
+                                    <li class="pro">
+                                        <div class="pro_container">
+                                            <a href="">
+                                                <img class="img" src="./assets/img/products/bo_ba_lo_ke_xanh_dinh_gau_mau_vang_20c2e1804e0443118e1ddc9caa7a25f1_large.webp" alt=""></a>
+                                            <h3>
+                                                <a href="#">Bộ ba lỗ tai gấu be phối quần kẻ</a>
+                                            </h3>
+                                            <span>185,000₫</span>
+                                        </div>
+                                    </li>
 
-                        <li class="pro">
-                            <div class="pro_container">
-                                <a href="">
-                                    <img class="img" src="./assets/img/products/bo_ba_lo_tai_gau_be_phoi_quan_ke_9b8b62b149b6438d8d63140e74f35281_large.webp" alt=""></a>
-                                <a href=""></a>
-                                <h3>
-                                    <a href="#">Set 2 bodysuit xanh phối be</a>
-                                </h3>
-                                <span>185,000₫</span>
-                            </div>
-                        </li>
+                                    <li class="pro">
+                                        <div class="pro_container">
+                                            <a href="">
+                                                <img class="img" src="./assets/img/products/bo_ba_lo_tai_gau_be_phoi_quan_ke_9b8b62b149b6438d8d63140e74f35281_large.webp" alt=""></a>
+                                            <a href=""></a>
+                                            <h3>
+                                                <a href="#">Set 2 bodysuit xanh phối be</a>
+                                            </h3>
+                                            <span>185,000₫</span>
+                                        </div>
+                                    </li>
 
-                        <li class="pro">
-                            <div class="pro_container">
-                                <a href="">
-                                    <img class="img" src="./assets/img/products/set_2_bodysuit_xanh_phoi_be_5a62bebd316c4d2b84ef058e6c084598_large.webp" alt="">    
-                                </a>
-                                <h3>
-                                    <a href="#">Bộ ba lỗ kẻ xanh đính gấu màu vàng</a>
-                                </h3>
-                                <span>185,000₫</span>
-                            </div>
-                        </li>
+                                    <li class="pro">
+                                        <div class="pro_container">
+                                            <a href="">
+                                                <img class="img" src="./assets/img/products/set_2_bodysuit_xanh_phoi_be_5a62bebd316c4d2b84ef058e6c084598_large.webp" alt="">
+                                            </a>
+                                            <h3>
+                                                <a href="#">Bộ ba lỗ kẻ xanh đính gấu màu vàng</a>
+                                            </h3>
+                                            <span>185,000₫</span>
+                                        </div>
+                                    </li>
 
-                        <li class="pro">
-                            <div class="pro_container">
-                                <a href="">
-                                    <img class="img" src="./assets/img/products/bo_coc_tay_ke_xanh_la_dinh_gau_vang_d603869b28db4e379e225c0605acb7b5_large.webp" alt="">    
-                                </a>
-                                <h3>
-                                    <a href="#">Bộ ba lỗ tai gấu be phối quần kẻ</a>
-                                </h3>
-                                <span>185,000₫</span>
-                            </div>
-                        </li>
+                                    <li class="pro">
+                                        <div class="pro_container">
+                                            <a href="">
+                                                <img class="img" src="./assets/img/products/bo_coc_tay_ke_xanh_la_dinh_gau_vang_d603869b28db4e379e225c0605acb7b5_large.webp" alt="">
+                                            </a>
+                                            <h3>
+                                                <a href="#">Bộ ba lỗ tai gấu be phối quần kẻ</a>
+                                            </h3>
+                                            <span>185,000₫</span>
+                                        </div>
+                                    </li>
 
-                        <li class="pro">
-                            <div class="pro_container">
-                                <a href="">
-                                    <img class="img" src="./assets/img/products/bo_coc_tay_ke_xanh_la_dinh_gau_vang_d603869b28db4e379e225c0605acb7b5_large.webp" alt="">    
-                                </a>
-                                <h3>
-                                    <a href="#">Bộ ba lỗ tai gấu be phối quần kẻ</a>
-                                </h3>
-                                <span>185,000₫</span>
+                                    <li class="pro">
+                                        <div class="pro_container">
+                                            <a href="">
+                                                <img class="img" src="./assets/img/products/bo_coc_tay_ke_xanh_la_dinh_gau_vang_d603869b28db4e379e225c0605acb7b5_large.webp" alt="">
+                                            </a>
+                                            <h3>
+                                                <a href="#">Bộ ba lỗ tai gấu be phối quần kẻ</a>
+                                            </h3>
+                                            <span>185,000₫</span>
+                                        </div>
+                                    </li>
+                                </ul>
                             </div>
-                        </li>
-                    </ul>
+
+                        </div>
                     </div>
-
                 </div>
             </div>
-				</div>
-			</div>
-            
+
         </div>
     </section>
 
