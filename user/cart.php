@@ -45,7 +45,11 @@ foreach ($cart as $item) {
     $totalQuantity += $item['soLuong'];
     $totalAmount += $item['giaBan'] * $item['soLuong'];
 }
-
+if(isset($_POST['checkout-btn']))
+{
+    header("Location: /webbanhang/checkouts");
+    exit();
+}
 $_SESSION['totalProducts'] = $totalProducts; // Lưu giá trị vào session
 ?>
 
@@ -103,19 +107,19 @@ $_SESSION['totalProducts'] = $totalProducts; // Lưu giá trị vào session
             </div>
 
             <div class="card card-right" style="width: 35%;">
-                <div class="total">
+                <form class="total" method="POST">
                     <div class="cart-detail">
                         <i class="fa-solid fa-cart-shopping"></i>
                         <h2>Thông tin giỏ hàng</h2>
                     </div>
                     <h3>Tạm tính (<?php echo $totalProducts; ?> sản phẩm)</h3>
                     <h3>Tổng thanh toán: <?php echo number_format($totalAmount, 0, ',', '.'); ?> VND</h3>
-                    <button class="checkout-btn">Đặt hàng</button>
-                </div>
+                    <button class="checkout-btn" name="checkout-btn" id="checkout-btn">Đặt hàng</button>
+                </form>
             </div>
         </div>
     </div>
-    <?php include '../layout/footer.php'; ?>
+    <?php include($_SERVER["DOCUMENT_ROOT"] . "/webbanhang/collections/includes/footer.php"); ?>
 
     
 </body>

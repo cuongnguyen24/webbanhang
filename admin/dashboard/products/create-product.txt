@@ -45,7 +45,6 @@
                     
                 }
                 
-                
 
                 if(isset($_POST['addToCart']))
                 {
@@ -68,9 +67,8 @@
                         $maKhachHang = $row_maKhachHang['maKhachHang'];
                         $size = $_POST["sizesp"];
                         $quantity = $_POST["soluongsp"];
-                        echo $size;
-                        echo $quantity;
                         
+        
                         // Kiểm tra xem sản phẩm đã tồn tại trong giỏ hàng của người dùng hay chưa
                         $sql_check = "SELECT * FROM giohang WHERE maKhachHang = '$maKhachHang' AND maSanPham = '$maSanPham' AND maSize = '$size'";
                         $result_check = mysqli_query($conn, $sql_check);
