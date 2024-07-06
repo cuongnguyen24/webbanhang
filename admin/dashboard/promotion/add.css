@@ -56,7 +56,7 @@
 .decor{
     width: 550px;
     height: 40px;
-    background-color: #feedea;
+    background-color: #ffecec;
     display: flex;
     justify-content:start;
     align-items: center;
@@ -67,7 +67,7 @@
     margin-left: 20px;
 }
 /* permission */
-.permission{
+.status{
     width: 500px;
     height: 90px;
     display: flex;
@@ -76,7 +76,7 @@
     margin: 0 auto;
     margin-top: 20px;
 }
-.permission .combobox{
+.status .combobox{
     width: 550px;
     height: 40px;
     background-color: #ffecec;

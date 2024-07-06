@@ -120,6 +120,11 @@
                     <i class="fa-solid fa-shop"></i>
                     <h3>Sản phẩm</h3>
                 </a>
+                
+                <a href="../promotion/" class="">
+                    <i class="fa-solid fa-ticket"></i>
+                    <h3>Khuyến mãi</h3>
+                </a>
                 <a href="/webbanhang/admin/accountadmin.php" target="_self">
                     <i class="fa-solid fa-right-from-bracket"></i>
                     <h3>Quay lại</h3>

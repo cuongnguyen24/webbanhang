@@ -32,7 +32,7 @@
                     <i class="fa-regular fa-user"></i>
                     <h3>Khách hàng</h3>
                 </a>
-                <a href="../staff/" class="active">
+                <a href="../staff/" class="">
                     <i class="fa-regular fa-user"></i>
                     <h3>Nhân viên</h3>
                 </a>
@@ -56,7 +56,7 @@
                     <i class="fa-solid fa-shop"></i>
                     <h3>Sản phẩm</h3>
                 </a>
-                <a href="../promotion/" class="">
+                <a href="../promotion/" class="active">
                     <i class="fa-solid fa-ticket"></i>
                     <h3>Khuyến mãi</h3>
                 </a>
@@ -79,9 +79,9 @@
                 
                 <div class="add">
                     <label for="">Danh sách nhân viên</label>
-                    <a id="add_button" href="/webbanhang/admin/dashboard/staff/add.php">
+                    <a id="add_button" href="/webbanhang/admin/dashboard/promotion/add.php">
                         <i class="fa-solid fa-plus"></i>
-                        THÊM NHÂN VIÊN
+                        THÊM MÃ KHUYẾN MÃI
                     </a>
                 </div>
                 <!-- search_html -->
@@ -98,53 +98,58 @@
                         <thead id="header__form">
                             <tr id="row">
                                 <th>ID</th>
-                                <th>Mã Nhân Viên</th>
-                                <th>Mã Tài Khoản</th>
-                                <th>Tài Khoản</th>
-                                <th>Mật Khẩu</th>
-                                <th>Mã Phân Quyền</th>
-                                <th>Họ Tên</th>
-                                <th>Ngày Sinh</th>
-                                <th>Địa chỉ</th>
-                                <th>Giới tính</th>
-                                <th>Email</th>
-                                <th>Số điện thoại</th>
-                                <th>Ghi chú</th>
-                                <th>Thao tác</th>
+                                <th>Mã Khuyến Mãi</th>
+                                <th>Tên Mã Khuyến Mãi</th>
+                                <th>Giá Trị Giảm</th>
+                                <th>Ngày Khuyến Mãi</th>
+                                <th>Ngày Hết Hạn</th>
+                                <th>Trạng Thái</th>
+                                <th>Thao Tác</th>
                             </tr>
                         </thead>
                         <tbody>
                             <?php
                             $num = 1;
-                            $sql = "SELECT nhanvien.*, taikhoan.tenTaiKhoan, taikhoan.matKhau, taikhoan.maPhanQuyen
-                                    FROM nhanvien
-                                    JOIN taikhoan ON nhanvien.maTaiKhoan = taikhoan.maTaiKhoan;";
+                            $sql = "SELECT *
+                                    FROM khuyenmai";
                             $result = mysqli_query($conn, $sql);
                             if (mysqli_num_rows($result) > 0) {
                                 while ($row = mysqli_fetch_assoc($result)) {
-                                    $gioiTinh = ($row['gioiTinh'] == 1) ? 'Nam' : 'Nữ';
-                                    $formattedNgaySinh = date('d/m/Y', strtotime($row['ngaySinh']));
-                                    if ($row['maPhanQuyen'] == 2){
-                                        $maPhanQuyen = 'Nhân viên';
+                                    $formattedNgayKhuyenMai = date('d/m/Y', strtotime($row['ngayKhuyenMai']));
+                                    $formattedNgayHetHan = date('d/m/Y', strtotime($row['ngayHetHan']));
+                                    switch ($row['trangThai']) {
+                                        case 1:
+                                            $trangThai = "Khả dụng";
+                                            $statusClass = "status_promotion_1";
+                                            break;
+                                        case 2:
+                                            $trangThai = "Không khả dụng";
+                                            $statusClass = "status_promotion_2";
+                                            break;
+                                        default:
+                                            $trangThai = "Không xác định";
+                                            $statusClass = "";
+                                            break;
                                     }
+                                    $phanTram = $row['phanTram'] . "%";
                                     ?>
                                     <tr>
                                         <td><?php echo ($num++) ?></td>
-                                        <td><?php echo $row['maNhanVien'] ?></td>
-                                        <td><?php echo $row['maTaiKhoan'] ?></td>
-                                        <td><?php echo $row['tenTaiKhoan'] ?></td>
-                                        <td><?php echo $row['matKhau'] ?></td>
-                                        <td><?php echo $maPhanQuyen?></td>
-                                        <td><?php echo $row['hoTen'] ?></td>
-                                        <td><?php echo $formattedNgaySinh; ?></td>
-                                        <td><?php echo $row['diaChi'] ?></td>
-                                        <td><?php echo $gioiTinh ?></td>
-                                        <td><?php echo $row['email'] ?></td>
-                                        <td><?php echo $row['soDienThoai'] ?></td>
-                                        <td><?php echo $row['ghiChu'] ?></td>
-                                        <td class="act__button">
-                                            <a href="/webbanhang/admin/dashboard/staff/edit.php?smnv=<?php echo $row['maNhanVien'] ?>" class="button-link" id="edit"><i class="fa-solid fa-pen-to-square"></i></a>
-                                            <a onclick="return confirm('Bạn có muốn xóa không ?')" href="/webbanhang/admin/dashboard/staff/delete.php?smnv=<?php echo $row['maNhanVien'] ?>&smtaikhoan=<?php echo $row['maTaiKhoan'] ?>" class="button-link" id="delete_button"><i class="fa-solid fa-trash"></i></a>
+                                        <td><?php echo $row['maKhuyenMai'] ?></td>
+                                        <td><?php echo $row['tenKhuyenMai'] ?></td>
+                                        <td><?php echo $phanTram ?></td>
+                                        <td><?php echo $formattedNgayKhuyenMai ?></td>
+                                        <td><?php echo $formattedNgayHetHan ?></td>
+                                        <td>
+                                        <div class="<?php echo $statusClass; ?>">
+                                                <?php echo $trangThai; ?>
+                                            </div>
+                                        </td>
+                                        <td >
+                                            <div class="act__button">
+                                            <a href="/webbanhang/admin/dashboard/promotion/edit.php?smkm=<?php echo $row['maKhuyenMai'] ?>" class="button-link" id="edit"><i class="fa-solid fa-pen-to-square"></i></a>
+                                            <a onclick="return confirm('Bạn có muốn xóa không ?')" href="/webbanhang/admin/dashboard/promotion/delete.php?smkm=<?php echo $row['maKhuyenMai'] ?>" class="button-link" id="delete_button"><i class="fa-solid fa-trash"></i></a>
+                                            </div>
                                         </td>
                                     </tr>
                                     <?php
@@ -205,8 +210,8 @@
                                             <td><?php echo $row['soDienThoai'] ?></td>
                                             <td><?php echo $row['ghiChu'] ?></td>
                                             <td class="act__button">
-                                            <a href="/webbanhang/admin/dashboard/staff/edit.php?smnv=<?php echo $row['maNhanVien'] ?>" class="button-link" id="edit"><i class="fa-solid fa-pen-to-square"></i></a>
-                                            <a onclick="return confirm('Bạn có muốn xóa không ?')" href="/webbanhang/admin/dashboard/staff/delete.php?smnv=<?php echo $row['maNhanVien'] ?>&smtaikhoan=<?php echo $row['maTaiKhoan'] ?>" class="button-link" id="delete_button"><i class="fa-solid fa-trash"></i></a>
+                                            <a href="/webbanhang/admin/dashboard/promotion/edit.php?smnv=<?php echo $row['maKhuyenMai'] ?>" class="button-link" id="edit"><i class="fa-solid fa-pen-to-square"></i></a>
+                                            <a onclick="return confirm('Bạn có muốn xóa không ?')" href="/webbanhang/admin/dashboard/promotion/delete.php?smnv=<?php echo $row['maKhuyenMai'] ?>" class="button-link" id="delete_button"><i class="fa-solid fa-trash"></i></a>
                                             </td>
                                         </tr>
                                         <?php
