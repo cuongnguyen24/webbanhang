@@ -3,31 +3,6 @@ session_start();
 // $username = $_SESSION["username"]; // Lấy tên tài khoản từ session
 require_once($_SERVER['DOCUMENT_ROOT'] . '/webbanhang/admin/connect.php');
 
-
-// lấy mã danh mục theo link 
-
-
-
-// Lấy dữ liệu từ CSDL
-// lấy tên danh mục dựa trên url 
-
-
-$URI = $_SERVER['REQUEST_URI'];
-
-$query1 = "  SELECT * 
-            FROM danhmuc
-            WHERE url = '$URI' ";
-$result1 = mysqli_query($conn, $query1);
-
-$madanhmuc;
-$tendanhmuc;
-if (mysqli_num_rows($result1) > 0) {
-    while ($row = mysqli_fetch_assoc($result1)) {
-        $madanhmuc = $row['maDanhMuc'];
-        $tendanhmuc = $row['tenDanhMuc'];
-    }
-}
-
 $searchTerm = $_GET['q'];
 $sql = "SELECT * FROM sanpham WHERE tenSanPham LIKE '%$searchTerm%'
 ";
@@ -38,9 +13,6 @@ if (mysqli_num_rows($result) > 0) {
         $sanphams[] = $row;
     }
 }
-
-
-
 ?>
 
 <!DOCTYPE html>
@@ -70,8 +42,6 @@ if (mysqli_num_rows($result) > 0) {
                         <li class="breadcrum-item">
                             <a href="">Tìm kiếm</a>
                         </li>
-
-
                     </ol>
                 </div>
             </div>
@@ -127,8 +97,6 @@ if (mysqli_num_rows($result) > 0) {
 
                     </div>
                     <!-------------------------------------------------- END PRODUCT ----------------------------------->
-
-
                 </div>
                 <!-- -----------------------------------END PRODUCT LIST -------------------------------------------------------- -->
             </div>
@@ -140,8 +108,6 @@ if (mysqli_num_rows($result) > 0) {
     <?php
     include($_SERVER['DOCUMENT_ROOT'] . '/webbanhang/layout/footer.php');
     ?>
-
-
 </body>
 
 </html>
