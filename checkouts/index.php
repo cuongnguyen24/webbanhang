@@ -77,7 +77,7 @@ foreach ($cart as $item) {
     $totalQuantity += $item['soLuong'];
     $totalAmount += $item['giaBan'] * $item['soLuong'];
 }
- $price = $totalAmount - $ship_price;
+ $price = $totalAmount + $ship_price;
 
 $thanhtoan = 1;
 if(isset($_POST['pay']))
