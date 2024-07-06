@@ -46,7 +46,8 @@
                 }
                 
                 
-
+                $sizetonkho = 0;
+                $size = 0;
                 if(isset($_POST['addToCart']))
                 {
                     $username = $_SESSION["username"];
@@ -63,13 +64,27 @@
                                             WHERE tenTaiKhoan = '$username'";
                     $result_maKhachHang = mysqli_query($conn, $sql_get_maKhachHang);
                     
+                    
                     if (mysqli_num_rows($result_maKhachHang) > 0) {
                         $row_maKhachHang = mysqli_fetch_assoc($result_maKhachHang);
                         $maKhachHang = $row_maKhachHang['maKhachHang'];
                         $size = $_POST["sizesp"];
                         $quantity = $_POST["soluongsp"];
-                        echo $size;
-                        echo $quantity;
+                        
+                        
+                        
+                        $query = "SELECT * FROM sizesanpham WHERE maSanPham = '$maSanPham' AND maSize = '$size'";
+                        $result = mysqli_query($conn,$query);
+                        if (mysqli_num_rows($result) > 0) {
+                            while ($row = mysqli_fetch_assoc($result)) {
+                                $sizetonkho = $row["soLuong"];
+                                echo $size . $sizetonkho;
+                            }
+                        } else {
+                        echo "Không có kết quả";
+                }
+
+
                         
                         // Kiểm tra xem sản phẩm đã tồn tại trong giỏ hàng của người dùng hay chưa
                         $sql_check = "SELECT * FROM giohang WHERE maKhachHang = '$maKhachHang' AND maSanPham = '$maSanPham' AND maSize = '$size'";
@@ -77,8 +92,17 @@
         
                         if (mysqli_num_rows($result_check) > 0) {
                             // Nếu sản phẩm đã tồn tại, cập nhật số lượng
-                            $sql_update = "UPDATE giohang SET soLuong = soLuong + $quantity WHERE maKhachHang = '$maKhachHang' AND maSanPham = '$maSanPham' AND maSize = '$size'";
-                            mysqli_query($conn, $sql_update);
+                            while ($row = mysqli_fetch_assoc($result_check)) {
+                                $count_cart = $row["soLuong"];
+                                if($count_cart < $sizetonkho)
+                                {
+                                    $sql_update = "UPDATE giohang SET soLuong = soLuong + $quantity WHERE maKhachHang = '$maKhachHang' AND maSanPham = '$maSanPham' AND maSize = '$size'";
+                                    mysqli_query($conn, $sql_update);
+
+                                }
+                                
+                            }
+                            
                         } else {
                             // Nếu sản phẩm chưa tồn tại, thêm mới vào giỏ hàng
                             $sql_insert = "INSERT INTO giohang (maKhachHang, maSanPham, maSize, soLuong)
@@ -89,8 +113,8 @@
                         
 
                         // Chuyển hướng về trang giỏ hàng
-                        header("Location: /webbanhang/user/cart.php");
-                        exit();
+                        // header("Location: /webbanhang/user/cart.php");
+                        // exit();
                         
                     } else {
                         
@@ -102,6 +126,8 @@
 
                     
                 }
+
+                
                 ?>
     
                 <!DOCTYPE html>
@@ -353,7 +379,7 @@
                                                                 ?>
                                                                 
                                                             
-                                                            <div class="product-sw-select-item  " data-cus="9 - 12M" data-height="70 - 77" data-weight="8.5 - 10.5" data-option2="9M">
+                                                            
                                                             <?php
                                                                     $query = "SELECT IFNULL(soLuong, 0) AS soLuong FROM sizesanpham WHERE (maSanPham = '$maSanPham' AND maSize = 'XL')  LIMIT 1";
                                                                     $result = mysqli_query($conn, $query);
@@ -374,8 +400,29 @@
 
                                                                 ?>
                                                                 <input type="hidden" name="sizesp" id="sizesp" value="none" />
+                                                                
                                                             <div class="select-size-info" style="display: none; left: 0px;"><p>Thông số</p><h6 class="measure-cus">Độ tuổi: <b>0 - 3M</b></h6><div class="measure-wrapper"><span class="measure-height">Chiều cao: <b>55 - 61 cm</b></span><span class="empty-border"></span><span class="measure-weight">Cân nặng: <b>3.5 - 5.5 kg</b></span></div></div></div>
                                                     </div>
+                                                    <?php
+                                                                if($size == 'S')
+                                                                {
+                                                                    echo 'Số lượng size S còn trong kho là ' .$sizetonkho;
+                                                                }
+                                                                else if($size == 'M')
+                                                                {
+                                                                    echo 'Số lượng size M còn trong kho là ' .$sizetonkho;
+                                                                }
+                                                                else if($size == 'L')
+                                                                {
+                                                                    echo 'Số lượng size L còn trong kho là ' .$sizetonkho;
+                                                                }
+                                                                else if($size == 'XL')
+                                                                {
+                                                                    echo 'Số lượng size XL còn trong kho là ' .$sizetonkho;
+                                                                }
+                                                                
+                                                                ?>
+                                                                <br>
                                                 </div>
     
                                                 <div class="productActionMain">
@@ -465,6 +512,8 @@
                             item.classList.add('active');
                             var itemValue = item.children;
                             document.getElementById('sizesp').value = itemValue[0].innerHTML;
+                            alert(document.getElementById('sizetonkho'));
+
                         });
                     }
                 });

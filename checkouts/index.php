@@ -1,6 +1,7 @@
 <?php
+
 session_start();
-              
+$totalProducts = isset($_SESSION['totalProducts']) ? $_SESSION['totalProducts'] : 0;
 require_once ($_SERVER["DOCUMENT_ROOT"] . "/webbanhang/admin/connect.php");
 
 
@@ -10,6 +11,18 @@ if (!isset($_SESSION["username"])) {
     ';
 exit();
 }
+
+    $key= "DH";
+    $query="SELECT max(CONVERT(SUBSTRING(maDonHang, 3), int)) as nid FROM `donhang`";
+    $result = mysqli_query($conn,$query);
+    if(mysqli_num_rows($result)>0)
+    {
+        $data = mysqli_fetch_assoc($result)['nid'];          
+        $id = $key . ($data + 1);
+    }
+    else{
+        $id = $key."1";
+    }
 
 
 $username = $_SESSION["username"];
@@ -38,7 +51,7 @@ if (mysqli_num_rows($result_maKhachHang) > 0) {
     $maKhachHang = $row_maKhachHang['maKhachHang'];
 
     // Lấy thông tin sản phẩm trong giỏ hàng của khách hàng từ bảng giohang
-    $sql_cart = "SELECT giohang.*, sanpham.tenSanPham, sanpham.giaBan, sanpham.duongDanAnhChung, size.tenSize, sanpham.chitietsp
+    $sql_cart = "SELECT giohang.*, sanpham.tenSanPham, sanpham.giaBan, sanpham.duongDanAnhChung
                  FROM giohang 
                  INNER JOIN sanpham ON giohang.maSanPham = sanpham.maSanPham 
                  INNER JOIN size ON giohang.maSize = size.maSize 
@@ -66,17 +79,62 @@ foreach ($cart as $item) {
 }
  $price = $totalAmount - $ship_price;
 
-$_SESSION['totalProducts'] = $totalProducts; // Lưu giá trị vào session
 $thanhtoan = 1;
 if(isset($_POST['pay']))
 {
+    if($_SESSION['totalProducts']>0)
+    {
+
     $hoTen= $_POST["name"];
     $soDienThoai = $_POST["phone"];
     $tenDiaChi = $_POST["address"];
     $thanhtoan = $_POST["thanhtoan"];
+    if($thanhtoan == 3 || $thanhtoan == 2)
+    {
+        $tinhtrangthanhtoan = 1;
+    }
+    else
+        $tinhtrangthanhtoan = 2;
+
+        // TẠO ĐƠN HÀNG TRONG ĐƠN HÀNG
+    $query_donhang = "INSERT INTO donhang VALUES ('$id', '$maKhachHang', CURDATE(), '$tenDiaChi', '$price', '1','$thanhtoan','$tinhtrangthanhtoan')";
+    $result = mysqli_query($conn,$query_donhang);
     
-    
-    
+        // TẠO ĐƠN HÀNG TRONG CHI TIẾT ĐƠN HÀNG
+       
+        foreach ($cart as $item) {
+            $totalQuantity += $item['soLuong'];
+            $totalAmount += $item['giaBan'] * $item['soLuong'];
+            $maSanPham = $item['maSanPham'];
+            $maSize = $item['maSize'];
+            $soLuong = $item['soLuong'];
+            $donGia = $item['giaBan'];
+            $thanhtien = $soLuong * $donGia;
+
+            $query_ctdonhang = "INSERT INTO chitietdonhang VALUES ('$id', '$maSanPham', '$maSize', '$soLuong', '$donGia', '$thanhtien')";
+            $result = mysqli_query($conn,$query_ctdonhang);
+
+
+            //Trừ số lượng trong size sản phẩm
+            $query_delSize = "UPDATE sizesanpham SET soluong = soluong - $soLuong WHERE maSanPham = '$maSanPham' AND maSize = '$maSize'";
+            $result = mysqli_query($conn,$query_delSize);
+        }
+
+        //Xóa sản phẩm trong giỏ hàng
+        echo $maKhachHang;
+        $query_delCart = "DELETE FROM giohang WHERE maKhachHang = '$maKhachHang'";
+        $result = mysqli_query($conn,$query_delCart);
+
+        echo ' <script>
+                alert("Đặt hàng hàng thành công ");
+                window.location.href = "/webbanhang/user/ordercustomer.php";
+            </script>';
+    }
+    else
+        echo ' <script>
+        alert("Giỏ hàng chưa có gì để đặt cả!");
+        window.location.href = "/webbanhang/";
+    </script>';
 }
 
 
@@ -238,7 +296,7 @@ if(isset($_POST['pay']))
                                         <td class="total-line-name payment-due">
                                             <span class="payment-due-currency">VND</span>
                                             <span class="payment-due-price" data-checkout-payment-due-target="57150000">
-                                            <?php echo $price;?> đ
+                                            <?php echo $price;?>đ
                                             </span>
                                             <span class="checkout_version" display:none="" data_checkout_version="53">
                                             </span>
