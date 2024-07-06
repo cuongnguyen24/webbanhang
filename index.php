@@ -92,7 +92,7 @@
             <div class="header--bot">
                 <ul class="header__menu">
                     <li>
-                        <a href="#">Giới thiệu Nous</a>
+                        <a href="/webbanhang/">Giới thiệu Nous</a>
                     </li>
                     <?php
                     require_once './admin/connect.php';

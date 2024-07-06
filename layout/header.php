@@ -68,7 +68,7 @@ $role = isset($_SESSION["role"]) ? $_SESSION["role"] : null;
         <div class="header--bot">
             <ul class="header__menu">
                 <li>
-                    <a href="../index.php">Giới thiệu Nous</a>
+                    <a href="/webbanhang/index.php">Giới thiệu Nous</a>
                 </li>
                 <?php
                 require_once($_SERVER['DOCUMENT_ROOT'] . '/webbanhang/admin/connect.php');
@@ -101,12 +101,7 @@ $role = isset($_SESSION["role"]) ? $_SESSION["role"] : null;
                     }
                 }
                 ?>
-                <li class="hasChild thoi-trang-cho-be-2-6y">
-                    <a href="">Thời trang cho bé 2-6y
-                        <i class="fa-solid fa-chevron-down"></i>
-                    </a>
-
-                </li>
+                
                 <li class="hasChild bo-suu-tap">
                     <a href="">Bộ sưu tập
                         <i class="fa-solid fa-chevron-down"></i>
@@ -115,6 +110,12 @@ $role = isset($_SESSION["role"]) ? $_SESSION["role"] : null;
                 </li>
                 <li class="hasChild he-thong-dai-ly">
                     <a href="">Hệ thống đại lý
+                        <i class="fa-solid fa-chevron-down"></i>
+                    </a>
+
+                </li>
+                <li class="hasChild thoi-trang-cho-be-2-6y">
+                    <a href="">Lớn cùng NOUS
                         <i class="fa-solid fa-chevron-down"></i>
                     </a>
 

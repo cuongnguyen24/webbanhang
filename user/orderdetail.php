@@ -129,7 +129,7 @@ $resultOrdersDetail = mysqli_query($conn, $sqlOrdersDetail);
                 if (mysqli_num_rows($resultOrdersDetail) > 0) {
                   while ($row = mysqli_fetch_assoc($resultOrdersDetail)) {
                     echo "<tr>";
-                    echo "<td><img src='" . $row["duongDanAnhChung"] . "' alt='Product Image' style='width: 70px; height: 70px;'></td>";
+                    echo "<td><img src='/webbanhang/admin/dashboard/products/" . $row["duongDanAnhChung"] . "' alt='Product Image' style='width: 70px; height: 70px;'></td>";
                     echo "<td>" . $row["TenSanPham"] . "</td>";
                     echo "<td>" . $row["soLuong"] . "</td>";
                     echo "<td>" . $row["maSize"] . "</td>";
