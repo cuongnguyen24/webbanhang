@@ -284,7 +284,7 @@
                 </div>
             </div>
             <div class="sidebar">
-                <a href="./index.html" class="">
+            <a href="../index.php" class="">
                     <i class="fa-solid fa-list"></i>
                     <h3>Thống kê</h3>
                 </a>
@@ -297,7 +297,6 @@
                     <i class="fa-regular fa-user"></i>
                     <h3>Nhân viên</h3>
                 </a>
-
                 <a href="../order/" class="">
                     <i class="fa-solid fa-cart-shopping"></i>
                     <h3>Đơn hàng</h3>
@@ -308,17 +307,22 @@
                     <h3>Nhà cung cấp</h3>
                 </a>
 
-                <a href="../DanhMuc/" class="">
+                <a href="../Danhmuc/" class="">
                     <i class="fa-regular fa-envelope"></i>
                     <h3>Danh mục</h3>
-                    <span class="message-count">26</span>
+                    
                 </a>
 
                 <a href="../products/" class="active">
                     <i class="fa-solid fa-shop"></i>
                     <h3>Sản phẩm</h3>
                 </a>
-                
+
+                <a href="../promotion/" class="">
+                    <i class="fa-solid fa-ticket"></i>
+                    <h3>Khuyến mãi</h3>
+                </a>
+
                 <a href="/webbanhang/admin/accountadmin.php" target="_self">
                     <i class="fa-solid fa-right-from-bracket"></i>
                     <h3>Quay lại</h3>
