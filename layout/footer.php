@@ -1,4 +1,6 @@
+
 <footer class="footer">
+
         <div class="container">
             <div class="footer--top">
                 <div class="footer--top__item">
@@ -58,4 +60,5 @@
                 </div>
             </div>
         </div>
+        
     </footer>

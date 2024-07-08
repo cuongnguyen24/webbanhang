@@ -2,35 +2,9 @@
 session_start();
 $username = $_SESSION["username"]; // Lấy tên tài khoản từ session
 ?>
-<!DOCTYPE html>
-<html lang="en">
 
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Document</title>
-  <link rel="stylesheet" href="../assets/style.css" />
-  <link rel="stylesheet" href="../assets/reset.css" />
-  <link rel="stylesheet" href="../assets/cuongstyle.css" />
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-</head>
-
-<body>
-  <?php
-  require_once '../admin/connect.php';
-  include '../layout/header.php';
-  ?>
-
-  <div class="main__layout__account">
-    <div class="main__layout__container main__layout__container__2">
-      <div class="card card-left" style="width: 30%; height: 100%">
-        <div class="card-body">
-          <h2 class="card-title">
-            <div class="user-icon">
-              <i class="fa-regular fa-user"></i>
-            </div>
-            <?php
-
+<?php
+            require_once '../admin/connect.php';
             $sql = "SELECT khachhang.hoTen, khachhang.email, khachhang.soDienThoai, khachhang.maDiaChi, khachhang.maKhachHang FROM taikhoan
             INNER JOIN khachhang ON taikhoan.maTaiKhoan = khachhang.maTaiKhoan WHERE taikhoan.tenTaiKhoan = '$username'";
 
@@ -60,8 +34,37 @@ $username = $_SESSION["username"]; // Lấy tên tài khoản từ session
             } else {
               $diachi = ""; // không có địa chỉ thì ko hiện gì
             }
-            mysqli_close($conn);
+            
             ?>
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Document</title>
+  <link rel="stylesheet" href="../assets/style.css" />
+  <link rel="stylesheet" href="../assets/reset.css" />
+  <link rel="stylesheet" href="../assets/cuongstyle.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+</head>
+
+<body>
+  <?php
+  require_once '../admin/connect.php';
+  include '../layout/header.php';
+  
+  ?>
+
+  <div class="main__layout__account">
+    <div class="main__layout__container main__layout__container__2">
+      <div class="card card-left" style="width: 30%; height: 100%">
+        <div class="card-body">
+          <h2 class="card-title">
+            <div class="user-icon">
+              <i class="fa-regular fa-user"></i>
+            </div>
+            
             <?php echo $name; ?>
           </h2>
           <hr>

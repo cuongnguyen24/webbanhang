@@ -23,7 +23,7 @@
                 </div>
             </div>
             <div class="sidebar">
-                <a href="../index.html" class="">
+                <a href="../index.php" class="">
                     <i class="fa-solid fa-list"></i>
                     <h3>Thống kê</h3>
                 </a>
@@ -49,24 +49,16 @@
                 <a href="../Danhmuc/" class="">
                     <i class="fa-regular fa-envelope"></i>
                     <h3>Danh mục</h3>
-                    <span class="Message-count">26</span>
+                    
                 </a>
 
                 <a href="../products/" class="">
                     <i class="fa-solid fa-shop"></i>
                     <h3>Sản phẩm</h3>
                 </a>
-                <a href="../report/" class="">
-                    <i class="fa-solid fa-exclamation"></i>
-                    <h3>Báo cáo</h3>
-                </a>
-                <a href="../settings/" class="">
-                    <i class="fa-solid fa-gear"></i>
-                    <h3>Cài đặt</h3>
-                </a>
-                <a href="#">
-                    <i class="fa-solid fa-plus"></i>
-                    <h3>Thêm sản phẩm</h3>
+                <a href="../promotion/" class="">
+                    <i class="fa-solid fa-ticket"></i>
+                    <h3>Khuyến mãi</h3>
                 </a>
                 <a href="/webbanhang/admin/accountadmin.php" target="_self">
                     <i class="fa-solid fa-right-from-bracket"></i>
@@ -96,10 +88,10 @@
                 <div class="search">
                     <form method="POST" action="" id="search_form">
                         <input type="text" name="txtSearch" id="txtSearch" placeholder="   Tìm họ tên nhân viên">
-                        <button name="btnSearch" id="btnSearch" ><i class="fa-solid fa-magnifying-glass"></i></button>
+                        <button name="btnSearch" id="btnSearch" title="Tìm kiếm theo tên nhân viên"><i class="fa-solid fa-magnifying-glass"></i></button>
                     </form>
                 </div>
-                
+                <div class="aaaa"></div>
                 <div class="wrapper" id="tblQLTK" style="display: <?php echo isset($_POST['btnSearch']) && !empty($_POST['txtSearch']) ? 'none' : 'block'; ?>">
                 <!-- table -->
                 <table>
@@ -132,7 +124,7 @@
                                 while ($row = mysqli_fetch_assoc($result)) {
                                     $gioiTinh = ($row['gioiTinh'] == 1) ? 'Nam' : 'Nữ';
                                     $formattedNgaySinh = date('d/m/Y', strtotime($row['ngaySinh']));
-                                    if ($row['maPhanQuyen'] == 3){
+                                    if ($row['maPhanQuyen'] == 2){
                                         $maPhanQuyen = 'Nhân viên';
                                     }
                                     ?>
@@ -151,14 +143,13 @@
                                         <td><?php echo $row['soDienThoai'] ?></td>
                                         <td><?php echo $row['ghiChu'] ?></td>
                                         <td class="act__button">
-                                            <a href="/webbanhang/admin/dashboard/staff/edit.php?smnv=<?php echo $row['maNhanVien'] ?>" class="button-link">Sửa</a>
-                                            <a onclick="return confirm('Bạn có muốn xóa không ?')" href="/webbanhang/admin/dashboard/staff/delete.php?smnv=<?php echo $row['maNhanVien'] ?>&smtaikhoan=<?php echo $row['maTaiKhoan'] ?>" class="button-link" id="delete_button">Xóa</a>
+                                            <a href="/webbanhang/admin/dashboard/staff/edit.php?smnv=<?php echo $row['maNhanVien'] ?>" class="button-link" id="edit"><i class="fa-solid fa-pen-to-square"></i></a>
+                                            <a onclick="return confirm('Bạn có muốn xóa không ?')" href="/webbanhang/admin/dashboard/staff/delete.php?smnv=<?php echo $row['maNhanVien'] ?>&smtaikhoan=<?php echo $row['maTaiKhoan'] ?>" class="button-link" id="delete_button"><i class="fa-solid fa-trash"></i></a>
                                         </td>
                                     </tr>
                                     <?php
                                 }
                             } else {
-                                echo "Không có dữ liệu";
                             }
                             ?>
                         </tbody>
@@ -214,14 +205,13 @@
                                             <td><?php echo $row['soDienThoai'] ?></td>
                                             <td><?php echo $row['ghiChu'] ?></td>
                                             <td class="act__button">
-                                                <a href="/webbanhang/admin/dashboard/staff/edit.php?smnv=<?php echo $row['maNhanVien'] ?>" class="button-link">Sửa</a>
-                                                <a onclick="return confirm('Bạn có muốn xóa không ?')" href="delete_account_manage.php?smnv=<?php echo $row['maNhanVien'] ?>" class="button-link" id="delete_button">Xóa</a>
+                                            <a href="/webbanhang/admin/dashboard/staff/edit.php?smnv=<?php echo $row['maNhanVien'] ?>" class="button-link" id="edit"><i class="fa-solid fa-pen-to-square"></i></a>
+                                            <a onclick="return confirm('Bạn có muốn xóa không ?')" href="/webbanhang/admin/dashboard/staff/delete.php?smnv=<?php echo $row['maNhanVien'] ?>&smtaikhoan=<?php echo $row['maTaiKhoan'] ?>" class="button-link" id="delete_button"><i class="fa-solid fa-trash"></i></a>
                                             </td>
                                         </tr>
                                         <?php
                                     }
                                 } else {
-                                    echo "Không có dữ liệu";
                                 }
                             }
                             ?>

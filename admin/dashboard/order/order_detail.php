@@ -26,7 +26,7 @@
                 </div>
             </div>
             <div class="sidebar">
-                <a href="../index.html" class="">
+            <a href="../index.php" class="">
                     <i class="fa-solid fa-list"></i>
                     <h3>Thống kê</h3>
                 </a>
@@ -52,24 +52,16 @@
                 <a href="../Danhmuc/" class="">
                     <i class="fa-regular fa-envelope"></i>
                     <h3>Danh mục</h3>
-                    <span class="Message-count">26</span>
+                    
                 </a>
 
                 <a href="../products/" class="">
                     <i class="fa-solid fa-shop"></i>
                     <h3>Sản phẩm</h3>
                 </a>
-                <a href="../report/" class="">
-                    <i class="fa-solid fa-exclamation"></i>
-                    <h3>Báo cáo</h3>
-                </a>
-                <a href="../settings/" class="">
-                    <i class="fa-solid fa-gear"></i>
-                    <h3>Cài đặt</h3>
-                </a>
-                <a href="#">
-                    <i class="fa-solid fa-plus"></i>
-                    <h3>Thêm sản phẩm</h3>
+                <a href="../promotion/" class="">
+                    <i class="fa-solid fa-ticket"></i>
+                    <h3>Khuyến mãi</h3>
                 </a>
                 <a href="/websiteechcom/admin/accountadmin.php" target="_self">
                     <i class="fa-solid fa-right-from-bracket"></i>
@@ -81,7 +73,7 @@
          <!-- MAIN -->
         <main>
             
-<?php
+        <?php
             include_once("../../connect.php");
             ?>
             <!-- main__layout -->
@@ -95,12 +87,16 @@
                 </div>
                 <!-- search_html -->
                 <div class="search">
+                <label >Tìm kiếm đơn hàng</label>
                     <form method="POST" action="" id="search_form">
-                        <input type="text" name="txtSearch" id="txtSearch" placeholder="   Tìm họ tên nhân viên">
-                        <button name="btnSearch" id="btnSearch" ><i class="fa-solid fa-magnifying-glass"></i></button>
+                        <label id="tungay">Từ ngày: </label>
+                        <input type="date" name="start_date" id="start_date" placeholder="Từ ngày">
+                        <label >Đến ngày: </label>
+                        <input type="date" name="end_date" id="end_date" placeholder="Đến ngày">
+                        <button name="btnSearch" id="btnSearch" title="Tìm danh sách đơn hàng theo ngày"><i class="fa-solid fa-filter"></i></i></button>
                     </form>
                 </div>
-                
+                <div class="aaaa"></div>
                 <div class="wrapper" id="tblQLTK" style="display: <?php echo isset($_POST['btnSearch']) && !empty($_POST['txtSearch']) ? 'none' : 'block'; ?>">
                 <!-- table -->
                 <table>
@@ -240,9 +236,9 @@
                         </tbody>
                     </table>
                 </div>
-                <div id="order_detail">
-                    aaa
-                </div>
+                <?php
+                    require_once 'detail.php';
+                ?>
                 <script src="./order_detail.js"></script>
         </main>
     </div>

@@ -58,17 +58,50 @@
             $url=$_POST['txtDuongDan'];
             $danhMucCha=$_POST['txtDmCha'] != 0 ? $_POST['txtDmCha'] : -1;      
             $vitri=$_POST['txtVitri'];      
+            
             $query="INSERT INTO danhmuc VALUES('".$maDanhMuc."', '".$tenDanhMuc."','".$url."','".$danhMucCha."','".$vitri."')"; 
+            echo $url;
             $result= mysqli_query($conn, $query);
             if($result>0)
-                echo 'Thêm mới thành công';
+            {
+            
+                $foldername = $url;
+                $dir = $_SERVER['DOCUMENT_ROOT']  . $foldername ;
+
+                $file_to_write = 'index.php';
+                $content_to_write = file($_SERVER["DOCUMENT_ROOT"] . '\webbanhang\admin\dashboard\Danhmuc\create-category.txt');
+                
+                echo '<br>' .$dir .$file_to_write;
+                if( is_dir($dir) === false )
+                {
+                    mkdir($dir,0777,true);
+                }
+
+                $file = fopen($dir . '/' . $file_to_write,"w");
+
+                
+                foreach ($content_to_write as $line) {
+                    fwrite($file, $line);
+                }
+        
+            
+            
+                
+                fclose($file);
+
+                include $dir . '/' . $file_to_write;
+            }
             else 
-                echo 'Lỗi thêm mới';
+            echo '<script>
+                alert("Thêm thất bại");
+                window.location.href = "./index.php";
+            </script>';
             }
             }
 ?>
 <!DOCTYPE html>
 <html lang="en">
+    
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -81,7 +114,7 @@
 </head>
 <body>
     <div class="container">
-        <aside>
+    <aside>
             <div class="top">
                 <div class="logo">
                     <img src="./images/" alt="">
@@ -92,7 +125,7 @@
                 </div>
             </div>
             <div class="sidebar">
-                <a href="./index.html" class="">
+                <a href="../index.php" class="">
                     <i class="fa-solid fa-list"></i>
                     <h3>Thống kê</h3>
                 </a>
@@ -105,40 +138,31 @@
                     <i class="fa-regular fa-user"></i>
                     <h3>Nhân viên</h3>
                 </a>
-
                 <a href="../order/" class="">
                     <i class="fa-solid fa-cart-shopping"></i>
                     <h3>Đơn hàng</h3>
                 </a>
 
-                <a href="../Nhacungcap/" class="active">
+                <a href="../Nhacungcap/" class="">
                     <i class="fa-solid fa-clipboard"></i>
                     <h3>Nhà cung cấp</h3>
                 </a>
 
-                <a href="../DanhMuc/" class="">
+                <a href="../DanhMuc/" class="active">
                     <i class="fa-regular fa-envelope"></i>
                     <h3>Danh mục</h3>
-                    <span class="message-count">26</span>
+                    
                 </a>
 
                 <a href="../products/" class="">
                     <i class="fa-solid fa-shop"></i>
                     <h3>Sản phẩm</h3>
                 </a>
-                <a href="../report/" class="">
-                    <i class="fa-solid fa-exclamation"></i>
-                    <h3>Báo cáo</h3>
+                <a href="../promotion/" class="">
+                    <i class="fa-solid fa-ticket"></i>
+                    <h3>Khuyến mãi</h3>
                 </a>
-                <a href="../settings/" class="">
-                    <i class="fa-solid fa-gear"></i>
-                    <h3>Cài đặt</h3>
-                </a>
-                <a href="#">
-                    <i class="fa-solid fa-plus"></i>
-                    <h3>Thêm sản phẩm</h3>
-                </a>
-                <a href="/websiteechcom/admin/accountadmin.php" target="_self">
+                <a href="/webbanhang/admin/accountadmin.php" target="_self">
                     <i class="fa-solid fa-right-from-bracket"></i>
                     <h3>Quay lại</h3>
                 </a>
@@ -212,7 +236,7 @@
             }
         function updateInput2() {
             var input1Value = document.getElementById("txtDanhMuc").value;
-            document.getElementById("txtDuongDan").value = removeAccents(convertToSlug(input1Value));
+            document.getElementById("txtDuongDan").value = '/webbanhang/collections/' + removeAccents(convertToSlug(input1Value)) + '/';
         }
     </script>
 </body>

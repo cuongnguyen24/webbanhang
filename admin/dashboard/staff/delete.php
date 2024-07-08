@@ -1,21 +1,21 @@
 <?php
-    include_once("connect_q.php");
+    include_once("../../connect.php");
     $maNhanVien =  $_GET['smnv'];
     $maTaiKhoan =  $_GET['smtaikhoan'];
     // Bắt đầu giao dịch
-    mysqli_begin_transaction($con);
+    mysqli_begin_transaction($conn);
 
     try {
         // Truy vấn xóa từ bảng nhanvien
         $delete_sql_nhanvien = "DELETE FROM nhanvien WHERE maNhanVien = '$maNhanVien'";
-        mysqli_query($con, $delete_sql_nhanvien);
+        mysqli_query($conn, $delete_sql_nhanvien);
 
         // Truy vấn xóa từ bảng taikhoan
         $delete_sql_taikhoan = "DELETE FROM taikhoan WHERE maTaiKhoan = '$maTaiKhoan'";
-        mysqli_query($con, $delete_sql_taikhoan);
+        mysqli_query($conn, $delete_sql_taikhoan);
 
         // Commit nếu không có lỗi
-        mysqli_commit($con);
+        mysqli_commit($conn);
         echo "<script>
         alert('Xóa thành công');
         window.location.href = '/webbanhang/admin/dashboard/staff/index.php';

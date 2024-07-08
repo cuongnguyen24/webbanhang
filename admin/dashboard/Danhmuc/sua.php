@@ -87,7 +87,7 @@
 
 <body>
     <div class="container">
-        <aside>
+    <aside>
             <div class="top">
                 <div class="logo">
                     <img src="./images/" alt="">
@@ -98,7 +98,7 @@
                 </div>
             </div>
             <div class="sidebar">
-                <a href="./index.html" class="">
+                <a href="../index.php" class="">
                     <i class="fa-solid fa-list"></i>
                     <h3>Thống kê</h3>
                 </a>
@@ -111,40 +111,32 @@
                     <i class="fa-regular fa-user"></i>
                     <h3>Nhân viên</h3>
                 </a>
-
                 <a href="../order/" class="">
                     <i class="fa-solid fa-cart-shopping"></i>
                     <h3>Đơn hàng</h3>
                 </a>
 
-                <a href="../Nhacungcap/" class="active">
+                <a href="../Nhacungcap/" class="">
                     <i class="fa-solid fa-clipboard"></i>
                     <h3>Nhà cung cấp</h3>
                 </a>
 
-                <a href="../DanhMuc/" class="">
+                <a href="../DanhMuc/" class="active">
                     <i class="fa-regular fa-envelope"></i>
                     <h3>Danh mục</h3>
-                    <span class="message-count">26</span>
+                    
                 </a>
 
                 <a href="../products/" class="">
                     <i class="fa-solid fa-shop"></i>
                     <h3>Sản phẩm</h3>
                 </a>
-                <a href="../report/" class="">
-                    <i class="fa-solid fa-exclamation"></i>
-                    <h3>Báo cáo</h3>
+                
+                <a href="../promotion/" class="">
+                    <i class="fa-solid fa-ticket"></i>
+                    <h3>Khuyến mãi</h3>
                 </a>
-                <a href="../settings/" class="">
-                    <i class="fa-solid fa-gear"></i>
-                    <h3>Cài đặt</h3>
-                </a>
-                <a href="#">
-                    <i class="fa-solid fa-plus"></i>
-                    <h3>Thêm sản phẩm</h3>
-                </a>
-                <a href="/websiteechcom/admin/accountadmin.php" target="_self">
+                <a href="/webbanhang/admin/accountadmin.php" target="_self">
                     <i class="fa-solid fa-right-from-bracket"></i>
                     <h3>Quay lại</h3>
                 </a>

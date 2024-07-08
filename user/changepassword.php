@@ -72,7 +72,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
   }
   $sql1->close();
 }
-mysqli_close($conn);
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -151,6 +151,7 @@ mysqli_close($conn);
 
   <?php
   include '../layout/footer.php';
+  mysqli_close($conn);
   ?>
 
 </body>

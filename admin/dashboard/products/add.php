@@ -26,10 +26,9 @@
         
         $upload_dir = 'uploads/';
         $allowed_types = array('jpg', 'png', 'jpeg', 'gif', 'webp');
-        
+        $first_img = '';
         // Define maxsize for files i.e 2MB
         $maxsize = 2 * 1024 * 1024; 
-        $duongdanchung;
         // Checks if user sent an empty form 
         if(!empty(array_filter($_FILES['fileToUpload']['name']))) {
     
@@ -78,12 +77,17 @@
                     echo "Error uploading {$file_name} "; 
                     echo "({$file_ext} file type is not allowed)<br / >";
                 } 
+                if($_FILES['fileToUpload']['tmp_name'][0])
+                {
+                    $first_img = $duongdanchung;
+                }
                 $query = "INSERT INTO anhsanpham VALUES('".$id."','".$filepath."', '".Null."')";     
                 mysqli_query($conn, $query);
                 
             }
+            
         }
-        return $duongdanchung;
+        return $first_img;
     }   
 ?>
 <?php
@@ -188,23 +192,71 @@
             $result= mysqli_query($conn, $query);
             foreach ($items as $index => $item) {
                 $id_size =  $item["maSize"];
+                
                 if (isset($_POST[$id_size]) && isset($_POST[$id_size . '_text'])){
+                   
                     $value = $_POST[$id_size . '_text'];
-                    $querySize = "INSERT INTO sizesanpham VALUES('".$id."','".$id_size."','".$value."')";
-                    mysqli_query($conn, $querySize);
+                    
                 }
+                else
+                {
+                    $value = 0;
+                }
+                $querySize = "INSERT INTO sizesanpham VALUES('".$id."','".$id_size."','".$value."')";
+                    mysqli_query($conn, $querySize);
                 
             }
             $duongdanchung = uploadImage($id, $conn);
-            echo $duongdanchung;
+            
             $query1="UPDATE sanpham SET duongDanAnhChung='".$duongdanchung." 'where maSanPham='".$id."'"; 
             mysqli_query($conn, $query1);
             if($result>0)
-                echo 'Thêm mới thành công';
-            else 
-                echo 'Lỗi thêm mới';
-        }
+
+            {
+                echo '<script>
+                    alert("Thêm thành công");
+                    window.location.href = "./index.php";
+                </script>';
+                $foldername = $chitietsp;
+                $dir = $_SERVER['DOCUMENT_ROOT']  . $foldername ;
+
+                $file_to_write = 'index.php';
+                $content_to_write = file($_SERVER["DOCUMENT_ROOT"] . '\webbanhang\admin\dashboard\products\create-product.txt');
+                
+                echo '<br>' .$dir .$file_to_write;
+
+                if( is_dir($dir) === false )
+                {
+                    mkdir($dir,0777,true);
+                }
+
+
+                $file = fopen($dir . '/' . $file_to_write,"w");
+
+                
+                foreach ($content_to_write as $line) {
+                    fwrite($file, $line);
+                }
+        
             
+            
+                
+                fclose($file);
+
+                include $dir . '/' . $file_to_write;
+                
+            }
+            else 
+               echo '<script>
+                    alert("Thêm thất bại");
+                    window.location.href = "./index.php";
+                </script>';
+
+        
+        }
+           
+            
+
     }
 ?>
 <!DOCTYPE html>
@@ -237,7 +289,7 @@
                 </div>
             </div>
             <div class="sidebar">
-                <a href="./index.html" class="">
+            <a href="../index.php" class="">
                     <i class="fa-solid fa-list"></i>
                     <h3>Thống kê</h3>
                 </a>
@@ -250,40 +302,33 @@
                     <i class="fa-regular fa-user"></i>
                     <h3>Nhân viên</h3>
                 </a>
-
                 <a href="../order/" class="">
                     <i class="fa-solid fa-cart-shopping"></i>
                     <h3>Đơn hàng</h3>
                 </a>
 
-                <a href="../Nhacungcap/" class="active">
+                <a href="../Nhacungcap/" class="">
                     <i class="fa-solid fa-clipboard"></i>
                     <h3>Nhà cung cấp</h3>
                 </a>
 
-                <a href="../DanhMuc/" class="">
+                <a href="../Danhmuc/" class="">
                     <i class="fa-regular fa-envelope"></i>
                     <h3>Danh mục</h3>
-                    <span class="message-count">26</span>
+                    
                 </a>
 
-                <a href="../products/" class="">
+                <a href="../products/" class="active">
                     <i class="fa-solid fa-shop"></i>
                     <h3>Sản phẩm</h3>
                 </a>
-                <a href="../report/" class="">
-                    <i class="fa-solid fa-exclamation"></i>
-                    <h3>Báo cáo</h3>
+
+                <a href="../promotion/" class="">
+                    <i class="fa-solid fa-ticket"></i>
+                    <h3>Khuyến mãi</h3>
                 </a>
-                <a href="../settings/" class="">
-                    <i class="fa-solid fa-gear"></i>
-                    <h3>Cài đặt</h3>
-                </a>
-                <a href="#">
-                    <i class="fa-solid fa-plus"></i>
-                    <h3>Thêm sản phẩm</h3>
-                </a>
-                <a href="/websiteechcom/admin/accountadmin.php" target="_self">
+
+                <a href="/webbanhang/admin/accountadmin.php" target="_self">
                     <i class="fa-solid fa-right-from-bracket"></i>
                     <h3>Quay lại</h3>
                 </a>
@@ -418,6 +463,7 @@
             var textInput = document.getElementById(checkboxId + '_text');
             textInput.disabled = !checkbox.checked;
         }
+        
 </script>
 <script>
         function convertToSlug(str) {
