@@ -57,7 +57,7 @@ function getStatusText($status)
     case '2':
       return 'Chờ lấy hàng';
     case '3':
-      return 'Đã vận chuyển';
+      return 'Đang vận chuyển';
     case '4':
       return 'Đã giao';
     case '5':
@@ -126,7 +126,7 @@ function getStatusText($status)
           <div class="list-group list-group-horizontal list-group-full-width" style="justify-content: space-between;">
             <a href="?action=all" class="list-group-item list-group-item-action border-bottom-red">Tất cả</a>
             <a href="?action=processing" class="list-group-item list-group-item-action border-bottom-red">Đang xử lý</a>
-            <a href="?action=shipped" class="list-group-item list-group-item-action border-bottom-red">Đã vận chuyển</a>
+            <a href="?action=shipped" class="list-group-item list-group-item-action border-bottom-red">Đang vận chuyển</a>
             <a href="?action=delivered" class="list-group-item list-group-item-action border-bottom-red">Đã giao</a>
             <a href="?action=cancelled" class="list-group-item list-group-item-action border-bottom-red">Đã hủy</a>
           </div>
