@@ -4,7 +4,7 @@ document.getElementById('cancel_button').addEventListener("click",function(){
         order_detail.style.display = "block";
     }else {
         order_detail.style.display = "none";
-        window.location.href = '/staff/dashboard/order/';
+        window.location.href = '/webbanhang/staff/dashboard/order/';
     }
 })
 
