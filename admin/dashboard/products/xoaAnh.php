@@ -137,8 +137,12 @@
             $soLuong=$_POST['soLuong'];
             $maSize=$_POST['cboMaSize'];      
             $giaBan=$_POST['giaBan'];   
-            $moTaSanPham=$_POST['mota'];
-            $query="UPDATE sanpham SET tenSanPham='".$tenSanPham."',maNhaCungCap='".$maNhaCungCap."',maQuanLy='ql01',maDanhMuc='".$maDanhMuc."',soLuong='".$soLuong."',maSize='".$maSize."',giaBan='".$giaBan."',moTaSanPham='".$moTaSanPham."' where maSanPham='".$maSanPham."'"; 
+            $moTaSanPham=$_POST['mota'];           
+            $maTK = $_SESSION["maTaiKhoan"];
+            $queryTk = "select * from quanly where maTaiKhoan = $maTK limit 1";
+            $result1= mysqli_query($conn, $queryTk);
+            $maqly = mysqli_fetch_assoc($result1);
+            $query="UPDATE sanpham SET tenSanPham='".$tenSanPham."',maNhaCungCap='".$maNhaCungCap."',maQuanLy=' ".$maqly['maQuanLy']."',maDanhMuc='".$maDanhMuc."',soLuong='".$soLuong."',maSize='".$maSize."',giaBan='".$giaBan."',moTaSanPham='".$moTaSanPham."' where maSanPham='".$maSanPham."'"; 
             uploadImage($maSanPham, $conn);
             $result= mysqli_query($conn, $query);
             if($result>0)

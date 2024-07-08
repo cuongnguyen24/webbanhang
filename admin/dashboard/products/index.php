@@ -162,6 +162,7 @@
                                     <th>TÊN SẢN PHẨM</th>
                                     <th>TÊN NHÀ CUNG CẤP</th>
                                     <th>TÊN DANH MỤC</th>
+                                    <th>TÊN QUẢN LÍ</th>
                                     <th>SỐ LƯỢNG - SIZE</th>               
                                     <th>GIÁ BÁN</th>
                                     <th>Link Chi tiết sản phẩm</th>
@@ -181,19 +182,23 @@
                                 {
                                     $sourceAll[] = $row;
                                 }
-                                function getTenNCC($id){
-                                    $conn = mysqli_connect("localhost","root","","webbanhang");
+                                function getTenNCC($id,$conn){
                                     $qncc = "SELECT tenNhaCungCap from nhacungcap where maNhacungcap ='".$id."'";
                                     $source = mysqli_query($conn,$qncc);
                                     $row1= mysqli_fetch_assoc($source);
                                     return $row1['tenNhaCungCap'];
                                 }
-                                function getTenDM($id){
-                                    $conn = mysqli_connect("localhost","root","","webbanhang");
+                                function getTenDM($id,$conn){
                                     $qncc = "SELECT tenDanhMuc from danhmuc where maDanhMuc ='".$id."'";
                                     $source = mysqli_query($conn,$qncc);
                                     $row1= mysqli_fetch_assoc($source);
                                     return $row1['tenDanhMuc'];
+                                }
+                                function getTenQL($id,$conn){                                    
+                                    $queryTk = "select * from quanly where maQuanLy = '$id' limit 1";
+                                    $result1= mysqli_query($conn, $queryTk);
+                                    $maqly = mysqli_fetch_assoc($result1);
+                                    return $maqly['hoTen'];
                                 }
                                 function gopData($data){     
                                     $groupedData = [];       
@@ -225,9 +230,10 @@
                                         <td>'.($i).'</td>
                                         <td>'.$row["maSanPham"].'</td>
                                         <td>'.$row["tenSanPham"].'</td>
-                                        <td>'.getTenNCC($row["maNhaCungCap"]).'</td>
-                                        <td>'.getTenDM($row["maDanhMuc"]).'</td>
-                                        <td>'.getSize ($row['sizes']).'</td>
+                                        <td>'.getTenNCC($row["maNhaCungCap"],$conn).'</td>
+                                        <td>'.getTenDM($row["maDanhMuc"],$conn).'</td>
+                                        <td>'.getTenQL($row["maQuanLy"],$conn).'</td>
+                                        <td>'.getSize ($row['sizes'],$conn).'</td>
                                         <td>'.$row["giaBan"].'</td>
                                         <td>'.$row["chitietsp"].'</td>
                                         <td>'.$row["moTaSanPham"].'</td>';

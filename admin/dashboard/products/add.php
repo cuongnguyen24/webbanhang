@@ -178,8 +178,13 @@
             $giaBan=$_POST['giaBan'];   
             $chitietsp=$_POST['chitietsp'];
             $moTaSanPham=$_POST['mota'];
-            $query="INSERT INTO sanpham VALUES('".$id."','".$tenSanPham."','".$maNhaCungCap."','".$maDanhMuc."','ql01','".$giaBan."','".$moTaSanPham."','".$chitietsp."','')";  
-            echo $query;
+            $maTK = $_SESSION["maTaiKhoan"];
+            $queryTk = "select * from quanly where maTaiKhoan = $maTK limit 1";
+            $result1= mysqli_query($conn, $queryTk);
+            $maqly = mysqli_fetch_assoc($result1);
+           
+            $query="INSERT INTO sanpham VALUES('".$id."','".$tenSanPham."','".$maNhaCungCap."','".$maDanhMuc."',' ".$maqly['maQuanLy']."','".$giaBan."','".$moTaSanPham."','".$chitietsp."','')";  
+            
             $result= mysqli_query($conn, $query);
             foreach ($items as $index => $item) {
                 $id_size =  $item["maSize"];
