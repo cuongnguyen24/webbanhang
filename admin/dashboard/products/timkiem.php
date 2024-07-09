@@ -28,7 +28,13 @@
             ];
         }   
         return $groupedData;      
-    }      
+    }   
+    function getTenQL($id,$conn){                                    
+        $queryTk = "select * from quanly where maQuanLy = '$id' limit 1";
+        $result1= mysqli_query($conn, $queryTk);
+        $maqly = mysqli_fetch_assoc($result1);
+        return $maqly['hoTen'];
+    }   
     function getSize($sizes){
         $html = '';
         foreach ($sizes as $size){
@@ -42,10 +48,10 @@
       $start = ($current_page - 1) * $records_per_page;
       if($keySearch == "")
       {
-          $query="select sanpham.*,sizesanpham.soLuong, sizesanpham.maSize from sanpham INNER JOIN sizesanpham WHERE sanpham.maSanPham = sizesanpham.maSanPham  LIMIT $start, $records_per_page ";
+          $query="select sanpham.*,sizesanpham.soLuong, sizesanpham.maSize from sanpham INNER JOIN sizesanpham WHERE sanpham.maSanPham = sizesanpham.maSanPham  order by CONVERT(SUBSTRING(sanpham.maSanPham, 4), int)";
       }
       else{
-          $query="select sanpham.*,sizesanpham.soLuong, sizesanpham.maSize from sanpham INNER JOIN sizesanpham WHERE sanpham.maSanPham = sizesanpham.maSanPham and tenSanPham like N'%".$keySearch."%' LIMIT $start, $records_per_page ";
+          $query="select sanpham.*,sizesanpham.soLuong, sizesanpham.maSize from sanpham INNER JOIN sizesanpham WHERE sanpham.maSanPham = sizesanpham.maSanPham and tenSanPham like N'%".$keySearch."%'  ";
         }
       $html ='';
       $result = mysqli_query($conn,$query);
@@ -58,7 +64,7 @@
         {
             $sourceAll[] = $row;
         }   
-        foreach (gopData($sourceAll) as $row)
+        foreach (array_slice(gopData($sourceAll), $start, $records_per_page )as $row)
         {
            
             echo '<tr>
@@ -67,6 +73,7 @@
                 <td>'.$row["tenSanPham"].'</td>
                 <td>'.getTenNCC($row["maNhaCungCap"]).'</td>
                 <td>'.getTenDM($row["maDanhMuc"]).'</td>
+                <td>'.getTenQL($row["maQuanLy"],$conn).'</td>
                 <td>'.getSize ($row['sizes']).'</td>
                 <td>'.$row["giaBan"].'</td>
                 <td>'.$row["chitietsp"].'</td>

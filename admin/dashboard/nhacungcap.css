@@ -97,7 +97,8 @@
 }
 
 main {
-    width: 1200px;
+    width: 1400px;
+    margin-left: 10px;
 }
 
 #title_form {
@@ -146,7 +147,7 @@ main {
 /* search */
 
 .search {
-    margin: auto;
+    margin-left: auto;
 }
 
 .search #search_form {

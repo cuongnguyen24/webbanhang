@@ -1,4 +1,5 @@
 <?php 
+    session_start();
     require_once '../../connect.php';  
     $key= "MSP";
     $query="SELECT max(CONVERT(SUBSTRING(maSanPham, 4), int)) as nid FROM `sanpham`";
@@ -182,16 +183,19 @@
             $giaBan=$_POST['giaBan'];   
             $chitietsp=$_POST['chitietsp'];
             $moTaSanPham=$_POST['mota'];
-            $query="INSERT INTO sanpham VALUES('".$id."','".$tenSanPham."','".$maNhaCungCap."','".$maDanhMuc."','ql01','".$giaBan."','".$moTaSanPham."','".$chitietsp."','')";  
-            echo $query;
+            $maTK = $_SESSION["maTaiKhoan"];
+            $queryTk = "select * from quanly where maTaiKhoan = '$maTK' limit 1";
+          
+            $result1= mysqli_query($conn, $queryTk);
+            
+            $maqly = mysqli_fetch_assoc($result1);
+      
+            $query="INSERT INTO sanpham VALUES('".$id."','".$tenSanPham."','".$maNhaCungCap."','".$maDanhMuc."','".$maqly['maQuanLy']."','".$giaBan."','".$moTaSanPham."','".$chitietsp."','')";  
             $result= mysqli_query($conn, $query);
             foreach ($items as $index => $item) {
                 $id_size =  $item["maSize"];
-                
                 if (isset($_POST[$id_size]) && isset($_POST[$id_size . '_text'])){
-                   
-                    $value = $_POST[$id_size . '_text'];
-                    
+                    $value = $_POST[$id_size . '_text'];   
                 }
                 else
                 {
@@ -202,40 +206,31 @@
                 
             }
             $duongdanchung = uploadImage($id, $conn);
-            
             $query1="UPDATE sanpham SET duongDanAnhChung='".$duongdanchung." 'where maSanPham='".$id."'"; 
             mysqli_query($conn, $query1);
             if($result>0)
-
             {
-                echo '<script>
-                    alert("Thêm thành công");
-                    window.location.href = "./index.php";
-                </script>';
+                echo 'Thêm mới thành công';
+                // echo '<script>
+                //     alert("Thêm thành công");
+                //     window.location.href = "./index.php";
+                // </script>';
                 $foldername = $chitietsp;
                 $dir = $_SERVER['DOCUMENT_ROOT']  . $foldername ;
 
                 $file_to_write = 'index.php';
                 $content_to_write = file($_SERVER["DOCUMENT_ROOT"] . '\webbanhang\admin\dashboard\products\create-product.txt');
-                
                 echo '<br>' .$dir .$file_to_write;
-
                 if( is_dir($dir) === false )
                 {
                     mkdir($dir,0777,true);
                 }
 
-
                 $file = fopen($dir . '/' . $file_to_write,"w");
 
-                
                 foreach ($content_to_write as $line) {
                     fwrite($file, $line);
                 }
-        
-            
-            
-                
                 fclose($file);
 
                 include $dir . '/' . $file_to_write;
@@ -251,10 +246,8 @@
                 </script>';
 
         
-        }
-           
-            
 
+        }
     }
 ?>
 <!DOCTYPE html>

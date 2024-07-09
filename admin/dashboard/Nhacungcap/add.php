@@ -10,6 +10,13 @@
     }else $id = $key . 1;
 ?>
 <?php
+    function test_input($data)
+    {
+        $data = trim($data);
+        $data = stripslashes($data);
+        $data = htmlspecialchars($data);
+        return $data;
+    }
     if($_SERVER['REQUEST_METHOD']=="POST")
     {
         $errors=[];
@@ -17,7 +24,14 @@
             $errors['tenNhaCungCap']='Tên nhà cung cấp không được để trống';
         }
         else{
-            $tenNhaCungCap= $_POST['tenNhaCungCap'];
+            // $tenNhaCungCap = $_POST["tenNhaCungCap"];
+            // if(!preg_match("/^[a-zA-Z ]*$/",$tenNhaCungCap)){
+            //     $errors['tenNhaCungCap']='Tên nhà cung cấp không hợp lệ';
+            // }
+            // else{
+            //     $tenNhaCungCap= $_POST['tenNhaCungCap'];
+            // }
+            $tenNhaCungCap=$_POST['tenNhaCungCap'];
         } 
         if(empty(trim($_POST['diaChi']))){
             $errors['diaChi']='Địa chỉ không được để trống';
@@ -28,16 +42,47 @@
         if(empty(trim($_POST['email']))){
             $errors['email']='Email không được để trống';
         }
-        else{        
-            $email = $_POST['email'];  
+        else{  
+            $email = test_input($_POST["email"]);
+            if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+                $errors['email'] = "Email không đúng định dạng";
+            } 
+            else if(!preg_match ("/([a-z0-9_]+|[a-z0-9_]+\.[a-z0-9_]+)@(([a-z0-9]|[a-z0-9]+\.[a-z0-9]+)+\.([a-z]{2,4}))/i", $email))
+            {
+                $errors['email'] = "Email không đúng định dạng";
+            }
+            else { 
+                $sql_checkemail = "SELECT * FROM nhacungcap WHERE email='$email'";
+                $result = mysqli_query($conn, $sql_checkemail);
+                if (mysqli_num_rows($result) != 0 && $result->fetch_row()[0] > 0) {
+                    $errors['email'] = 'Email đã tồn tại';
+                } else {
+                    $email = $_POST['email'];
+                }    
+        }
         }
         if(empty(trim($_POST['soDienThoai']))){
             $errors['soDienThoai']='Số điện thoại không được để trống';
         }
-        else{        
-            $soDienThoai= $_POST['soDienThoai'];
+        else{ 
+            $soDienThoai = $_POST['soDienThoai'];
+            if (!preg_match("/^[0-9]*$/", $soDienThoai)) {
+                $errors['soDienThoai'] = 'Số điện thoại không đúng định dạng';
+            } 
+            else if (strlen(trim($_POST['soDienThoai'])) == 10) { // kiểm tra trùng dt
+                $sql1 = "SELECT * FROM nhacungcap WHERE soDienThoai='$soDienThoai'";
+                $result = mysqli_query($conn, $sql1);
+                if (mysqli_num_rows($result) != 0 && $result->fetch_row()[0] > 0) {
+                    $errors['soDienThoai'] = 'Số điện thoại đã tồn tại';
+                } else {
+                    $soDienThoai= $_POST['soDienThoai'];
+                }
+            } else {
+                $errors['soDienThoai'] = 'Số điện thoại không tồn tại';
+            }          
         }
         if(!empty($errors)){
+            // var_dump($errors);
             $mess='Đã có lỗi xảy ra. Vui lòng kiểm tra lại';
             ?>
                 <div class="alert">
@@ -54,7 +99,10 @@
             $query="INSERT INTO nhacungcap VALUES('".$maNhaCungCap."','".$tenNhaCungCap."','".$diaChi."','".$email."','".$soDienThoai."')"; 
             $result= mysqli_query($conn, $query);
             if($result>0)
-                echo 'Thêm mới thành công';
+                echo '<script>
+                alert("Thêm mới thành công");
+                // window.location.href="index.php";
+                 </script>';
             else 
                 echo 'Lỗi thêm mới';
             }

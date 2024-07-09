@@ -93,7 +93,7 @@ if (isset($_POST["dangnhap"])) {
       $_SESSION["username"] = $tk;
       $role = $row['maPhanQuyen'];
       $_SESSION["role"] = $role;
-
+      $_SESSION["maTaiKhoan"] = $row['maTaiKhoan'];
       // Load session giỏ hàng để cập nhật lên header
       $maKhachHang = getMaKhachHang($conn, $tk);
       if ($maKhachHang) {

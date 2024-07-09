@@ -58,9 +58,7 @@
             $url=$_POST['txtDuongDan'];
             $danhMucCha=$_POST['txtDmCha'] != 0 ? $_POST['txtDmCha'] : -1;      
             $vitri=$_POST['txtVitri'];      
-            
             $query="INSERT INTO danhmuc VALUES('".$maDanhMuc."', '".$tenDanhMuc."','".$url."','".$danhMucCha."','".$vitri."')"; 
-            echo $url;
             $result= mysqli_query($conn, $query);
             if($result>0)
             {
@@ -76,17 +74,11 @@
                 {
                     mkdir($dir,0777,true);
                 }
-
                 $file = fopen($dir . '/' . $file_to_write,"w");
-
-                
+ 
                 foreach ($content_to_write as $line) {
                     fwrite($file, $line);
                 }
-        
-            
-            
-                
                 fclose($file);
 
                 include $dir . '/' . $file_to_write;
@@ -94,12 +86,13 @@
                 alert("Thêm danh mục thành công!");
                 window.location.href = "./index.php";
             </script>';
+
             }
             else 
-            echo '<script>
-                alert("Thêm thất bại");
-                window.location.href = "./index.php";
-            </script>';
+                echo '<script>
+                    alert("Thêm thất bại");
+                    window.location.href = "./index.php";
+                </script>';
             }
             }
 ?>
