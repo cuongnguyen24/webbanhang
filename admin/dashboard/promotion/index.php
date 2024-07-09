@@ -117,6 +117,12 @@
                                 while ($row = mysqli_fetch_assoc($result)) {
                                     $formattedNgayKhuyenMai = date('d/m/Y', strtotime($row['ngayKhuyenMai']));
                                     $formattedNgayHetHan = date('d/m/Y', strtotime($row['ngayHetHan']));
+                                    $currentDate = date('Y-m-d');
+                                    $ngayHetHan = date('Y-m-d', strtotime($row['ngayHetHan']));
+
+                                    if ($ngayHetHan < $currentDate) {
+                                        $row['trangThai'] = 2; // Set status to "Không khả dụng"
+                                    }
                                     switch ($row['trangThai']) {
                                         case 1:
                                             $trangThai = "Khả dụng";
@@ -132,6 +138,7 @@
                                             break;
                                     }
                                     $phanTram = $row['phanTram'] . "%";
+                                    
                                     ?>
                                     <tr>
                                         <td><?php echo ($num++) ?></td>
