@@ -1,4 +1,5 @@
 <?php 
+    session_start();
     require_once '../../connect.php';  
     $key= "MSP";
     $query="SELECT max(CONVERT(SUBSTRING(maSanPham, 4), int)) as nid FROM `sanpham`";
@@ -183,12 +184,13 @@
             $chitietsp=$_POST['chitietsp'];
             $moTaSanPham=$_POST['mota'];
             $maTK = $_SESSION["maTaiKhoan"];
-            $queryTk = "select * from quanly where maTaiKhoan = $maTK limit 1";
+            $queryTk = "select * from quanly where maTaiKhoan = '$maTK' limit 1";
+          
             $result1= mysqli_query($conn, $queryTk);
-            $maqly = mysqli_fetch_assoc($result1);
-           
-            $query="INSERT INTO sanpham VALUES('".$id."','".$tenSanPham."','".$maNhaCungCap."','".$maDanhMuc."',' ".$maqly['maQuanLy']."','".$giaBan."','".$moTaSanPham."','".$chitietsp."','')";  
             
+            $maqly = mysqli_fetch_assoc($result1);
+      
+            $query="INSERT INTO sanpham VALUES('".$id."','".$tenSanPham."','".$maNhaCungCap."','".$maDanhMuc."','".$maqly['maQuanLy']."','".$giaBan."','".$moTaSanPham."','".$chitietsp."','')";  
             $result= mysqli_query($conn, $query);
             foreach ($items as $index => $item) {
                 $id_size =  $item["maSize"];

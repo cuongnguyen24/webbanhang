@@ -94,11 +94,10 @@
             echo $query;
             $result= mysqli_query($conn, $query);
             if($result>0)
-            //   echo '<script>
-            //     alert("Cập nhật thành công");
-            //     window.location.href="index.php";
-            //      </script>';
-            echo 'themm';
+              echo '<script>
+                alert("Cập nhật thành công");
+                window.location.href="index.php";
+                 </script>';
             else 
                 echo 'Lỗi sửa dữ liệu';
         }

@@ -48,7 +48,7 @@
       $start = ($current_page - 1) * $records_per_page;
       if($keySearch == "")
       {
-          $query="select sanpham.*,sizesanpham.soLuong, sizesanpham.maSize from sanpham INNER JOIN sizesanpham WHERE sanpham.maSanPham = sizesanpham.maSanPham  ";
+          $query="select sanpham.*,sizesanpham.soLuong, sizesanpham.maSize from sanpham INNER JOIN sizesanpham WHERE sanpham.maSanPham = sizesanpham.maSanPham  order by CONVERT(SUBSTRING(sanpham.maSanPham, 4), int)";
       }
       else{
           $query="select sanpham.*,sizesanpham.soLuong, sizesanpham.maSize from sanpham INNER JOIN sizesanpham WHERE sanpham.maSanPham = sizesanpham.maSanPham and tenSanPham like N'%".$keySearch."%'  ";

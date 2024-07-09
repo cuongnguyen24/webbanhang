@@ -60,7 +60,6 @@
             $danhMucCha= ($_POST['txtDmCha'] != 0 && $_POST['txtDmCha'] != $maDanhMuc) ? $_POST['txtDmCha'] : -1 ;       
             $vitri=$_POST['vitri'];         
             $query="UPDATE danhmuc SET tenDanhMuc='".$tenDanhMuc."',url='".$url."',danhMucCha='".$danhMucCha."',vitri='".$vitri."' where maDanhMuc='".$maDanhMuc."'"; 
-            echo $query;
             $result= mysqli_query($conn, $query);
             if($result>0)
                 echo '<script>

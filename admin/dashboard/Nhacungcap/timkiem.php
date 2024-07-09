@@ -10,7 +10,8 @@
       }
       else{
           $query="select * from nhacungcap where tenNhaCungCap like N'%".$keySearch."%' 
-            OR maNhaCungCap like N'%".$keySearch."%' LIMIT $start, $records_per_page";
+          LIMIT $start, $records_per_page";
+          //OR maNhaCungCap like N'%".$keySearch."%'
         }
       $html ='';
       $result = mysqli_query($conn,$query);
