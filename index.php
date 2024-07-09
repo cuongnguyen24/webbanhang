@@ -48,7 +48,7 @@
                             echo '
                                     <a href="./user/accountcustomer.php" class="header__btn"><strong>Tài khoản</strong><i class="fa-solid fa-user-pen"></i></a>';
                         } else if ($role == 2) {
-                            echo '<a href="./user/accountstaff.php" class="header__btn"><strong>Tài khoản</strong><i class="fa-solid fa-user-pen"></i></a>';
+                            echo '<a href="./staff/accountstaff.php" class="header__btn"><strong>Tài khoản</strong><i class="fa-solid fa-user-pen"></i></a>';
                         }
                     }
                     ?>
