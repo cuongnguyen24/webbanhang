@@ -74,11 +74,11 @@
             <!-- main__layout -->
             <div class="main__layout">
                 <div id="title_form">
-                <label >QUẢN LÝ NHÂN VIÊN</label>
+                <label >QUẢN LÝ KHUYẾN MÃI</label>
                 </div>
                 
                 <div class="add">
-                    <label for="">Danh sách nhân viên</label>
+                    <label for="">Danh sách khuyến mãi</label>
                     <a id="add_button" href="/webbanhang/admin/dashboard/promotion/add.php">
                         <i class="fa-solid fa-plus"></i>
                         THÊM MÃ KHUYẾN MÃI

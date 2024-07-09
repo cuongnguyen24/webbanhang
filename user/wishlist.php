@@ -58,6 +58,7 @@ $_SESSION['totalWishlist'] = $totalWishlist;
 </head>
 
 <body>
+
     <?php include($_SERVER["DOCUMENT_ROOT"] . "/webbanhang/layout/header.php"); ?>
     <div class="main__layout__account main__layout__account_cart">
     <h1 style="font-size: 25px; text-align: center; color: black">SẢN PHẨM YÊU THÍCH</h1>
@@ -88,6 +89,7 @@ $_SESSION['totalWishlist'] = $totalWishlist;
                     <?php endif; ?>
                 </div>
             </div>
+
 
             <!-- <div class="card card-right" style="width: 35%;">
                 <form class="total" method="POST">

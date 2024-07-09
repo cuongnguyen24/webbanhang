@@ -103,7 +103,7 @@
             <div class="header--bot">
                 <ul class="header__menu">
                     <li>
-                        <a href="/webbanhang/">Giới thiệu Nous</a>
+                        <a href="/webbanhang/about_us.php">Giới thiệu Nous</a>
                     </li>
                     <?php
                     require_once './admin/connect.php';
@@ -225,7 +225,7 @@
                                 <span><i class="fa-solid fa-quote-left" style="    text-align: right;"></i></span>
                             </div>
                             <div class="home_about_btn">
-                                <a href="/pages/about-us">
+                                <a href="/webbanhang/about_us.php">
                                     <span>
                                         <img src="https://file.hstatic.net/200000692427/file/asset_5_5647134661f84b9c87d29b9131099183.png">
                                     </span>

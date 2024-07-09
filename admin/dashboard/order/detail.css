@@ -339,3 +339,11 @@
     height: 10px;
 }
 
+.maKM{
+    margin-top: 10px;
+    display: flex;
+    flex-direction: column;
+}
+.phantramgiamgia{
+    margin-top: 10px;
+}
