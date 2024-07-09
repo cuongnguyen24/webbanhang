@@ -1376,8 +1376,8 @@
                 position: relative;
             }
             
-            .productWrap .productWrapAll .productWrapRight .productWrapDetail .productWrapDetailTitle .productWishlist a,
-            .productWrap .productWrapAll .productWrapRight .productWrapDetail .productWrapDetailTitle .productWishlist a {
+            .productWrap .productWrapAll .productWrapRight .productWrapDetail .productWrapDetailTitle .productWishlist button,
+            .productWrap .productWrapAll .productWrapRight .productWrapDetail .productWrapDetailTitle .productWishlist button {
                 width: 40px;
                 height: 40px;
                 line-height: 40px;
@@ -1423,8 +1423,8 @@
                 visibility: none;
             }
             
-            .productWrap .productWrapAll .productWrapRight .productWrapDetail .productWrapDetailTitle .productWishlist:hover a,
-            .productWrap .productWrapAll .productWrapRight .productWrapDetail .productWrapDetailTitle .productWishlist:hover a {
+            .productWrap .productWrapAll .productWrapRight .productWrapDetail .productWrapDetailTitle .productWishlist:hover button,
+            .productWrap .productWrapAll .productWrapRight .productWrapDetail .productWrapDetailTitle .productWishlist:hover button {
                 background: var(--brandColor);
                 border: 1px solid var(--brandColor);
                 color: #fff;

@@ -139,6 +139,46 @@
                     }
                     
                 }
+                else if(isset($_POST['gotowl']))
+                {
+                    $username = $_SESSION["username"];
+                    
+                    if (!isset($_SESSION["username"])) {
+                        echo '<script>alert("Bạn cần đăng nhập trước")
+                        window.location.href = "/webbanhang/";</script>
+                        ';
+                    exit();
+                    }
+
+                    $sql_get_maKhachHang = "SELECT khachhang.maKhachHang FROM khachhang 
+                    INNER JOIN taikhoan ON khachhang.maTaiKhoan = taikhoan.maTaiKhoan
+                    WHERE tenTaiKhoan = '$username'";
+
+
+                    $result_maKhachHang = mysqli_query($conn, $sql_get_maKhachHang);
+                    if (mysqli_num_rows($result_maKhachHang) > 0) {
+                        $row_maKhachHang = mysqli_fetch_assoc($result_maKhachHang);
+                        $maKhachHang = $row_maKhachHang['maKhachHang'];
+                    }
+                        
+                    $query_check = "SELECT * FROM sanphamyeuthich WHERE maKhachHang = '$maKhachHang' AND maSanPham = '$maSanPham'";
+
+                    $result = mysqli_query($conn,$query_check);
+
+                    if(mysqli_num_rows($result)==0)
+                    {
+                        $query_insert = "INSERT INTO sanphamyeuthich (maKhachHang, maSanPham) VALUES ('$maKhachHang', '$maSanPham')";
+                        
+                        $result_insert = mysqli_query($conn,$query_insert);
+                        echo '<script>alert("Thêm vào giỏ hàng thành công!")</script>';
+                    }
+                    else
+                    {
+                        echo '<script>alert("Sản phẩm này hiện đã có trong sản phẩm yêu thích rồi!")</script>';
+                    }
+
+                    
+                }
 
                     
 
@@ -253,10 +293,19 @@
                                             <form class="productWrapDetail" method="POST" >
                                                 <div class="productWrapDetailTitle">
                                                     <h1 class="productTitle"><?php echo $tenSanPham?></h1>
-                                                    <div class="productWishlist"> 
-                                                        <a href="/pages/wishlist" class="setWishlist" data-handle="bo-lien-coc-mau-xanh-da-troi"><i class="fa-regular fa-heart"></i></a>
-                                                        <span>Thêm vào yêu thích</span>
-                                                    </div>
+                                                    
+                                                        <div class="productWishlist"> 
+
+                                                            <button type="submit" name ="gotowl"  class="setWishlist" data-handle="bo-lien-coc-mau-xanh-da-troi">
+                                                                
+                                                                <i class="fa-regular fa-heart"></i>
+                                                                
+                                                            </button>
+                                                            <span>Thêm vào yêu thích</span>
+                                                            
+                                                        </div>
+                                                    
+                                                    
                                                 </div>
     
                                                 <div class="productInfoStatus">
@@ -281,7 +330,7 @@
                                                     <div class="productPriceBox">
                                                         <span class="productPriceBox_tt">Giá:</span>
                                                             <p class="productPriceBox_price">
-                                                                <span class="productPriceMain"><?php echo $giaBan . 'đ'?></span>
+                                                                <span class="productPriceMain"><?php echo number_format($giaBan, 0, ',', '.') . 'đ'?></span>
                                                                 <del class="productPriceCompare d-none"><?php echo $giaBan?></del>									
                                                                 <span class="productDiscount d-none">-0%</span> 
                                                             </p>
@@ -466,7 +515,16 @@
                                                         <div class="productWishlist d-flex d-lg-none"> 
                                                             <a href="/pages/wishlist" class="setWishlist" data-handle="bo-lien-coc-mau-xanh-da-troi"><i class="lni lni-heart"></i></a>
                                                         </div> -->
-                                                        <button type="submit" class="btn_addCart d-block d-lg-none mb-fixed" id="addToCart" name="addToCart">Thêm vào giỏ hàng</button>
+                                                        <?php
+                                                        if($count_tinhtrang > 0)
+                                                        {
+                                                            echo '<button type="submit" class="btn_addCart d-block d-lg-none mb-fixed" id="addToCart" name="addToCart" >Thêm vào giỏ hàng</button>';
+                                                        }
+                                                        else
+                                                        echo '<button type="submit" class="btn_addCart d-block d-lg-none mb-fixed" id="addToCart" name="addToCart" disabled >Hết hàng</button>';
+                                                        ?>
+                                                        
+                                                        
                                                     </div>
                                                     <div class="productAction">		
     

@@ -75,7 +75,7 @@ if(isset($_POST['submit']))
         $query_insert = "INSERT INTO sanphamyeuthich (maKhachHang, maSanPham) VALUES ('$maKhachHang', '$NmaSanpham')";
         
         $result_insert = mysqli_query($conn,$query_insert);
-        echo '<script>alert("Thêm vào giỏ hàng thành công!")</script>';
+        echo '<script>alert("Thêm vào sản phẩm yêu thích thành công!")</script>';
     }
     else
     {
