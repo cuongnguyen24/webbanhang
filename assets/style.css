@@ -142,7 +142,7 @@
             /* Css header */
             
             header .header {
-                border-bottom: 1px solid #E8E8F2;
+                border-bottom: 1px #E8E8F2 solid;
                 position: sticky;
                 top: 0;
                 left: 0;
@@ -151,6 +151,7 @@
                 padding: 0;
                 transition: all .4s ease;
                 background-color: #fff;
+                border-bottom: 1px #59595B solid;
             }
             
             header .container {
@@ -338,7 +339,7 @@
             
             .sub__menu1 {
                 display: none;
-                width: 848px;
+                width: 608px;
                 height: 320px;
                 background-color: rgba(255, 255, 255, 0.95);
                 box-shadow: -1px 10px 80px -15px rgba(0, 0, 0, 0.3);
@@ -415,7 +416,6 @@
             }
             
             .footer>.container {
-                height: 100%;
                 max-width: 1140px;
                 padding-right: 15px;
                 padding-left: 15px;
@@ -1087,7 +1087,6 @@
             .breadcrum-shop {
                 margin-bottom: 20px;
                 padding-top: 20px;
-                border-top: 1px solid #E8E8F2;
             }
             
             .breadcrum {
@@ -1377,8 +1376,8 @@
                 position: relative;
             }
             
-            .productWrap .productWrapAll .productWrapRight .productWrapDetail .productWrapDetailTitle .productWishlist a,
-            .productWrap .productWrapAll .productWrapRight .productWrapDetail .productWrapDetailTitle .productWishlist a {
+            .productWrap .productWrapAll .productWrapRight .productWrapDetail .productWrapDetailTitle .productWishlist button,
+            .productWrap .productWrapAll .productWrapRight .productWrapDetail .productWrapDetailTitle .productWishlist button {
                 width: 40px;
                 height: 40px;
                 line-height: 40px;
@@ -1424,8 +1423,8 @@
                 visibility: none;
             }
             
-            .productWrap .productWrapAll .productWrapRight .productWrapDetail .productWrapDetailTitle .productWishlist:hover a,
-            .productWrap .productWrapAll .productWrapRight .productWrapDetail .productWrapDetailTitle .productWishlist:hover a {
+            .productWrap .productWrapAll .productWrapRight .productWrapDetail .productWrapDetailTitle .productWishlist:hover button,
+            .productWrap .productWrapAll .productWrapRight .productWrapDetail .productWrapDetailTitle .productWishlist:hover button {
                 background: var(--brandColor);
                 border: 1px solid var(--brandColor);
                 color: #fff;
@@ -1702,8 +1701,7 @@
             }
             
             button,
-            button:hover,
-            button:focus {
+            button:hover {
                 border: none;
                 outline: none;
                 background: none;

@@ -2,26 +2,7 @@
 session_start();
 $username = $_SESSION["username"]; // Lấy tên tài khoản từ session
 require_once '../admin/connect.php';
-$sql = "SELECT khachhang.hoTen, khachhang.email, khachhang.soDienThoai, khachhang.maDiaChi, khachhang.maKhachHang FROM taikhoan
-            INNER JOIN khachhang ON taikhoan.maTaiKhoan = khachhang.maTaiKhoan WHERE taikhoan.tenTaiKhoan = '$username'";
-$result = mysqli_query($conn, $sql);
-if (mysqli_num_rows($result) > 0) {
-  while ($row = mysqli_fetch_assoc($result)) {
-    $name = $row["hoTen"];
-    $diachi = $row["maDiaChi"];
-    $makhach = $row["maKhachHang"];
-  }
-} else {
-  echo "Không có kết quả";
-}
 
-$sql1 = "SELECT diachi.tenDiaChi, diachi.tinhTrang, diachi.maDiaChi FROM khachhang 
-                INNER JOIN taikhoan ON khachhang.maTaiKhoan = taikhoan.maTaiKhoan
-                INNER JOIN diachi ON khachhang.maKhachHang = diachi.maKhachHang
-                WHERE taikhoan.tenTaiKhoan = '$username';
-                ";
-          $result = mysqli_query($conn, $sql1);
-mysqli_close($conn);
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -29,11 +10,12 @@ mysqli_close($conn);
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Document</title>
+  <title>Địa chỉ của tôi</title>
   <link rel="stylesheet" href="../assets/style.css" />
   <link rel="stylesheet" href="../assets/reset.css" />
   <link rel="stylesheet" href="../assets/cuongstyle.css?v=<?php echo time() ?>" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <link rel="shortcut icon" href="//theme.hstatic.net/200000692427/1001117622/14/favicon.png?v=4870" type="image/png">
 </head>
 
 <body>
@@ -48,6 +30,28 @@ mysqli_close($conn);
             <div class="user-icon">
               <i class="fa-regular fa-user"></i>
             </div>
+            <?php
+            $sql = "SELECT khachhang.hoTen, khachhang.email, khachhang.soDienThoai, khachhang.maDiaChi, khachhang.maKhachHang FROM taikhoan
+            INNER JOIN khachhang ON taikhoan.maTaiKhoan = khachhang.maTaiKhoan WHERE taikhoan.tenTaiKhoan = '$username'";
+            $result = mysqli_query($conn, $sql);
+            if (mysqli_num_rows($result) > 0) {
+              while ($row = mysqli_fetch_assoc($result)) {
+                $name = $row["hoTen"];
+                $diachi = $row["maDiaChi"];
+                $makhach = $row["maKhachHang"];
+              }
+            } else {
+              echo "Không có kết quả";
+            }
+
+            $sql1 = "SELECT diachi.tenDiaChi, diachi.tinhTrang, diachi.maDiaChi FROM khachhang 
+                INNER JOIN taikhoan ON khachhang.maTaiKhoan = taikhoan.maTaiKhoan
+                INNER JOIN diachi ON khachhang.maKhachHang = diachi.maKhachHang
+                WHERE taikhoan.tenTaiKhoan = '$username';
+                ";
+             $result = mysqli_query($conn, $sql1);
+
+            ?>
             <?php echo $name; ?>
           </h2>
           <hr>
@@ -109,6 +113,7 @@ mysqli_close($conn);
   </div>
   <?php
   include '../layout/footer.php';
+  mysqli_close($conn);
   ?>
 </body>
 

@@ -56,7 +56,7 @@
 .decor{
     width: 550px;
     height: 40px;
-    background-color: #f1eeee;
+    background-color: #feedea;
     display: flex;
     justify-content:start;
     align-items: center;
@@ -79,7 +79,7 @@
 .permission .combobox{
     width: 550px;
     height: 40px;
-    background-color: #f1eeee;
+    background-color: #ffecec;
     display: flex;
     justify-content: center;
     align-items: center;

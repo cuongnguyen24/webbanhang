@@ -5,6 +5,17 @@
 main{
     width: 1200px;
 }
+.aaaa{
+    height: 50px;
+    background-color: transparent;
+}
+.wrapper{
+    overflow-x: auto;
+    overflow-x: hidden;
+    width: auto;
+    max-height: 500px;
+    width: 1240px;
+}
 #title_form{
     color: #ca877e;
     font-size: 40px;
@@ -62,18 +73,20 @@ main{
 }
 /* table */
 table{
-    margin-top: 50px;
     width: 1230px;
     font-size: 13px;
     border-collapse: collapse;
     user-select: text;
     border: 1px solid #eeeeee;
     box-shadow: -10px 10px 10px rgba(0, 0, 0, 0.3);
+    position: absolute;
 }
 table th{
     padding: 8px;
     background-color: #ca877e;
     color: #ffffff;
+    position: sticky;
+    top: 0;
 }
 table tbody{
     border: 1px solid #ddd;
@@ -90,19 +103,22 @@ table td{
 table tr:nth-child(even){background-color: #f7d9c4;}
 table tr:hover {background-color: #f7dada;}
 .act__button{
-    width: 100px;
+    width: 60px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 .act__button a{
-    display:inline;
+    display:block;
     width: 40px;
     height: 20px;
-    margin-left: 3px;
-    margin-right: 3px;
+    margin-left: 15px;
+    margin-right: 2px;
+
 }
-.act__button a:hover{
-    color: rgb(52, 124, 219);
-    font-size: 110%;
+.act__button #edit{
+    color: green;
 }
-#delete_button:hover{
-    color: red;
+.act__button #delete_button{
+    color: rgb(202, 34, 34);
 }

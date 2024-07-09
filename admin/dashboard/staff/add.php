@@ -3,11 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard</title>
+    <title>Thêm nhân viên</title>
     <link rel="stylesheet" href="../style.css">
     <link rel="stylesheet" href="./add.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer"
     />
+    <link rel="shortcut icon" href="//theme.hstatic.net/200000692427/1001117622/14/favicon.png?v=4870" type="image/png">
 </head>
 
 <body>
@@ -23,15 +24,12 @@
                 </div>
             </div>
             <div class="sidebar">
-                <a href="../index.html" class="">
+                <a href="../index.php" class="">
                     <i class="fa-solid fa-list"></i>
                     <h3>Thống kê</h3>
                 </a>
 
-                <a href="../customer/" class="">
-                    <i class="fa-regular fa-user"></i>
-                    <h3>Khách hàng</h3>
-                </a>
+                
                 <a href="../staff/" class="active">
                     <i class="fa-regular fa-user"></i>
                     <h3>Nhân viên</h3>
@@ -49,24 +47,16 @@
                 <a href="../Danhmuc/" class="">
                     <i class="fa-regular fa-envelope"></i>
                     <h3>Danh mục</h3>
-                    <span class="Message-count">26</span>
+                    
                 </a>
 
                 <a href="../products/" class="">
                     <i class="fa-solid fa-shop"></i>
                     <h3>Sản phẩm</h3>
                 </a>
-                <a href="../report/" class="">
-                    <i class="fa-solid fa-exclamation"></i>
-                    <h3>Báo cáo</h3>
-                </a>
-                <a href="../settings/" class="">
-                    <i class="fa-solid fa-gear"></i>
-                    <h3>Cài đặt</h3>
-                </a>
-                <a href="#">
-                    <i class="fa-solid fa-plus"></i>
-                    <h3>Thêm sản phẩm</h3>
+                <a href="../promotion/" class="">
+                    <i class="fa-solid fa-ticket"></i>
+                    <h3>Khuyến mãi</h3>
                 </a>
                 <a href="/webbanhang/admin/accountadmin.php" target="_self">
                     <i class="fa-solid fa-right-from-bracket"></i>
@@ -101,7 +91,12 @@
 
             // Xử lý ngày sinh
             $ngaySinh = date('Y-m-d', strtotime(str_replace('/', '-', $_POST['txtNgaySinh'])));
-
+            // Kiểm tra ngày sinh không lớn hơn ngày hiện tại
+            $today = date('Y-m-d');
+            if ($ngaySinh > $today) {
+                echo "<script>alert('Ngày sinh không được lớn hơn ngày hiện tại'); history.back();</script>";
+                return;
+            }
             // Kiểm tra dữ liệu rỗng trước
             if (empty($maNhanVien) || empty($tenTaiKhoan) || empty($matKhau) || empty($hoTen) || empty($ngaySinh) || empty($diaChi) || !isset($_POST['Sex']) || empty($email) || empty($soDienThoai) ) {
                 echo "<script>alert('Các trường dữ liệu không được để trống'); history.back();</script>";
@@ -217,10 +212,9 @@
                             <label>Mã phân quyền</label>
                             <div class="decor">
                                 <select id="phanQuyen" class="combobox" name="cbPhanQuyen">
-                                    <option value="3">Nhân viên</option>
+                                    <option value="2">Nhân viên</option>
                                 </select>
                             </div>
-                            
                         </div>
                         <div class="attribute">
                             <label>Họ tên</label>

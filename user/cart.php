@@ -1,9 +1,11 @@
 <?php
 session_start();
 if (!isset($_SESSION["username"])) {
-    header("Location: ../index.php?showLogin=true");
-    exit();
-}
+    echo '<script>
+        alert("Bạn cần đăng nhập trước đã!")
+        window.location.href = "/webbanhang/index.php";
+      </script>';
+  }
 
 $username = $_SESSION["username"]; // Lấy tên tài khoản từ session
 
@@ -20,7 +22,7 @@ if (mysqli_num_rows($result_maKhachHang) > 0) {
     $maKhachHang = $row_maKhachHang['maKhachHang'];
 
     // Lấy thông tin sản phẩm trong giỏ hàng của khách hàng từ bảng giohang
-    $sql_cart = "SELECT giohang.*, sanpham.tenSanPham, sanpham.giaBan, sanpham.duongDanAnhChung, size.tenSize 
+    $sql_cart = "SELECT giohang.*, sanpham.tenSanPham, sanpham.giaBan, sanpham.duongDanAnhChung, size.tenSize, sanpham.chitietsp
                  FROM giohang 
                  INNER JOIN sanpham ON giohang.maSanPham = sanpham.maSanPham 
                  INNER JOIN size ON giohang.maSize = size.maSize 
@@ -45,7 +47,11 @@ foreach ($cart as $item) {
     $totalQuantity += $item['soLuong'];
     $totalAmount += $item['giaBan'] * $item['soLuong'];
 }
-
+if(isset($_POST['checkout-btn']))
+{
+    header("Location: /webbanhang/checkouts");
+    exit();
+}
 $_SESSION['totalProducts'] = $totalProducts; // Lưu giá trị vào session
 ?>
 
@@ -61,11 +67,13 @@ $_SESSION['totalProducts'] = $totalProducts; // Lưu giá trị vào session
     <link rel="stylesheet" href="../assets/cuongstyle.css" />
     <link rel="stylesheet" href="../assets/cart.css?v=<?php echo time() ?>" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="shortcut icon" href="//theme.hstatic.net/200000692427/1001117622/14/favicon.png?v=4870" type="image/png">
 </head>
 
 <body>
-    <?php include '../layout/header.php'; ?>
+    <?php include($_SERVER["DOCUMENT_ROOT"] . "/webbanhang/layout/header.php"); ?>
     <div class="main__layout__account main__layout__account_cart">
+    <h1 style="font-size: 25px; text-align: center; color: black">GIỎ HÀNG</h1>
         <div class="main__layout__container main__layout__container__2 ">
             <div class="card card-left card-left-cart" style="width: 65%; height: 100%">
                 <!-- Thông tin giỏ hàng -->
@@ -73,7 +81,8 @@ $_SESSION['totalProducts'] = $totalProducts; // Lưu giá trị vào session
                     <?php if (!empty($cart)) : ?>
                         <?php foreach ($cart as $item) : ?>
                             <div class="cart-item">
-                                <img src="<?php echo $item['duongDanAnhChung']; ?>" alt="img <?php echo $item['tenSanPham']; ?>">
+                                <a href="<?php echo $item['chitietsp']; ?>"><img src="<?php echo '/webbanhang/admin/dashboard/products/'.$item['duongDanAnhChung']; ?>" alt="img <?php echo $item['tenSanPham']; ?>"></a>
+                                
                                 <div class="item-details">
                                     <h2><?php echo $item['tenSanPham']; ?></h2>
                                     <p>Giá: <?php echo number_format($item['giaBan'], 0, ',', '.'); ?> VND</p>
@@ -102,19 +111,27 @@ $_SESSION['totalProducts'] = $totalProducts; // Lưu giá trị vào session
             </div>
 
             <div class="card card-right" style="width: 35%;">
-                <div class="total">
+                <form class="total" method="POST">
                     <div class="cart-detail">
                         <i class="fa-solid fa-cart-shopping"></i>
                         <h2>Thông tin giỏ hàng</h2>
                     </div>
                     <h3>Tạm tính (<?php echo $totalProducts; ?> sản phẩm)</h3>
                     <h3>Tổng thanh toán: <?php echo number_format($totalAmount, 0, ',', '.'); ?> VND</h3>
-                    <button class="checkout-btn">Đặt hàng</button>
-                </div>
+                    <?php
+                        if($totalProducts > 0)
+                        {
+                            echo '<button class="checkout-btn" name="checkout-btn" id="checkout-btn">Đặt hàng</button>';
+                        }
+                        else
+                            echo '<button class="checkout-btn" name="checkout-btn" id="checkout-btn" disabled>Đặt hàng</button>';
+                    ?>
+                    
+                </form>
             </div>
         </div>
     </div>
-    <?php include '../layout/footer.php'; ?>
+    <?php include($_SERVER["DOCUMENT_ROOT"] . "/webbanhang/collections/includes/footer.php"); ?>
 
     
 </body>

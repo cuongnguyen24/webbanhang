@@ -219,9 +219,10 @@ $result_topSP = mysqli_query($conn, $sql);
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard</title>
+    <title>Thống kê</title>
     <link rel="stylesheet" href="./style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="shortcut icon" href="//theme.hstatic.net/200000692427/1001117622/14/favicon.png?v=4870" type="image/png">
 </head>
 
 <body>
@@ -242,10 +243,7 @@ $result_topSP = mysqli_query($conn, $sql);
                     <h3>Thống kê</h3>
                 </a>
 
-                <a href="./customer" class="">
-                    <i class="fa-regular fa-user"></i>
-                    <h3>Khách hàng</h3>
-                </a>
+                
                 <a href="./staff/" class="">
                     <i class="fa-regular fa-user"></i>
                     <h3>Nhân viên</h3>
@@ -263,26 +261,19 @@ $result_topSP = mysqli_query($conn, $sql);
                 <a href="./Danhmuc/" class="">
                     <i class="fa-regular fa-envelope"></i>
                     <h3>Danh mục</h3>
-                    <span class="Message-count">26</span>
+
                 </a>
 
                 <a href="./products/" class="">
                     <i class="fa-solid fa-shop"></i>
                     <h3>Sản phẩm</h3>
                 </a>
-                <a href="./report/" class="">
-                    <i class="fa-solid fa-exclamation"></i>
-                    <h3>Báo cáo</h3>
+                
+                <a href="./promotion/" class="">
+                    <i class="fa-solid fa-ticket"></i>
+                    <h3>Khuyến mãi</h3>
                 </a>
-                <a href="./settings/" class="">
-                    <i class="fa-solid fa-gear"></i>
-                    <h3>Cài đặt</h3>
-                </a>
-                <a href="">
-                    <i class="fa-solid fa-plus"></i>
-                    <h3>Thêm sản phẩm</h3>
-                </a>
-                <a href="../accountadmin.php" target="_self">
+                <a href="/webbanhang/admin/accountadmin.php" target="_self">
                     <i class="fa-solid fa-right-from-bracket"></i>
                     <h3>Quay lại</h3>
                 </a>
@@ -292,9 +283,9 @@ $result_topSP = mysqli_query($conn, $sql);
         <!-- ---------------------END OF ASIDE---------------- -->
         <main>
             <h1>Dashboard</h1>
-            <div class="date">
+            <!-- <div class="date">
                 <input type="date">
-            </div>
+            </div> -->
 
             <div class="insights">
                 <div class="sale">
@@ -302,7 +293,7 @@ $result_topSP = mysqli_query($conn, $sql);
                     <div class="middle">
                         <div class="left">
                             <h3>Tổng doanh thu</h3>
-                            <h1><?php echo "$tongDoanhThu"; ?></h1>
+                            <h1><?php echo "$tongDoanhThu"; ?> VND</h1>
                         </div>
                     </div>
                     <div class="progress">
@@ -317,6 +308,7 @@ $result_topSP = mysqli_query($conn, $sql);
                     <small class="text-muted">Trong tháng này</small>
                 </div>
                 <!-- ----------------END OF SALES--------------- -->
+                
 
                 <div class="expensive">
                     <i class="fa-solid fa-chart-line"></i>
@@ -388,7 +380,7 @@ $result_topSP = mysqli_query($conn, $sql);
                                     <td><?php echo $maSpBanChay; ?></td>
                                     <td><?php echo $soLuongSpBanChay; ?></td>
                                     <td class="warning"><?php echo $soLuongTonKho; ?></td>
-                                    <td class="primary"><a href="">Chi tiết</a></td>
+                                    <td class="primary"><a href="./products/">Chi tiết</a></td>
                                 </tr>
                         <?php
                             }
@@ -407,10 +399,10 @@ $result_topSP = mysqli_query($conn, $sql);
                 <button id="menu_btn">
                     <i class="fa-solid fa-bars"></i>
                 </button>
-                <div class="theme-toggler">
-                    <i class="fa-regular fa-sun active"></i>
-                    <i class="fa-solid fa-moon"></i>
-                </div>
+                <!-- <div class="theme-toggler">
+                    <i class="fa-regular fa-sun active" id="lightModeToggle"></i>
+                    <i class="fa-solid fa-moon" id="darkModeToggle"></i>
+                </div> -->
                 <div class="profile">
                     <div class="info">
                         <p>Hey, <b><?php echo "$name"; ?></b></p>
@@ -426,48 +418,51 @@ $result_topSP = mysqli_query($conn, $sql);
 
             <div class="sales_analytics">
                 <h2>Sales Analytics</h2>
-                <div class="item online">
-                    <div class="icon">
-                        <i class="fa-solid fa-cart-shopping"></i>
-                    </div>
-                    <div class="right">
-                        <div class="info">
-                            <h3>Tổng số đơn hàng</h3>
-                            <small class="text-muted">Trong 24 giờ qua</small>
+                <a href="./order/">
+                    <div class="item online">
+                        <div class="icon">
+                            <i class="fa-solid fa-cart-shopping"></i>
                         </div>
-                        <h5 class="danger"><?php echo ($phanTramDonHang >= 0 ? '+' : '') . $phanTramTongDonHangTrongNgay . '%'; ?></h5>
-                        <h3><?php echo "$soLuongDonTrongNgay"; ?></h3>
-                    </div>
-                </div>
-
-
-                <div class="item customers">
-                    <div class="icon">
-                        <i class="fa-solid fa-cart-shopping"></i>
-                    </div>
-                    <div class="right">
-                        <div class="info">
-                            <h3>Đơn hàng đã gửi</h3>
-                            <small class="text-muted">Trong 24 giờ qua</small>
+                        <div class="right">
+                            <div class="info">
+                                <h3>Tổng số đơn hàng</h3>
+                                <small class="text-muted">Trong 24 giờ qua</small>
+                            </div>
+                            <h5 class="danger"><?php echo ($phanTramDonHang >= 0 ? '+' : '') . $phanTramTongDonHangTrongNgay . '%'; ?></h5>
+                            <h3><?php echo "$soLuongDonTrongNgay"; ?></h3>
                         </div>
-                        <h5 class="danger"><?php echo ($phanTramDaGui >= 0 ? '+' : '') . $phanTramDaGuiTrongNgay . '%'; ?></h5>
-                        <h3><?php echo "$soLuongDonGuiTrongNgay"; ?></h3>
                     </div>
-                </div>
-
-
-                <div class="item boom">
-                    <div class="icon">
-                        <i class="fa-solid fa-bomb"></i>
-                    </div>
-                    <div class="right">
-                        <div class="info">
-                            <h3>Đơn hàng chờ duyệt</h3>
+                </a>
+                
+                <a href="./order/">
+                    <div class="item customers">
+                        <div class="icon">
+                            <i class="fa-solid fa-cart-shopping"></i>
                         </div>
-                        <h3><?php echo "$soLuongDonChoDuyet"; ?></h3>
+                        <div class="right">
+                            <div class="info">
+                                <h3>Đơn hàng đã gửi</h3>
+                                <small class="text-muted">Trong 24 giờ qua</small>
+                            </div>
+                            <h5 class="danger"><?php echo ($phanTramDaGui >= 0 ? '+' : '') . $phanTramDaGuiTrongNgay . '%'; ?></h5>
+                            <h3><?php echo "$soLuongDonGuiTrongNgay"; ?></h3>
+                        </div>
                     </div>
-                </div>
+                </a>
 
+                <a href="./order/">
+                    <div class="item boom">
+                        <div class="icon">
+                            <i class="fa-solid fa-bomb"></i>
+                        </div>
+                        <div class="right">
+                            <div class="info">
+                                <h3>Đơn hàng chờ duyệt</h3>
+                            </div>
+                            <h3><?php echo "$soLuongDonChoDuyet"; ?></h3>
+                        </div>
+                    </div>
+                </a>
 
             </div>
         </div>

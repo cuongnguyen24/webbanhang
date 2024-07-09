@@ -5,11 +5,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard</title>
+    <title>Đơn hàng</title>
     <link rel="stylesheet" href="./style.css">
     <link rel="stylesheet" href="../style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer"
     />
+    <link rel="shortcut icon" href="//theme.hstatic.net/200000692427/1001117622/14/favicon.png?v=4870" type="image/png">
 </head>
 
 <body>
@@ -25,15 +26,12 @@
                 </div>
             </div>
             <div class="sidebar">
-                <a href="../index.html" class="">
+                <a href="../index.php" class="">
                     <i class="fa-solid fa-list"></i>
                     <h3>Thống kê</h3>
                 </a>
 
-                <a href="../customer/" class="">
-                    <i class="fa-regular fa-user"></i>
-                    <h3>Khách hàng</h3>
-                </a>
+                
                 <a href="../staff/" class="">
                     <i class="fa-regular fa-user"></i>
                     <h3>Nhân viên</h3>
@@ -51,26 +49,18 @@
                 <a href="../Danhmuc/" class="">
                     <i class="fa-regular fa-envelope"></i>
                     <h3>Danh mục</h3>
-                    <span class="Message-count">26</span>
+                    
                 </a>
 
                 <a href="../products/" class="">
                     <i class="fa-solid fa-shop"></i>
                     <h3>Sản phẩm</h3>
                 </a>
-                <a href="../report/" class="">
-                    <i class="fa-solid fa-exclamation"></i>
-                    <h3>Báo cáo</h3>
+                <a href="../promotion/" class="">
+                    <i class="fa-solid fa-ticket"></i>
+                    <h3>Khuyến mãi</h3>
                 </a>
-                <a href="../settings/" class="">
-                    <i class="fa-solid fa-gear"></i>
-                    <h3>Cài đặt</h3>
-                </a>
-                <a href="#">
-                    <i class="fa-solid fa-plus"></i>
-                    <h3>Thêm sản phẩm</h3>
-                </a>
-                <a href="/websiteechcom/admin/accountadmin.php" target="_self">
+                <a href="/webbanhang/admin/accountadmin.php" target="_self">
                     <i class="fa-solid fa-right-from-bracket"></i>
                     <h3>Quay lại</h3>
                 </a>
@@ -94,12 +84,17 @@
                 </div>
                 <!-- search_html -->
                 <div class="search">
+                    
+                <label >Tìm kiếm đơn hàng</label>
                     <form method="POST" action="" id="search_form">
-                        <input type="text" name="txtSearch" id="txtSearch" placeholder="   Tìm họ tên nhân viên">
-                        <button name="btnSearch" id="btnSearch" ><i class="fa-solid fa-magnifying-glass"></i></button>
+                        <label id="tungay">Từ ngày: </label>
+                        <input type="date" name="start_date" id="start_date" placeholder="Từ ngày">
+                        <label >Đến ngày: </label>
+                        <input type="date" name="end_date" id="end_date" placeholder="Đến ngày">
+                        <button name="btnSearch" id="btnSearch" title="Tìm danh sách đơn hàng theo ngày"><i class="fa-solid fa-filter"></i></i></button>
                     </form>
                 </div>
-                
+                <div class="aaaa"></div>
                 <div class="wrapper" id="tblQLTK" style="display: <?php echo isset($_POST['btnSearch']) && !empty($_POST['txtSearch']) ? 'none' : 'block'; ?>">
                 <!-- table -->
                 <table>
@@ -120,7 +115,24 @@
                         <tbody>
                             <?php
                             $num = 1;
-                            $sql = "SELECT * FROM donhang";
+                            $start_date = isset($_POST['start_date']) ? $_POST['start_date'] : '';
+                            $end_date = isset($_POST['end_date']) ? $_POST['end_date'] : '';
+                            $sql = "SELECT *
+                            FROM donhang";
+                            $conditions = [];
+                            // dùng mảng để lưu trữ ngày
+                            if (!empty($start_date)) {
+                                $conditions[] = "ngayLapDon >= '$start_date'";
+                                // nếu chỉ nhập ngày bắt đầu thì tìm từ ngày đó đi
+                            }
+                            if (!empty($end_date)) {
+                                $conditions[] = "ngayLapDon <= '$end_date'";
+                                 // nếu chỉ nhập ngày kết thúc thì tìm từ ngày trở lại
+                            }
+                            if (count($conditions) > 0) {
+                                $sql .= " WHERE " . implode(' AND ', $conditions);
+                            }
+                            
                             $result = mysqli_query($conn, $sql);
                             if (mysqli_num_rows($result) > 0) {
                                 while ($row = mysqli_fetch_assoc($result)) {
@@ -208,7 +220,7 @@
                                         <td><?php echo $row['maKhachHang'] ?></td>
                                         <td><?php echo $formattedNgayLapDon ?></td>
                                         <td>
-                                            <a id="detail_button" title="Xem chi tiết đơn hàng" href="/webbanhang/admin/dashboard/order/order_detail.php?smnv=<?php echo $row['maDonHang'] ?> ">
+                                            <a id="detail_button" title="Xem chi tiết đơn hàng" href="/webbanhang/admin/dashboard/order/order_detail.php?smdh=<?php echo $row['maDonHang'] ?>">
                                                 <i class="fa-solid fa-eye"></i>
                                             </a>
                                         </td>
@@ -233,7 +245,6 @@
                                     <?php
                                 }
                             } else {
-                                echo "Không có dữ liệu";
                             }
                             ?>
                         </tbody>
