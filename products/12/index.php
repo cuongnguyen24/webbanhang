@@ -1,40 +1,148 @@
-'<?php
+
+<?php
                 session_start();
+                
+                
+                
                 require_once ($_SERVER["DOCUMENT_ROOT"] . "/webbanhang/admin/connect.php");
-    
                 
-                
-    
+
                 // Xử lý gửi kết quả qua cart.php
-                if ($_SERVER["REQUEST_METHOD"] == "POST") {
-                    $maSanPham = $_POST["maSanPham"];
-                    $tenSanPham = $_POST["tenSanPham"];
-                    $giaBan = $_POST["giaBan"];
-                    $duongDanAnh = $_POST["duongDanAnh"];
-                    $size = $_POST["size"];
-                    $quantity = $_POST["quantity"];
-    
-                    // Kiểm tra xem sản phẩm đã tồn tại trong giỏ hàng của người dùng hay chưa
-                    $sql_check = "SELECT * FROM giohang WHERE maKhachHang = \'$maKhachHang\' AND maSanPham = \'$maSanPham\' AND maSize = \'$size\'";
-                    $result_check = mysqli_query($conn, $sql_check);
-    
-                    if (mysqli_num_rows($result_check) > 0) {
-                        // Nếu sản phẩm đã tồn tại, cập nhật số lượng
-                        $sql_update = "UPDATE giohang SET soLuong = soLuong + $quantity WHERE maKhachHang = \'$maKhachHang\' AND maSanPham = \'$maSanPham\' AND maSize = \'$size\'";
-                        mysqli_query($conn, $sql_update);
-                    } else {
-                        // Nếu sản phẩm chưa tồn tại, thêm mới vào giỏ hàng
-                        $sql_insert = "INSERT INTO giohang (maKhachHang, maSanPham, maSize, soLuong)
-                        VALUES (\'$maKhachHang\', \'$maSanPham\', \'$size\', $quantity)";
-                        mysqli_query($conn, $sql_insert);
+                
+                $flag = 1;
+                $URI = $_SERVER['REQUEST_URI'];
+                
+                $query1 = "  SELECT * 
+                            FROM sanpham
+                            WHERE chitietsp = '$URI' ";
+                $result = mysqli_query($conn, $query1);
+                if (mysqli_num_rows($result) > 0) {
+                while ($row = mysqli_fetch_assoc($result)) {
+                    $tenSanPham = $row["tenSanPham"];
+                    $maSanPham = $row["maSanPham"];
+                    $giaBan = $row["giaBan"];
+                    $maDanhMuc = $row["maDanhMuc"];
+                }
+                } else {
+                echo "Không có kết quả";
+                }
+
+                $query = "SELECT SUM(sizesanpham.soLuong) AS soluong
+                    FROM sizesanpham
+                    INNER JOIN sanpham ON sizesanpham.maSanPham = sanpham.maSanPham
+                    WHERE sanpham.maSanPham = '$maSanPham' AND sizesanpham.soLuong > 0
+                    ";
+                $result = mysqli_query($conn,$query);
+                while ($row = mysqli_fetch_assoc($result)) {
+                    $count_tinhtrang = $row["soluong"];
+                    
+                }
+                
+                
+                $sizetonkho = 0;
+                $size = 0;
+                $count_cart = 0;
+                $quantity = 0;
+                if(isset($_POST['addToCart']))
+                {
+                    $username = $_SESSION["username"];
+                    if (!isset($_SESSION["username"])) {
+                        echo '<script>alert("Bạn cần đăng nhập trước")
+                        window.location.href = "/webbanhang/";</script>
+                        ';
+                    exit();
                     }
+
+                    // Lấy maKhachHang từ bảng khachhang dựa vào tên tài khoản
+                    $sql_get_maKhachHang = "SELECT khachhang.maKhachHang FROM khachhang 
+                                            INNER JOIN taikhoan ON khachhang.maTaiKhoan = taikhoan.maTaiKhoan
+                                            WHERE tenTaiKhoan = '$username'";
+                    $result_maKhachHang = mysqli_query($conn, $sql_get_maKhachHang);
+                    
+                    
+                    if (mysqli_num_rows($result_maKhachHang) > 0) {
+                        $row_maKhachHang = mysqli_fetch_assoc($result_maKhachHang);
+                        $maKhachHang = $row_maKhachHang['maKhachHang'];
+                        $size = $_POST["sizesp"];
+                        $quantity = $_POST["soluongsp"];
+                        
+                        
+                        
+                        $query = "SELECT * FROM sizesanpham WHERE maSanPham = '$maSanPham' AND maSize = '$size'";
+                        $result = mysqli_query($conn,$query);
+                        if (mysqli_num_rows($result) > 0) {
+                            while ($row = mysqli_fetch_assoc($result)) {
+                                $sizetonkho = $row["soLuong"];
+                                // echo $size . $sizetonkho;
+                            }
+                        } else {
+                        // echo "Không có kết quả";
+                        
+                        }
+
+
+                        
+                        // Kiểm tra xem sản phẩm đã tồn tại trong giỏ hàng của người dùng hay chưa
+                        $sql_check = "SELECT * FROM giohang WHERE maKhachHang = '$maKhachHang' AND maSanPham = '$maSanPham' AND maSize = '$size'";
+                        $result_check = mysqli_query($conn, $sql_check);
+        
+                        if (mysqli_num_rows($result_check) > 0) {
+                            // Nếu sản phẩm đã tồn tại, cập nhật số lượng
+                            while ($row = mysqli_fetch_assoc($result_check)) {
+                                $count_cart = $row["soLuong"];
+                                if($count_cart + $quantity <= $sizetonkho)
+                                {
+                                    
+                                    $sql_update = "UPDATE giohang SET soLuong = soLuong + $quantity WHERE maKhachHang = '$maKhachHang' AND maSanPham = '$maSanPham' AND maSize = '$size'";
+                                    mysqli_query($conn, $sql_update);
+                                    echo '<script>alert("Sản phẩm đã được thêm vào giỏ hàng!")</script>';
+                                }
+                                else{
+                                    $flag = 0;
+                                }
+                                
+                            }
+                            
+                        } else {
+                            // Nếu sản phẩm chưa tồn tại, thêm mới vào giỏ hàng
+                            if($count_cart + $quantity <= $sizetonkho)
+                                {
+                                    $sql_insert = "INSERT INTO giohang (maKhachHang, maSanPham, maSize, soLuong)
+                                    VALUES ('$maKhachHang', '$maSanPham', '$size', $quantity)";
+                                    mysqli_query($conn, $sql_insert);
+                                    echo '<script>alert("Sản phẩm đã được thêm vào giỏ hàng!")</script>';
+                                }
+                                else{
+                                    $flag = 0;
+                                }
+                            
+                        }
+
+                        
+
+                        // Chuyển hướng về trang giỏ hàng
+                       if($flag == 1)
+                       {
+                        // echo '<script>
+                        // window.location.href = "/webbanhang/user/cart.php";</script>
+                        // ';
+                        // exit();
+                       }
+
+                        
+                        
+                    } else {
+                        
+                        echo '<script>alert("Bạn cần đăng nhập trước")
+                        window.location.href = "/webbanhang/";</script>
+                        ';
+                    }
+                    
+                }
 
                     
 
-                    // Chuyển hướng về trang giỏ hàng
-                    header("Location: ./cart.php");
-                    exit();
-                }
+                
                 ?>
     
                 <!DOCTYPE html>
@@ -42,17 +150,18 @@
                 <head>
                 <meta charset="UTF-8" />
                 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-                <title>Khách hàng</title>
+                <title><?php echo $tenSanPham?></title>
                 <link rel="stylesheet" href="/webbanhang/assets/style.css" />
                 <link rel="stylesheet" href="/webbanhang/assets/reset.css" />
                 <link rel="stylesheet" href="../assets/cuongstyle.css" />
                 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
                 <link rel="stylesheet" href="/webbanhang/assets/w3.css">
+                <link rel="shortcut icon" href="//theme.hstatic.net/200000692427/1001117622/14/favicon.png?v=4870" type="image/png">
                 </head>
                 <body>
                 <?php
                 include ($_SERVER["DOCUMENT_ROOT"] . "/webbanhang/collections/includes/login.php");
-                include($_SERVER["DOCUMENT_ROOT"] . "/webbanhang/collections/includes/header.php");
+                include($_SERVER["DOCUMENT_ROOT"] . "/webbanhang/layout/header.php");
                 ?>
                 <div class="main-layout">
                     <div class="collection template-collection">
@@ -60,51 +169,35 @@
                             <div class="breadcrum-wrap container container-xl">
                                 <ol class="breadcrum">
                                     <li class="breadcrum-item">
-                                        <a href="">Trang chủ</a>
+                                        <a href="/webbanhang/">Trang chủ</a>
                                     </li>
                                     <li class="breadcrum-item">
                                         <span style="padding-right: 12px;">/</span>
-                                        <a href=""><span>Trẻ sơ sinh bộ dài tay</span></a>
+                                        <?php
+                                        require_once ($_SERVER["DOCUMENT_ROOT"] . "/webbanhang/admin/connect.php");
+                                        $query = "SELECT * FROM danhmuc WHERE maDanhMuc = '$maDanhMuc'";
+                                        $result = mysqli_query($conn, $query);
+                                        if (mysqli_num_rows($result) > 0) {
+                                            while ($row = mysqli_fetch_assoc($result)) {
+                                                echo '<a href="'.$row["url"].'"><span>'.$row["tenDanhMuc"].'</span></a>';
+                                            }
+                                        } else {
+                                            echo "Không có kết quả";
+                                            }
+                                        
+                                        
+                                        ?>
+                                        
                                     </li>
                                     <li class="breadcrum-item active">
                                         <span style="padding-right: 12px;">/</span>
-                                        <span>Bộ liền dài màu be phối trắng in hình con mèo</span>
+                                        <span><?php echo $tenSanPham?></span>
                                     </li>
                                 </ol>
                             </div>
                         </div>
                         <div class="container">
                             <div class="productWrap">
-                                <?php
-                                    require_once ($_SERVER["DOCUMENT_ROOT"] . "/webbanhang/admin/connect.php");
-                                    $URI = $_SERVER['REQUEST_URI'];
-                                    
-                                    $query1 = "  SELECT * 
-                                                FROM sanpham
-                                                WHERE chitietsp = '$URI' ";
-                                    $result = mysqli_query($conn, $query1);
-                                    if (mysqli_num_rows($result) > 0) {
-                                    while ($row = mysqli_fetch_assoc($result)) {
-                                        $tenSanPham = $row["tenSanPham"];
-                                        $maSanPham = $row["maSanPham"];
-                                        $giaBan = $row["giaBan"];
-                                    }
-                                    } else {
-                                    echo "Không có kết quả";
-                                    }
-
-                                    $query = "SELECT SUM(sizesanpham.soLuong) AS soluong
-                                        FROM sizesanpham
-                                        INNER JOIN sanpham ON sizesanpham.maSanPham = sanpham.maSanPham
-                                        WHERE sanpham.maSanPham = '$maSanPham' AND sizesanpham.soLuong > 0
-                                        ";
-                                    $result = mysqli_query($conn,$query);
-                                    while ($row = mysqli_fetch_assoc($result)) {
-                                        $count_tinhtrang = $row["soluong"];
-                                        
-                                    }
-                                    
-                                    ?>
                                 <div class="productWrapAll">
                                     <div class="productWrapLeft">
                                         <div class="w3-container">
@@ -150,14 +243,14 @@
                                                     }
                                                     
                                                     
-                                                   
+                                                    
                                                 
                                                 ?>
                                             </div>
                                         </div>
                                     </div>
                                     <div class="productWrapRight">
-                                            <div class="productWrapDetail">
+                                            <form class="productWrapDetail" method="POST" >
                                                 <div class="productWrapDetailTitle">
                                                     <h1 class="productTitle"><?php echo $tenSanPham?></h1>
                                                     <div class="productWishlist"> 
@@ -188,7 +281,7 @@
                                                     <div class="productPriceBox">
                                                         <span class="productPriceBox_tt">Giá:</span>
                                                             <p class="productPriceBox_price">
-                                                                <span class="productPriceMain"><?php echo $giaBan?></span>
+                                                                <span class="productPriceMain"><?php echo $giaBan . 'đ'?></span>
                                                                 <del class="productPriceCompare d-none"><?php echo $giaBan?></del>									
                                                                 <span class="productDiscount d-none">-0%</span> 
                                                             </p>
@@ -223,8 +316,11 @@
                                                     <div class="product-sw-line product-sw-option-2 product-sw-size" data-option="option2">
                                                         <div class="dflex-new">
                                                             <div class="product-sw-title a">Kích thước</div>
+                                                            <form action="" method="POST" class="check_size">
+                                                                <button type="submit" class="sizeGuide" href="javascript:void(0);" data-fancybox="sizechart" data-src="#sizechart">Kiểm tra số lượng</button>
+                                                                
+                                                            </form>
                                                             
-                                                            <a class="sizeGuide" href="javascript:void(0);" data-fancybox="sizechart" data-src="#sizechart">Hướng dẫn chọn size</a>
                                                             
                                                         </div>
                                                         <div class="product-sw-select">
@@ -278,7 +374,7 @@
                                                             
                                                             
                                                             <?php
-                                                                    $query = "SELECT IFNULL(soLuong, 0) AS soLuong FROM sizesanpham WHERE (maSanPham = '$maSanPham' AND maSize = 'L') ";
+                                                                    $query = "SELECT IFNULL(soLuong, 0) AS soLuong FROM sizesanpham WHERE (maSanPham = '$maSanPham' AND maSize = 'L') LIMIT 1 ";
                                                                     $result = mysqli_query($conn, $query);
                                                                     if (mysqli_num_rows($result) > 0) {
                                                                     while ($row = mysqli_fetch_assoc($result)) {
@@ -301,7 +397,7 @@
                                                                 ?>
                                                                 
                                                             
-                                                            <div class="product-sw-select-item  " data-cus="9 - 12M" data-height="70 - 77" data-weight="8.5 - 10.5" data-option2="9M">
+                                                           
                                                             <?php
                                                                     $query = "SELECT IFNULL(soLuong, 0) AS soLuong FROM sizesanpham WHERE (maSanPham = '$maSanPham' AND maSize = 'XL')  LIMIT 1";
                                                                     $result = mysqli_query($conn, $query);
@@ -321,9 +417,35 @@
                                                                 }
 
                                                                 ?>
+
+                                                            
+                                                                <input type="hidden" name="sizesp" id="sizesp" value="none" />
+                                                            
                                                                 
-                                                            <div class="select-size-info" style="display: none; left: 0px;"><p>Thông số</p><h6 class="measure-cus">Độ tuổi: <b>0 - 3M</b></h6><div class="measure-wrapper"><span class="measure-height">Chiều cao: <b>55 - 61 cm</b></span><span class="empty-border"></span><span class="measure-weight">Cân nặng: <b>3.5 - 5.5 kg</b></span></div></div></div>
+                                                                
                                                     </div>
+                                                    <?php
+                                                    $flag = 1;
+                                                                if($size != "none")
+                                                                {
+                                                                    
+                            
+                                                                        if($count_cart + $quantity > $sizetonkho)
+                                                                        {
+                                                                                echo '<span style="color: #DB9087;">Vui lòng chọn số lượng ít hơn!<br></span>';
+                                                                                echo "<span>Size: " . $size . "<br>còn lại trong kho: " . $sizetonkho . "</span>";                                                                                
+                                                                        }
+                                                                    
+                                                                    
+                                                                    
+                                                                }
+                                                                else
+                                                                {
+                                                                    
+                                                                    echo '<span style="color: #DB9087;">Vui lòng chọn size!</span>';
+                                                                }
+                                                                ?>
+                                                                <br>
                                                 </div>
     
                                                 <div class="productActionMain">
@@ -333,17 +455,27 @@
                                                         </div>
                                                         <div class="itemQuantity ">
                                                             <button class="qtyBtn minusQuan" data-type="minus">-</button>
-                                                            <input type="number" id="quantity" name="quantity" value="1" min="1" class="quantitySelector">
+                                                            <input type="number" id="quantity" name="quantity" value="1" min="1" class="quantitySelector" style="border: none">
                                                             <button class="qtyBtn plusQuan" data-type="plus">+</button>
+                                                            <input type="hidden" name="soluongsp" id="soluongsp" value="none" />
                                                         </div>
                                                     </div> 
                                                     <div class="groupAdd_btn">
-                                                        <button type="button" class="btn_addCart d-none" id="addToCart">Thêm vào giỏ hàng</button>
+                                                        <!-- <button type="button" class="btn_addCart d-none" id="addToCart">Thêm vào giỏ hàng</button>
                                                         <button type="button" class="btn_addCheckout btn_pink d-none" id="addToCheckout"> Mua ngay</button>
                                                         <div class="productWishlist d-flex d-lg-none"> 
                                                             <a href="/pages/wishlist" class="setWishlist" data-handle="bo-lien-coc-mau-xanh-da-troi"><i class="lni lni-heart"></i></a>
-                                                        </div>
-                                                        <button type="button" class="btn_addCart d-block d-lg-none mb-fixed" id="addToCart">Thêm vào giỏ hàng</button>
+                                                        </div> -->
+                                                        <?php
+                                                        if($count_tinhtrang > 0)
+                                                        {
+                                                            echo '<button type="submit" class="btn_addCart d-block d-lg-none mb-fixed" id="addToCart" name="addToCart" >Thêm vào giỏ hàng</button>';
+                                                        }
+                                                        else
+                                                        echo '<button type="submit" class="btn_addCart d-block d-lg-none mb-fixed" id="addToCart" name="addToCart" disabled >Hết hàng</button>';
+                                                        ?>
+                                                        
+                                                        
                                                     </div>
                                                     <div class="productAction">		
     
@@ -354,16 +486,24 @@
                                             </div>
     
     
-                                        </div>
+                                        </form>
                                 </div>
                                 
                             </div>
-                            <div class="productDescription">
-                                    <h2>Mô tả sản phẩm</h2>
-                                    <p>Bộ liền dài màu be phối trắng in hình con mèo là sản phẩm tuyệt vời cho trẻ sơ sinh. Sản phẩm được làm từ chất liệu vải cao cấp, mềm mại và thoáng mát, giúp bé cảm thấy dễ chịu suốt cả ngày.</p>
+                            <div class="productDescription" style="padding-bottom: 30px">
+                                    <?php
+                                        echo '<h2>Mô tả sản phẩm</h2>
+                                    <p>Bộ liền dài màu be phối trắng in hình con mèo là sản phẩm tuyệt vời cho trẻ sơ sinh. Sản phẩm được làm từ chất liệu vải cao cấp, mềm mại và thoáng mát, giúp bé cảm thấy dễ chịu suốt cả ngày.</p>';
+                                        mysqli_close($conn);
+                                    ?>
+
                                 </div>
                         </div>
                     </div>
+                    <?php
+                        include($_SERVER["DOCUMENT_ROOT"] . "/webbanhang/collections/includes/footer.php");
+                    ?>
+                    
                 </div>
                 <script>
                 function currentDiv(n) {
@@ -384,40 +524,58 @@
                 document.addEventListener('DOMContentLoaded', function() {
                 // Lấy tất cả các phần tử có class 'product-sw-select-item'
                 var productItems = document.querySelectorAll('.product-sw-select-item');
-
+                    
                 // Duyệt qua từng phần tử và thêm sự kiện click
+                
                 productItems.forEach(function(item) {
-                    item.addEventListener('click', function() {
-                        // Xóa class 'active' khỏi tất cả các phần tử
-                        productItems.forEach(function(element) {
-                            element.classList.remove('active');
-                        });
+                    
+                    if(!item.classList.contains("soldOut"))
+                    {
+                        
 
-                        // Thêm class 'active' vào phần tử được click
-                        item.classList.add('active');
-                    });
+                        item.addEventListener('click', function() {
+                            // Xóa class 'active' khỏi tất cả các phần tử
+                            productItems.forEach(function(element) {
+                                element.classList.remove('active');
+                                
+                            });
+
+                            // Thêm class 'active' vào phần tử được click
+                            item.classList.add('active');
+                            var itemValue = item.children;
+                            document.getElementById('sizesp').value = itemValue[0].innerHTML;
+                            
+                            console.log(itemValue[0].innerHTML);
+                        });
+                    }
                 });
                 var quantityInput = document.getElementById('quantity');
                 var minusBtn = document.querySelector('.minusQuan');
                 var plusBtn = document.querySelector('.plusQuan');
-
+                document.getElementById('soluongsp').value = 1;
                 // Xử lý sự kiện khi bấm nút "-"
-                minusBtn.addEventListener('click', function() {
+                minusBtn.addEventListener('click', function(event) {
+                    event.preventDefault();
                     var currentValue = parseInt(quantityInput.value);
-
+                    
                     if (currentValue > 1) {
                         quantityInput.value = currentValue - 1;
+                        document.getElementById('soluongsp').value = quantityInput.value;
                     }
                 });
 
                 // Xử lý sự kiện khi bấm nút "+"
-                plusBtn.addEventListener('click', function() {
+                plusBtn.addEventListener('click', function(event) {
+                    event.preventDefault();
                     var currentValue = parseInt(quantityInput.value);
                     quantityInput.value = currentValue + 1;
+                    document.getElementById('soluongsp').value = quantityInput.value;
                 });
+
+                
             });
             
                 </script>
                 </body>
                 </html>
-    '
+

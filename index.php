@@ -9,6 +9,7 @@
     <link rel="stylesheet" href="./assets/reset.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="shortcut icon" href="//theme.hstatic.net/200000692427/1001117622/14/favicon.png?v=4870" type="image/png">
+    
 </head>
 
 <body>
@@ -52,16 +53,26 @@
                         }
                     }
                     ?>
-                    <button class="header__btn" data-action="wishlist" onclick="goToWishList()">
+                    <button class="header__btn js-LogIn" data-action="wishlist" onclick="goToWishList()">
                         <strong>Yêu thích</strong>
                         <i class="fa-solid fa-heart" style="font-weight: 400;"></i>
-                        <span class="wishlist-count count">0</span>
+                        <?php
+                        $totalWishlist = isset($_SESSION['totalWishlist']) ? $_SESSION['totalWishlist'] : 0;
+                        ?>
+                        <span class="wishlist-count count"><?php echo $totalWishlist; ?></span>
                     </button>
 
                     <script>
                         function goToWishList() {
-                            window.location.href = "wishlist.php";
+                            <?php if (!isset($_SESSION["loged"])) { ?>
+                                // nếu chưa đăng nhập thì show login
+                                showLogIn();
+                            <?php } else { ?>
+                                // Đăng nhập rồi thì vào cart
+                                window.location.href = "./user/wishlist.php";
+                            <?php } ?>
                         }
+                        
                     </script>
 
                     <button class="header__btn" data-action="cart" onclick="goToCart()">
@@ -223,76 +234,45 @@
                         </div>
                     </div>
                     <div class="home_about_bot">
+
+                    <?php
+                    
+                    $query_discount = "SELECT * FROM khuyenmai WHERE trangThai = 1 limit 4 ";
+                    $result_discount = mysqli_query($conn,$query_discount);
+                    if(mysqli_num_rows($result_discount))
+                    {
+                        while($row = mysqli_fetch_assoc($result_discount))
+                        {
+                            $maKhuyenMai = $row['maKhuyenMai'];
+                            $tenKhuyenMai = $row['tenKhuyenMai'];
+                            $phanTram = $row['phanTram'];
+                            
+                     
+                    ?>
+                        
                         <div class="home_about_item" counpon="NOUS20M">
                             <p class="home_about_item_coupon">Mã:
-                                <span>NOUS20M</span>
+                            
+                                <span id="id_discount" value="<?php echo $maKhuyenMai?>" readonly><?php echo $maKhuyenMai?></span>
                             </p>
                             <p class="home_about_item_discount">
                                 <span>Giảm</span>
-                                <span class="home_about_item_number">20k</span>
+                                <span class="home_about_item_number"><?php echo $phanTram?>%</span>
                             </p>
 
                             <div class="home_about_item_more">
-                                <p class="home_about_item_note">Giảm giá 20,000 ₫ cho 1 nhóm sản phẩm</p>
+                                <p class="home_about_item_note">Giảm giá <?php echo $phanTram?>% cho 1 nhóm sản phẩm</p>
                                 <p class="home_about_item_copy">
                                     <span>Điều kiện áp dụng</span>
-                                    <span class="btn_copy">Sao chép mã</span>
+                                    <button class="btn_copy">Sao chép mã</button>
                                 </p>
                             </div>
                         </div>
-
-                        <div class="home_about_item" counpon="NOUS20M">
-                            <p class="home_about_item_coupon">Mã:
-                                <span>NOUS20M</span>
-                            </p>
-                            <p class="home_about_item_discount">
-                                <span>Giảm</span>
-                                <span class="home_about_item_number">20k</span>
-                            </p>
-
-                            <div class="home_about_item_more">
-                                <p class="home_about_item_note">Giảm giá 20,000 ₫ cho 1 nhóm sản phẩm</p>
-                                <p class="home_about_item_copy">
-                                    <span>Điều kiện áp dụng</span>
-                                    <span class="btn_copy">Sao chép mã</span>
-                                </p>
-                            </div>
-                        </div>
-
-                        <div class="home_about_item" counpon="NOUS20M">
-                            <p class="home_about_item_coupon">Mã:
-                                <span>NOUS20M</span>
-                            </p>
-                            <p class="home_about_item_discount">
-                                <span>Giảm</span>
-                                <span class="home_about_item_number">20k</span>
-                            </p>
-
-                            <div class="home_about_item_more">
-                                <p class="home_about_item_note">Giảm giá 20,000 ₫ cho 1 nhóm sản phẩm</p>
-                                <p class="home_about_item_copy">
-                                    <span>Điều kiện áp dụng</span>
-                                    <span class="btn_copy">Sao chép mã</span>
-                                </p>
-                            </div>
-                        </div>
-
-                        <div class="home_about_item" counpon="NOUS20M">
-                            <p class="home_about_item_coupon">Mã:
-                                <span>NOUS20M</span>
-                            </p>
-                            <p class="home_about_item_discount">
-                                <span>Giảm</span>
-                                <span class="home_about_item_number">20k</span>
-                            </p>
-
-                            <div class="home_about_item_more">
-                                <p class="home_about_item_note">Giảm giá 20,000 ₫ cho 1 nhóm sản phẩm</p>
-                                <p class="home_about_item_copy">
-                                    <span>Điều kiện áp dụng</span>
-                                    <span class="btn_copy">Sao chép mã</span>
-                                </p>
-                            </div>
+                    <?php
+                        }
+                    }
+                    ?>
+                        
                         </div>
                     </div>
                 </div>
@@ -307,7 +287,7 @@
                 <div class="home-product-slider-wrap-header">
                     <div class="section-title-all">
                         <div class="section-title-left">
-                            <h2 class="nous-title">Sản phẩm nổi bật</h2>
+                            <h2 class="nous-title">Sản phẩm bán chạy</h2>
                         </div>
                         <div class="section-title-right">
                             <ul class="cate nav collection-navtabs-title pills-tab" data-lim it="8">
@@ -328,7 +308,7 @@
                                     </a>
                                 </li>
                             </ul>
-                            <a href="/collections/hang-moi" class="viewmore ">Xem thêm </a>
+                            <a href="/webbanhang/collections/ao-khoac/" class="viewmore ">Xem thêm </a>
                         </div>
                     </div>
                 </div>
@@ -341,17 +321,65 @@
                         <div class="tab_content">
                             <div class="wrapper">
                                 <ul class="container">
-                                    <li class="pro">
+                                    <?php
+                                        $sql =
+                                            "WITH soLuongBan AS (
+                                            SELECT sanpham.maSanPham, sanpham.tenSanPham, sanpham.duongDanAnhChung, sanpham.chitietsp, sanpham.giaBan, SUM(chitietdonhang.soLuong) AS soLuongSPDaBan
+                                            FROM donhang
+                                            INNER JOIN chitietdonhang ON donhang.maDonHang = chitietdonhang.maDonHang
+                                            INNER JOIN sanpham ON chitietdonhang.maSanPham = sanpham.maSanPham
+                                            WHERE donhang.tinhTrang NOT IN (1, 5, 6, 7)
+                                            GROUP BY sanpham.maSanPham, sanpham.tenSanPham
+                                            ORDER BY soLuongSPDaBan DESC
+                                            LIMIT 4
+                                        ),
+                                        tongSoLuong AS (
+                                            SELECT maSanPham, SUM(soLuong) AS tongSoLuong
+                                            FROM sizesanpham
+                                            GROUP BY maSanPham
+                                        )
+                                        SELECT
+                                            soLuongBan.maSanPham,
+                                            soLuongBan.tenSanPham,
+                                            soLuongBan.soLuongSPDaBan,
+                                            soLuongBan.duongDanAnhChung,
+                                            soLuongBan.chitietsp,
+                                            soLuongBan.giaBan,
+                                            tongSoLuong.tongSoLuong - soLuongBan.soLuongSPDaBan AS soLuongTonKho
+                                        FROM soLuongBan
+                                        INNER JOIN tongSoLuong ON soLuongBan.maSanPham = tongSoLuong.maSanPham
+                                        ORDER BY soLuongBan.soLuongSPDaBan DESC
+                                        ";
+                                        $result_topSP = mysqli_query($conn, $sql);
+
+                                        if ($result_topSP) {
+                                            while ($row = mysqli_fetch_assoc($result_topSP)) {
+                                                $maSpBanChay = $row['maSanPham'];
+                                                $tenSpBanChay = $row['tenSanPham'];
+                                                $soLuongSpBanChay = $row['soLuongSPDaBan'];
+                                                $soLuongTonKho = $row['soLuongTonKho'];
+                                                $tenSp = $row['tenSanPham'];
+                                                $duongDanAnhChung = $row['duongDanAnhChung'];
+                                                $giaBan = $row['giaBan'];
+                                                $chitietsp = $row['chitietsp'];
+
+                                        ?>
+                                        <li class="pro">
                                         <div class="pro_container">
-                                            <a href="">
-                                                <img class="img" src="./assets/img/products/bo_coc_tay_ke_xanh_la_dinh_gau_vang_d603869b28db4e379e225c0605acb7b5_large.webp" alt="">
+                                            <a href="<?php echo $chitietsp?>">
+                                                <img class="img" src="/webbanhang/admin/dashboard/products/<?php echo $duongDanAnhChung?>" alt="">
                                             </a>
                                             <h3>
-                                                <a href="#">Bộ ba lỗ tai gấu be phối quần kẻ</a>
+                                                <a href="#"><?php echo $tenSp?></a>
                                             </h3>
-                                            <span>185,000₫</span>
+                                            <span><?php echo $giaBan?>₫</span>
                                         </div>
-                                    </li>
+                                        </li>
+                                        <?php
+                                        
+                                            }
+                                        }
+                                        ?>
 
                                     <li class="pro">
                                         <div class="pro_container">
@@ -434,13 +462,28 @@
 
 
     <script src="./index.js"></script>
+    <script>
+        
+const ipnElement = document.querySelector('#id_discount')
+const btnElement = document.querySelector('.btn_copy')
+
+// step 2
+btnElement.addEventListener('click', function() {
+  btnElement.innerText = 'Copied!' // step 3
+  ipnElement.select()              // step 4
+  document.execCommand('copy')     // step 5
+}) 
+
+
+    </script>  
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script> 
     </div>
 
 
     <?php
     include './layout/footer.php';
     ?>
-
+    
 </body>
 
 </html>

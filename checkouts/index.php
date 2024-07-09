@@ -77,10 +77,36 @@ foreach ($cart as $item) {
     $totalQuantity += $item['soLuong'];
     $totalAmount += $item['giaBan'] * $item['soLuong'];
 }
- $price = $totalAmount + $ship_price;
-
+ 
+ $amountDiscount = 0 ;
+ $price = $totalAmount  ;
+ 
 $thanhtoan = 1;
-if(isset($_POST['pay']))
+
+
+if(isset($_POST['discount']))
+{
+    $discount = $_POST['id_discount'];
+    $query = "SELECT * FROM khuyenmai Where maKhuyenMai = '$discount' AND trangThai = 1";
+    $result_discount = mysqli_query($conn, $query);
+    if (mysqli_num_rows($result_discount) > 0) {
+        while ($row = mysqli_fetch_assoc($result_discount)) {
+            $percent = $row['phanTram'];
+        }
+        $_SESSION['discount'] =  $discount;
+        $amountDiscount = $totalAmount;
+        $amountDiscount *= $percent/100;
+        $price -= $amountDiscount;
+        echo '<script>alert("Áp dụng thành công!")</script>';
+    }
+    else
+    {
+        echo '<script>alert("Mã khuyến mãi không hợp lệ!")</script>';
+        unset($_SESSION['discount']);
+    }
+    
+}
+else if(isset($_POST['pay']))
 {
     if($_SESSION['totalProducts']>0)
     {
@@ -121,7 +147,7 @@ if(isset($_POST['pay']))
         }
 
         //Xóa sản phẩm trong giỏ hàng
-        echo $maKhachHang;
+        //echo $maKhachHang;
         $query_delCart = "DELETE FROM giohang WHERE maKhachHang = '$maKhachHang'";
         $result = mysqli_query($conn,$query_delCart);
 
@@ -135,9 +161,8 @@ if(isset($_POST['pay']))
         alert("Giỏ hàng chưa có gì để đặt cả!");
         window.location.href = "/webbanhang/";
     </script>';
+    unset($_SESSION['discount']);
 }
-
-
 ?>
 
 
@@ -146,7 +171,7 @@ if(isset($_POST['pay']))
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Thanh toán</title>
     <link rel="stylesheet" href="./style.css">
     <link rel="stylesheet" href="./assets/reset.css" />
     <link rel="shortcut icon" href="//theme.hstatic.net/200000692427/1001117622/14/favicon.png?v=4870" type="image/png">
@@ -191,7 +216,7 @@ if(isset($_POST['pay']))
                                             </td>
                                                 <td class="product-quantity visually-hidden"><?php echo $item['soLuong']; ?></td>
                                                 <td class="product-price">
-                                                    <span class="order-summary-emphasis"><?php echo $item['giaBan']; ?></span>
+                                                    <span class="order-summary-emphasis"><?php echo number_format($item['giaBan'], 0, ',', '.'); ?></span>
                                                 </td>
                                             </tr>
                                     <?php endforeach; ?>
@@ -260,7 +285,7 @@ if(isset($_POST['pay']))
                                         <td class="total-line-name">Tạm tính</td>
                                         <td class="total-line-price">
                                             <span class="order-summary-emphasis" data-checkout-subtotal-price-target="57150000">
-                                            <?php echo $totalAmount;?>đ
+                                            <?php echo number_format($totalAmount, 0, ',', '.');?>đ
                                             </span>
                                         </td>
                                     </tr>
@@ -268,10 +293,10 @@ if(isset($_POST['pay']))
                                     
                                         
                                             <tr class="total-line total-line-redeem redeem-membership">
-                                                <td class="total-line-name">Chương trình khách hàng thân thiết (Giảm  0%)</td>
+                                                <td class="total-line-name">Khuyến mãi (Giảm  <?php echo (isset($percent)) ? $percent : 0?>%)</td>
                                                 <td class="total-line-price">
                                                     <span class="order-summary-emphasis">
-                                                        - 0₫
+                                                        - <?php echo number_format($amountDiscount, 0, ',', '.'); ?>₫
                                                     </span>
                                                 </td>
                                             </tr>
@@ -282,7 +307,7 @@ if(isset($_POST['pay']))
                                         <td class="total-line-price">
                                             <span class="order-summary-emphasis" data-checkout-total-shipping-target="0">
                                                 
-                                                    <?php echo $ship_price;?>đ
+                                                    <?php echo number_format($ship_price, 0, ',', '.');?>đ
                                                 
                                             </span>
                                         </td>
@@ -296,7 +321,7 @@ if(isset($_POST['pay']))
                                         <td class="total-line-name payment-due">
                                             <span class="payment-due-currency">VND</span>
                                             <span class="payment-due-price" data-checkout-payment-due-target="57150000">
-                                            <?php echo $price;?>đ
+                                            <?php echo number_format($price + $ship_price, 0, ',', '.');?>đ
                                             </span>
                                             <span class="checkout_version" display:none="" data_checkout_version="53">
                                             </span>
@@ -327,9 +352,11 @@ if(isset($_POST['pay']))
                                 <div class="section-content section-customer-information">
                                     <div class="logged-in-customer-information">
                                         <div class="logged-in-customer-information-avatar">
-                                            <div class="border">
-                                                <i class="fa-solid fa-user-tie"></i>
-                                            </div>
+                                            <a href="/webbanhang/user/accountcustomer.php" style="color: black">
+                                                <div class="border">
+                                                    <i class="fa-solid fa-user-tie"></i>
+                                                </div>
+                                            </a>
                                         </div>
                                         <div class="logged-in-customer-information-paragraph"><?php echo $hoTen.'<br>('.$email.' )'?></div>
                                     </div>
@@ -341,7 +368,7 @@ if(isset($_POST['pay']))
                                     <div class="field-input-wrapper">
                                         <span>Họ và tên</span>
                                         <label class="field-label" for="billing_address_full_name"><?php echo $hoTen;?></label>
-                                        <input placeholder="Họ và tên" autocapitalize="off" spellcheck="false" class="field-input" size="30" type="text" id="billing_address_full_name" name="name" value="<?php echo $hoTen;?>" autocomplete="false">
+                                        <input placeholder="Họ và tên" autocapitalize="off" spellcheck="false" class="field-input" size="30" type="text" id="billing_address_full_name" name="name" disabled value="<?php echo $hoTen;?>" autocomplete="false">
                                     </div>
                                     
                                         <p class="field-message field-message-error">Vui lòng nhập họ tên</p>
@@ -352,7 +379,7 @@ if(isset($_POST['pay']))
                                     <div class="field-input-wrapper">
                                         <span>Số điện thoại</span>
                                         <label class="field-label" for="billing_address_full_name"><?php echo $soDienThoai;?></label>
-                                        <input placeholder="Số điện thoại" autocapitalize="off" spellcheck="false" class="field-input" size="30" type="text" id="billing_address_full_name" name="phone" value="<?php echo $soDienThoai;?>" autocomplete="false">
+                                        <input placeholder="Số điện thoại" autocapitalize="off" spellcheck="false" class="field-input" size="30" type="text" id="billing_address_full_name" name="phone" disabled value="<?php echo $soDienThoai;?>" autocomplete="false">
                                     </div>
                                     
                                         <p class="field-message field-message-error">Vui lòng nhập Số điện thoại</p>
@@ -360,10 +387,11 @@ if(isset($_POST['pay']))
                                 </div>
 
                                 <div class="field field-required">
+                                    
                                     <div class="field-input-wrapper">
                                         <span>Địa chỉ</span>
                                         <label class="field-label" for="billing_address_full_name"><?php echo $tenDiaChi;?></label>
-                                        <input placeholder="Địa chỉ" autocapitalize="off" spellcheck="false" class="field-input" size="30" type="text" id="billing_address_full_name" name="address" value="<?php echo $tenDiaChi;?>" autocomplete="false">
+                                        <input placeholder="Địa chỉ" autocapitalize="off" spellcheck="false" class="field-input" size="30" type="text" id="billing_address_full_name" disabled name="address" value="<?php echo $tenDiaChi;?>" autocomplete="false">
                                     </div>
                                     
                                         <p class="field-message field-message-error">Địa chỉ</p>
@@ -383,12 +411,37 @@ if(isset($_POST['pay']))
                                     </div>
                                 </div>
                                 
+                                <div class="field field-required" >
+                                    <form action="" method="POST">
+                                    <span>Mã khuyến mãi</span>
+                                    <div class="field-input-wrapper" style="display: flex">
+                                        
+                                        <label class="field-label" for="billing_address_full_name"></label>
+                                        <input placeholder="Mã giảm giá" autocapitalize="off" spellcheck="false" class="field-input" size="30" type="text" id="billing_address_full_name" name="id_discount" value="<?php if(isset($_SESSION['discount'])) echo $_SESSION['discount']?>" style="width: 30%; margin-right: 15px; height: 50%">
+                                        <button type="submit" class="discount" name="discount" id="discount" style="
+                                            background-color: #DB9087;
+                                            color: #fff;
+                                            border: none;
+                                            padding: 10px 10px;
+                                            font-size: 1rem;
+                                            cursor: pointer;
+                                            border-radius: 5px;
+                                        ">áp dụng</button>
+                                    </div>
+                                    </form>
+                                    
+                                        <p class="field-message field-message-error">Địa chỉ</p>
+                                    
+                                </div>
                                 
                                 <div class="form_pay">
                                     <div class="go_to_cart">
                                         <a href="/webbanhang/user/cart.php">giỏ hàng</a>
                                     </div>
-                                    <button type="submit" class="pay" name="pay" id="pay">Thanh toán</button>
+                                    <form action="" method="POST">
+                                        <button type="submit" class="pay" name="pay" id="pay">Thanh toán</button>
+                                    </form>
+                                    
                                 </div>
 
                                 </form>

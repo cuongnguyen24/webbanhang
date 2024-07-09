@@ -149,7 +149,7 @@ function getStatusText($status)
                     echo "<tr>";
                     echo "<td>" . $row["maDonHang"] . "</td>";
                     echo "<td>" . $row["tongSanPham"] . " sản phẩm</td>";
-                    echo "<td>" . $row["tongGiaTri"] . " VND</td>";
+                    echo "<td>" . number_format($row["tongGiaTri"], 0, ',', '.') . " VND</td>";
                     echo "<td>" . $statusText . "</td>";
                     echo "<td><a href='orderdetail.php?maDonHang=" . $row["maDonHang"] . "' class='detail-link'>Chi tiết</a></td>";
                     echo "</tr>";

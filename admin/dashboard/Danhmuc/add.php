@@ -90,6 +90,10 @@
                 fclose($file);
 
                 include $dir . '/' . $file_to_write;
+                echo '<script>
+                alert("Thêm danh mục thành công!");
+                window.location.href = "./index.php";
+            </script>';
             }
             else 
             echo '<script>

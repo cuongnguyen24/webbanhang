@@ -239,11 +239,14 @@
                 fclose($file);
 
                 include $dir . '/' . $file_to_write;
-                
+                echo '<script>
+                alert("Thêm thành công!");
+                window.location.href = "./index.php";
+            </script>';
             }
             else 
                echo '<script>
-                    alert("Thêm thất bại");
+                    alert("Thêm thất bại!");
                     window.location.href = "./index.php";
                 </script>';
 

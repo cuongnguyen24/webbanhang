@@ -6,14 +6,7 @@
                 
                 require_once ($_SERVER["DOCUMENT_ROOT"] . "/webbanhang/admin/connect.php");
                 
-                
 
-               
-                
-    
-                
-                
-    
                 // Xử lý gửi kết quả qua cart.php
                 
                 $flag = 1;
@@ -84,7 +77,8 @@
                             }
                         } else {
                         // echo "Không có kết quả";
-                }
+                        
+                        }
 
 
                         
@@ -101,7 +95,7 @@
                                     
                                     $sql_update = "UPDATE giohang SET soLuong = soLuong + $quantity WHERE maKhachHang = '$maKhachHang' AND maSanPham = '$maSanPham' AND maSize = '$size'";
                                     mysqli_query($conn, $sql_update);
-                                    
+                                    echo '<script>alert("Sản phẩm đã được thêm vào giỏ hàng!")</script>';
                                 }
                                 else{
                                     $flag = 0;
@@ -116,6 +110,7 @@
                                     $sql_insert = "INSERT INTO giohang (maKhachHang, maSanPham, maSize, soLuong)
                                     VALUES ('$maKhachHang', '$maSanPham', '$size', $quantity)";
                                     mysqli_query($conn, $sql_insert);
+                                    echo '<script>alert("Sản phẩm đã được thêm vào giỏ hàng!")</script>';
                                 }
                                 else{
                                     $flag = 0;
@@ -142,6 +137,7 @@
                         window.location.href = "/webbanhang/";</script>
                         ';
                     }
+                    
                 }
 
                     

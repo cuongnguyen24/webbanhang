@@ -13,6 +13,50 @@ if (mysqli_num_rows($result) > 0) {
         $sanphams[] = $row;
     }
 }
+
+if(isset($_POST['submit']))
+{
+
+    $NmaSanpham = $_POST['NmaSanPham'];
+    $username = $_SESSION["username"];
+    
+    if (!isset($_SESSION["username"])) {
+        echo '<script>alert("Bạn cần đăng nhập trước")
+        window.location.href = "/webbanhang/";</script>
+        ';
+    exit();
+    }
+
+    $sql_get_maKhachHang = "SELECT khachhang.maKhachHang FROM khachhang 
+    INNER JOIN taikhoan ON khachhang.maTaiKhoan = taikhoan.maTaiKhoan
+    WHERE tenTaiKhoan = '$username'";
+
+
+    $result_maKhachHang = mysqli_query($conn, $sql_get_maKhachHang);
+    if (mysqli_num_rows($result_maKhachHang) > 0) {
+        $row_maKhachHang = mysqli_fetch_assoc($result_maKhachHang);
+        $maKhachHang = $row_maKhachHang['maKhachHang'];
+    }
+        
+    $query_check = "SELECT * FROM sanphamyeuthich WHERE maKhachHang = '$maKhachHang' AND maSanPham = '$NmaSanpham'";
+
+    $result = mysqli_query($conn,$query_check);
+
+    if(mysqli_num_rows($result)==0)
+    {
+        $query_insert = "INSERT INTO sanphamyeuthich (maKhachHang, maSanPham) VALUES ('$maKhachHang', '$NmaSanpham')";
+        
+        $result_insert = mysqli_query($conn,$query_insert);
+        echo '<script>alert("Thêm vào giỏ hàng thành công!")</script>';
+    }
+    else
+    {
+        echo '<script>alert("Sản phẩm này hiện đã có trong sản phẩm yêu thích rồi!")</script>';
+    }
+
+    
+}
+
 ?>
 
 <!DOCTYPE html>
@@ -52,50 +96,53 @@ if (mysqli_num_rows($result) > 0) {
                     <div class="collection-wrap-product-list">
                         <?php if (!empty($sanphams)) : ?>
                             <?php foreach ($sanphams as $sanpham) : ?>
-                                <!-- PRODUCT -->
-                                <div class="pro-loop">
-                                    <div class="pro-loop-wrap">
-                                        <div class="pro-loop-image">
-                                            <a href="<?php echo $sanpham['chitietsp']; ?>" class="pro-loop-image-item">
-                                                <?php
-                                                $q1 = "SELECT duongDanAnh from anhsanpham where maSanPham ='" . $sanpham['maSanPham'] . "'";
-                                                $source = mysqli_query($conn, $q1);
-                                                $row1 = mysqli_fetch_assoc($source);
+                        <!-- PRODUCT -->
+                        <div class="pro-loop">
+                            <div class="pro-loop-wrap">
+                                <div class="pro-loop-image">
+                                    <a href="<?php echo $sanpham['chitietsp']; ?>" class="pro-loop-image-item">		
+                                        <?php
+                                             $q1="SELECT duongDanAnh from anhsanpham where maSanPham ='".$sanpham['maSanPham']."'";
+                                             $source = mysqli_query($conn,$q1);
+                                             $row1= mysqli_fetch_assoc($source);
+                                             
+                                        ?>	
+                                        <picture>
+                                                <source srcset="<?php echo '/webbanhang/admin/dashboard/products/'. $row1["duongDanAnh"]; ?>" data-srcset="<?php echo '/webbanhang/admin/dashboard/products/'. $row1["duongDanAnh"]; ?>" media="(max-width: 767px)" alt="img <?php echo $sanpham['tenSanPham']; ?>">
+                                                <img class=" lazyloaded" src="<?php echo '/webbanhang/admin/dashboard/products/'. $row1["duongDanAnh"]; ?>" data-src="<?php echo '/webbanhang/admin/dashboard/products/'. $row1["duongDanAnh"]; ?>" alt="<?php echo $sanpham['tenSanPham']; ?>" style="max-width: 237.5px;">
+                                        </picture>
+                                        <picture>
+                                                <source srcset="<?php echo '/webbanhang/admin/dashboard/products/'. $row1["duongDanAnh"]; ?>" data-srcset="<?php echo '/webbanhang/admin/dashboard/products/'. $row1["duongDanAnh"]; ?>" media="(max-width: 767px)" alt="img <?php echo $sanpham['tenSanPham']; ?>">
+                                                <img class=" lazyloaded" src="<?php echo '/webbanhang/admin/dashboard/products/'. $row1["duongDanAnh"]; ?>" data-src="<?php echo '/webbanhang/admin/dashboard/products/'. $row1["duongDanAnh"]; ?>" alt="<?php echo $sanpham['tenSanPham']; ?>" style="max-width: 237.5px;">
+                                        </picture>
+                                 </a>
 
-                                                ?>
-                                                <picture>
-                                                    <source srcset="<?php echo '/webbanhang/admin/dashboard/products/' . $row1["duongDanAnh"]; ?>" data-srcset="<?php echo '/webbanhang/admin/dashboard/products/' . $row1["duongDanAnh"]; ?>" media="(max-width: 767px)" alt="img <?php echo $sanpham['tenSanPham']; ?>">
-                                                    <img class=" lazyloaded" src="<?php echo '/webbanhang/admin/dashboard/products/' . $row1["duongDanAnh"]; ?>" data-src="<?php echo '/webbanhang/admin/dashboard/products/' . $row1["duongDanAnh"]; ?>" alt="<?php echo $sanpham['tenSanPham']; ?>" style="max-width: 237.5px;">
-                                                </picture>
-                                                <picture>
-                                                    <source srcset="<?php echo '/webbanhang/admin/dashboard/products/' . $row1["duongDanAnh"]; ?>" data-srcset="<?php echo '/webbanhang/admin/dashboard/products/' . $row1["duongDanAnh"]; ?>" media="(max-width: 767px)" alt="img <?php echo $sanpham['tenSanPham']; ?>">
-                                                    <img class=" lazyloaded" src="<?php echo '/webbanhang/admin/dashboard/products/' . $row1["duongDanAnh"]; ?>" data-src="<?php echo '/webbanhang/admin/dashboard/products/' . $row1["duongDanAnh"]; ?>" alt="<?php echo $sanpham['tenSanPham']; ?>" style="max-width: 237.5px;">
-                                                </picture>
-                                            </a>
-
-                                            <div class="pro-loop-cart-icon">
-                                                <button type="button" class="setQuickview" data-handle="bo-lien-coc-mau-xanh-da-troi">
-                                                    <img src="https://file.hstatic.net/200000692427/file/asset_2_901a91642639466aa75b2019a34ccebd.svg" alt="add to cart">
-                                                    <span>Thêm vào giỏ hàng</span>
-                                                </button>
-                                            </div>
-                                        </div>
-                                        <h3 class="pro-loop-name">
-                                            <a href="/products/bo-lien-coc-mau-xanh-da-troi" title="<?php echo $sanpham['tenSanPham']; ?>"><?php echo $sanpham['tenSanPham']; ?></a>
-                                        </h3>
-                                        <div class="pro-loop-price">
-                                            <span><?php echo number_format($sanpham['giaBan'], 0, ',', '.'); ?>đ</span>
-                                        </div>
-
-
-                                    </div>
+                                    <form class="pro-loop-cart-icon" method="POST">
+                                        <button type="submit" class="setQuickview" name="submit">
+                                            <i class="fa-regular fa-heart" style="color: #CB1323; font-size: 16px"></i>
+                                            <input name="NmaSanPham" for="" style="display: none" value="<?php echo $sanpham['maSanPham']?>"></input>
+                                            <span>Thêm vào yêu thích</span> 
+                                        </button>
+                                        
+                                    </form>
                                 </div>
-                            <?php endforeach; ?>
-                        <?php else : ?>
-                            <p>Không có sản phẩm nào.</p>
-                        <?php endif; ?>
+                                
+                                <h3 class="pro-loop-name">
+							        <a href="/products/bo-lien-coc-mau-xanh-da-troi" title="<?php echo $sanpham['tenSanPham']; ?>"><?php echo $sanpham['tenSanPham']; ?></a>
+	                            </h3>
+                                <div class="pro-loop-price">
+					                <span><?php echo number_format($sanpham['giaBan'], 0, ',', '.'); ?>đ</span>
+	                            </div>
 
-                    </div>
+                                
+                                </div>
+                            </div>
+                        <?php endforeach; ?>
+                    <?php else : ?>
+                        <p>Không có sản phẩm nào.</p>
+                    <?php endif; ?>
+                            
+                        </div>
                     <!-------------------------------------------------- END PRODUCT ----------------------------------->
                 </div>
                 <!-- -----------------------------------END PRODUCT LIST -------------------------------------------------------- -->

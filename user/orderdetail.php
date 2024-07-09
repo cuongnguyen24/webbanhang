@@ -133,14 +133,14 @@ $resultOrdersDetail = mysqli_query($conn, $sqlOrdersDetail);
                     echo "<td><a href='" . $row["chitietsp"] . "' style='color: black;'>" . $row["TenSanPham"] . "</a></td>";
                     echo "<td>" . $row["soLuong"] . "</td>";
                     echo "<td>" . $row["maSize"] . "</td>";
-                    echo "<td>" . $row["thanhTien"] . "</td>";
+                    echo "<td>" . number_format($row["thanhTien"], 0, ',', '.') . "</td>";
                     echo "</tr>";
                   }
                 } else {
                   echo "<tr><td colspan='5'>Không có sản phẩm nào.</td></tr>";
                 }
                 ?>
-                <p>Tổng giá trị: <?php echo "$tongGiaTri"; ?> VNĐ</p>
+                <p>Tổng giá trị: <?php echo number_format($tongGiaTri, 0, ',', '.'); ?> VNĐ</p>
               </tbody>
             </table>
           </div>
