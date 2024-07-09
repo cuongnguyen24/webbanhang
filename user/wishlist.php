@@ -20,7 +20,9 @@ $username = $_SESSION["username"]; // Lấy tên tài khoản từ session
   require_once '../admin/connect.php';
   include '../layout/header.php';
   ?>
-
+    <main>
+        
+    </main>
   <?php
   include '../layout/footer.php';
   ?>
