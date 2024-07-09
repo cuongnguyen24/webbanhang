@@ -1,0 +1,99 @@
+.main__layout{
+    display: flex;
+}
+.banner2{
+    background-color: #FFF4EB;
+    height: 300px;
+}
+.home_about{
+    height: 600px;
+}
+.banner2 .content{
+    display: flex;
+    gap: 50px;  
+    justify-content: center;
+}
+.banner2 .content .item {
+    max-width: 312px;
+    margin-top: 20px;
+    margin-left: 50px;
+    margin-right: 50px;
+}
+.banner2 .content .item p{
+    text-align: justify;
+    font-family:sans-serif;
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 32px;
+    color: #58595B;
+}
+.banner2 .content .item .title{
+    position: relative;
+    margin-bottom: 32px;
+    
+}
+.banner2 .content .item .title h4{
+    font-size: 24px;
+    line-height: 36px;
+    font-weight: bold;
+    color: #59595B;
+    font-family: 'ValueSansProVN', sans-serif;
+    margin-top: 20px;
+    position: absolute;
+    z-index: 2; /* Đảm bảo h4 nằm trên span */
+}
+
+.banner2 .content .item .title img{
+    width: 140px;
+    height: 89px;
+    position: relative;
+    left: -40px;
+
+}
+.banner3 {
+    height: 425px;
+    width: 100%;
+    margin-top: 50px;
+}
+/* banner3 */
+.banner3 .container .title {
+    text-align: center;
+    font-family: sans-serif;
+    font-size: 32px;
+    font-weight: 700;
+    line-height: 40px;
+    color: #58595B;
+}
+.banner3 .container .content{
+    display: flex;
+}
+.banner3 .container .content .item{
+    height: 275px;
+    width: 406px;
+    margin-left: 50px;
+    margin-right: 50px;
+    margin-top: 50px;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    background-repeat: no-repeat;
+    background-image: url(https://file.hstatic.net/200000692427/file/about-icon-9_e180469b79ea42f5812a0f570a7c0929.svg);
+}
+.banner3 .container .content .item .big{
+    height: 100px;
+    max-width: 300.65px;
+    color: #d0b49e;
+    font-size: 70px;
+    font-weight: 700;
+    line-height: 100px;
+    text-align: center;
+    font-family: sans-serif;
+}
+.banner3 .container .content .item p{
+    font-size: 25px;
+    font-family: sans-serif;
+    line-height: 33px;
+    height: 33px;
+    width: 193px;
+    text-align: center;
+}

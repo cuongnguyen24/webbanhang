@@ -137,7 +137,9 @@ table {
     border-collapse: collapse;
     user-select: text;
     border: 1px solid #eeeeee;
+    
     box-shadow: -10px 10px 10px rgba(0, 0, 0, 0.3);
+    position: absolute;
 }
 
 table th {
