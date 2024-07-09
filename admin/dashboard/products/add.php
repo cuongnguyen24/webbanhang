@@ -35,26 +35,33 @@
     
             // Loop through each file in files[] array
             foreach ($_FILES['fileToUpload']['tmp_name'] as $key => $value) {
+                //lay tgian htai
                 $dt = strtotime("now");
-                $file_tmpname = $_FILES['fileToUpload']['tmp_name'][$key];              
+                //ten file htai
+                $file_tmpname = $_FILES['fileToUpload']['tmp_name'][$key];   
+                //kthuoc file           
                 $file_size = $_FILES['fileToUpload']['size'][$key];
-                $file_ext = pathinfo($_FILES['fileToUpload']['name'][$key], PATHINFO_EXTENSION);           
+                // lấy đuôi file
+                $file_ext = pathinfo($_FILES['fileToUpload']['name'][$key], PATHINFO_EXTENSION);     
+                // tạo file name= tgian+ đuôi file      
                 $file_name = $dt.'.'.strtolower($file_ext);
                 // Set upload file path
                 $filepath = $upload_dir.$file_name;
                 $duongdanchung = $filepath;
-                // Check file type is allowed or not
+                // ktra đuôi file
                 if(in_array(strtolower($file_ext), $allowed_types)) {
     
-                    // Verify file size - 2MB max 
+                    // check file size - 2MB max 
                     if ($file_size > $maxsize)         
                         echo "Error: File size is larger than the allowed limit."; 
     
                     // If file with name already exist then append time in
                     // front of name of the file to avoid overwriting of file
+                    // ktra ten file da ton tai hay chua
                     if(file_exists($filepath)) {
+                        //ton tai-> đặt lại tên
                         $filepath = $upload_dir.time().$file_name;
-                        
+                        //upload
                         if( move_uploaded_file($file_tmpname, $filepath)) {
                             echo "{$file_name} successfully uploaded <br />";
                         } 
@@ -62,6 +69,7 @@
                             echo "Error uploading {$file_name} <br />"; 
                         }
                     }
+                    // file chua ton tai -> ap len
                     else {
                     
                         if( move_uploaded_file($file_tmpname, $filepath)) {
@@ -71,7 +79,10 @@
                             echo "Error uploading {$file_name} <br />"; 
                         }
                     }
+                    // $first_img= $filepath
                 }
+                
+                //loi
                 else {
                     
                     // If file extension not valid
@@ -94,6 +105,7 @@
 <?php
  $query= "select *from size order by tenSize" ;                        
  $result= mysqli_query($conn, $query);
+ // chay cau query
  while($row = $result->fetch_assoc()) {
      $items[] = $row;
  }
@@ -185,16 +197,16 @@
             $moTaSanPham=$_POST['mota'];
             $maTK = $_SESSION["maTaiKhoan"];
             $queryTk = "select * from quanly where maTaiKhoan = '$maTK' limit 1";
-          
             $result1= mysqli_query($conn, $queryTk);
-            
             $maqly = mysqli_fetch_assoc($result1);
-      
             $query="INSERT INTO sanpham VALUES('".$id."','".$tenSanPham."','".$maNhaCungCap."','".$maDanhMuc."','".$maqly['maQuanLy']."','".$giaBan."','".$moTaSanPham."','".$chitietsp."','')";  
             $result= mysqli_query($conn, $query);
             foreach ($items as $index => $item) {
+                // lay ma size
                 $id_size =  $item["maSize"];
+                // ktra gưi thong tin cua size && số lượng
                 if (isset($_POST[$id_size]) && isset($_POST[$id_size . '_text'])){
+                    // số lượng
                     $value = $_POST[$id_size . '_text'];   
                 }
                 else
@@ -206,6 +218,7 @@
                 
             }
             $duongdanchung = uploadImage($id, $conn);
+            // lay anh dau tien hiện thị
             $query1="UPDATE sanpham SET duongDanAnhChung='".$duongdanchung." 'where maSanPham='".$id."'"; 
             mysqli_query($conn, $query1);
             if($result>0)
@@ -390,9 +403,11 @@
                                     $id_size = $item["maSize"];
                                     $ten_size = $item['tenSize'];
                                     echo "<div style='display: flex; margin-top:5px'>";
+                                    //size
                                     echo "<input type='checkbox' id='$id_size' name='$id_size' onchange='toggleInput(\"$id_size\")'>";
                                     echo "<label for='$id_size'>$ten_size</label>";
                                     echo "<div class='input_sl'>";
+                                    //soluong
                                     echo "<input type='text' style='border: 1px solid #f1eeee;'' id='{$id_size}_text' name='{$id_size}_text' disabled>";
                                     echo "</div>";
                                     echo "</div>";
@@ -434,7 +449,9 @@
                     </div>
                     <div class="form-group">
                         <label for="">Hình ảnh</label>
-                        <input name ="fileToUpload[]" type="file" multiple>
+                        <input name ="fileToUpload[]" type="file"  id="imgSP" onchange="displayImage(this)"  multiple>
+
+                        <!-- <div class="right-procduct-tool-img" id="imageContainer"></div> -->
                     </div>
                     <div id="button_add">
                         <button type="submit" class="btn btn-primary" id="btnSubmit">Ghi dữ liệu</button>
@@ -444,6 +461,7 @@
                 </main>
 </body>
 <script>
+    //khi kích vào size thì hthi ô sl
         function toggleInput(checkboxId) {
             var checkbox = document.getElementById(checkboxId);
             var textInput = document.getElementById(checkboxId + '_text');
@@ -465,4 +483,21 @@
             document.getElementById("chitietsp").value = '/webbanhang/products/' + removeAccents(convertToSlug(input1Value))+'/';
         }
     </script>
+    <script>
+// function displayImage(input) {
+//     var imageContainer = document.getElementById("imageContainer");
+//     imageContainer.innerHTML = "";
+//     if (input.files && input.files[0]) {
+//         var reader = new FileReader();
+
+//         reader.onload = function(e) {
+//             var image = document.createElement("img");
+//             image.src = e.target.result;
+//             image.setAttribute("width", "70px");
+//             imageContainer.appendChild(image);
+//         };
+//         reader.readAsDataURL(input.files[0]);
+//     }
+// }
+</script>
 </html>

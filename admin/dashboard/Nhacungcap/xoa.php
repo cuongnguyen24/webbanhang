@@ -1,7 +1,6 @@
 <?php
     require_once '../../connect.php';
     $maNhaCungCap=$_GET['maNhaCungCap'];     
-   
     $query1="select * from sanpham where maNhaCungCap='$maNhaCungCap'";
     $result1= mysqli_query($conn, $query1);
     if(mysqli_num_rows($result1)>0)
@@ -43,12 +42,12 @@
                 $query="delete from sanpham where maSanPham='$maSanPham'";      
                 echo $query;      
                 $result= mysqli_query($conn, $query);
-        }    
+            }    
         }            
     } 
-    $query1="delete from sanpham where maNhaCungCap='$maNhaCungCap'";  
-    echo $query1;
-    $result1= mysqli_query($conn, $query1); 
+    // $query1="delete from sanpham where maNhaCungCap='$maNhaCungCap'";  
+    // echo $query1;
+    // $result1= mysqli_query($conn, $query1); 
     $query="delete from nhacungcap where maNhaCungCap='$maNhaCungCap'";            
     $result= mysqli_query($conn, $query);
     if($result>0)

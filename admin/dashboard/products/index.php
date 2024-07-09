@@ -197,8 +197,10 @@
                                 }
                                 function gopData($data){     
                                     $groupedData = [];       
-                                    foreach ($data as $row) {                
+                                    foreach ($data as $row) {      
+                                        // gop tat ca cot dl sp           
                                         $key = $row['maSanPham'] . $row['tenSanPham'] . $row['maNhaCungCap'] . $row['maDanhMuc'] . $row['maQuanLy'] . $row['giaBan'] . $row['moTaSanPham'];
+                                        // ko ton tai ->tung dong trg data
                                         if (!isset($groupedData[$key])) {
                                             $groupedData[$key] = $row;
                                             $groupedData[$key]['sizes'] = [];
@@ -217,7 +219,8 @@
                                         }    
                                         return $html;
                                 }   
-                                $i = $start+1;        
+                                $i = $start+1;  
+                                // phan trang mang sau gop      
                                 foreach (array_slice(gopData($sourceAll),$start, $records_per_page ) as $row)
                                 {
                                    

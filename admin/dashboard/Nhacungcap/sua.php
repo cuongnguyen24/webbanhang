@@ -80,10 +80,10 @@
         if(!empty($errors)){
             $mess='Đã có lỗi xảy ra. Vui lòng kiểm tra lại';
             ?>
-        <div class="alert">
-            <?php echo $mess; ?>
-        </div>
-<?php
+                <div class="alert">
+                    <?php echo $mess; ?>
+                </div>
+        <?php
         }
         else{
             $tenNhaCungCap= $_POST['tenNhaCungCap'];
@@ -91,7 +91,6 @@
             $email=$_POST['email'];       
             $soDienThoai=$_POST['soDienThoai'];        
             $query="UPDATE nhacungcap SET tenNhaCungCap='".$tenNhaCungCap."',diaChi='".$diaChi."',email='".$email."',soDienThoai='".$soDienThoai."' WHERE maNhaCungCap='".$maNhaCungCap."'"; 
-            echo $query;
             $result= mysqli_query($conn, $query);
             if($result>0)
               echo '<script>
