@@ -33,14 +33,49 @@
         if(empty(trim($_POST['email']))){
             $errors['email']='Email không được để trống';
         }
-        else{        
-            $email = $_POST['email'];  
+        else{  
+            $email = $_POST["email"];
+            if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+                $errors['email'] = "Email không đúng định dạng";
+            } 
+            else if(!preg_match ("/([a-z0-9_]+|[a-z0-9_]+\.[a-z0-9_]+)@(([a-z0-9]|[a-z0-9]+\.[a-z0-9]+)+\.([a-z]{2,4}))/i", $email))
+            {
+                $errors['email'] = "Email không đúng định dạng";
+            }
+            else { 
+                $sql_checkemail = "SELECT * FROM nhacungcap WHERE email='$email' limit 1";
+                $result1 = mysqli_query($conn, $sql_checkemail);                
+                $row1=mysqli_fetch_assoc($result1);          
+                if (mysqli_num_rows($result1) != 0 &&  $row1['maNhaCungCap'] != $maNhaCungCap) {
+                    $errors['email'] = 'Email đã tồn tại';
+                } else {
+                    $email = $_POST['email'];
+                }    
+            }       
         }
         if(empty(trim($_POST['soDienThoai']))){
             $errors['soDienThoai']='Số điện thoại không được để trống';
         }
-        else{        
-            $soDienThoai= $_POST['soDienThoai'];
+        else{  
+            $soDienThoai = $_POST['soDienThoai'];
+            if (!preg_match("/^[0-9]*$/", $soDienThoai)) {
+                $errors['soDienThoai'] = 'Số điện thoại không đúng định dạng';
+            } 
+            else if (strlen(trim($_POST['soDienThoai'])) == 10) { // kiểm tra trùng dt
+                $sql1 = "SELECT * FROM nhacungcap WHERE soDienThoai='$soDienThoai'";
+                $result = mysqli_query($conn, $sql1);
+                // lay dl cau $re
+                $row=mysqli_fetch_assoc($result);
+               
+                if (mysqli_num_rows($result) != 0 && $row['maNhaCungCap'] != $maNhaCungCap) {
+                    $errors['soDienThoai'] = 'Số điện thoại đã tồn tại';
+                } else {
+                    $soDienThoai= $_POST['soDienThoai'];
+                }
+            } else {
+                $errors['soDienThoai'] = 'Số điện thoại không tồn tại';
+            }                
+            
         }
         if(!empty($errors)){
             $mess='Đã có lỗi xảy ra. Vui lòng kiểm tra lại';
@@ -155,8 +190,8 @@
                         <input type="text" class="form-control" name="tenNhaCungCap"
                             placeholder="Hãy nhập tên nhà cung cấp" value="<?php echo $tenNhaCungCap ?>">
                         <?php 
-                    echo (!empty($errors['tenNhaCungCap']))?'<span class="error">'.$errors['TenNhaCungCap'].'</span>':false;
-                ?>
+                        echo (!empty($errors['tenNhaCungCap']))?'<span class="error">'.$errors['tenNhaCungCap'].'</span>':false;
+                        ?>
                     </div>
                     <div class="form-group">
                         <label for="">Địa chỉ</label>

@@ -1,4 +1,5 @@
 <?php
+    session_start();
     require_once '../../connect.php'; 
     $maSanPham = $_GET['maSanPham'];
     $tenSanPham="";
@@ -200,11 +201,11 @@
                 }; 
             }
             $maTK = $_SESSION["maTaiKhoan"];
-            $queryTk = "select * from quanly where maTaiKhoan = $maTK limit 1";
+            $queryTk = "select * from quanly where maTaiKhoan = '$maTK' limit 1";
             $result1= mysqli_query($conn, $queryTk);
             $maqly = mysqli_fetch_assoc($result1);
             $duongdanchung = uploadImage($maSanPham, $conn);
-            $query="UPDATE sanpham SET tenSanPham='".$tenSanPham."',maNhaCungCap='".$maNhaCungCap."',maQuanLy=' ".$maqly['maQuanLy']."',maDanhMuc='".$maDanhMuc."',giaBan='".$giaBan."',chitietsp='".$chitietsp."',moTaSanPham='".$moTaSanPham."' where maSanPham='".$maSanPham."'"; 
+            $query="UPDATE sanpham SET tenSanPham='".$tenSanPham."',maNhaCungCap='".$maNhaCungCap."',maQuanLy='".$maqly['maQuanLy']."',maDanhMuc='".$maDanhMuc."',giaBan='".$giaBan."',chitietsp='".$chitietsp."',moTaSanPham='".$moTaSanPham."' where maSanPham='".$maSanPham."'"; 
             $result= mysqli_query($conn, $query);
             foreach ($items as $index => $item) {
                 $id_size =  $item["maSize"];
