@@ -79,8 +79,6 @@
 
         // Tính số trang
         $total_pages = ceil($total_records / $records_per_page);
-
-       
         // Xác định trang hiện tại
         $current_page = isset($_GET['page']) ? $_GET['page'] : 1;
         //echo $current_page;
@@ -96,6 +94,14 @@
             $keySearchName = $_POST['txtSearch1'];            
           }  
         }       
+    ?>
+    <?php 
+     $query="select * from danhmuc order by viTri asc";
+     $result = mysqli_query($conn,$query);
+     $categories = array();
+     while ($row = mysqli_fetch_assoc($result)){
+         $categories[] = $row;
+     }
     ?>
         <!-- ---------------------END OF ASIDE---------------- -->
         <main>
@@ -117,16 +123,16 @@
                             <div class="card-body border-bottom py-3">
                                 <div class="d-flex">
                                     <form method="POST">
-                                        <div class="text-muted">
+                                        <!-- <div class="text-muted">
                                             Show
                                             <div class="mx-2 d-inline-block">
                                                 <input type="text" id="per_page" name="record"
                                                     class="form-control form-control-sm"
-                                                    value="<?php echo $records_per_page?>"
+                                                    value="<?php echo count($categories);?>"
                                                     aria-label="Invoices count">
                                             </div>
                                             entries
-                                        </div>
+                                        </div> -->
                                     </form>
                                     <div class="search">
                                         Search:
@@ -135,42 +141,27 @@
                                                 aria-label="Search invoice">
                                         </div> -->
                                         <form  action="" id="search_form">
-                                            <input type="text" name="txtSearch" id="search" placeholder="   Tìm họ tên danh mục">
+                                            <input type="text" name="txtSearch" id="search" placeholder="   Tìm tên danh mục">
                                             <button name="btnSearch" id="btnSearch" ><i class="fa-solid fa-magnifying-glass"></i></button>
                                         </form>
                                     </div>
                                 </div>
                             </div>
                             <div class="table-responsive">
-                                <table class="table card-table table-vcenter text-nowrap datatable">
-                                    <thead>
+                                <table class="table card-table table-vcenter text-nowrap datatable" style="text-align: left;">
+                                    <thead style="text-align: left">
                                         <tr>
-                                            <th class="w-1">No.
-                                                <!-- Download SVG icon from http://tabler-icons.io/i/chevron-up -->
-                                                <svg xmlns="http://www.w3.org/2000/svg"
-                                                    class="icon icon-sm icon-thick" width="24" height="24"
-                                                    viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"
-                                                    fill="none" stroke-linecap="round" stroke-linejoin="round">
-                                                    <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                                                    <path d="M6 15l6 -6l6 6" />
-                                                </svg>
-                                            </th>
-                                            <th width="10%">MÃ DANH MỤC</th>
+                                            <th >MÃ DANH MỤC</th>
                                             <th >TÊN DANH MỤC</th>        
                                             <th>DANH MỤC CHA</th>
                                             <th>ĐƯỜNG DẪN</th>
-                                            <th>VỊ TRÍ</th>
+                                            <th width="10%">VỊ TRÍ</th>
                                             <th>THAO TÁC</th>
                                         </tr>
                                     </thead>
                                     <tbody id="body_table">
                                     <?php
-                                        $query="select * from danhmuc order by viTri asc";
-                                        $result = mysqli_query($conn,$query);
-                                        $categories = array();
-                                        while ($row = mysqli_fetch_assoc($result)){
-                                            $categories[] = $row;
-                                        }
+                                       
                                         function getTenDanhMuc($id){
                                             $tendanhmuccha = '';
                                             if($id != -1)
@@ -184,8 +175,8 @@
                                             }
                                             return $tendanhmuccha;
                                         }
-                                        
-                                        function showCategories( $categories, $parent_id = -1, $char = '', $i=1)
+                                    
+                                        function showCategories( $categories, $parent_id = -1, $char = '')
                                         {                                     
                                             
                                             foreach ($categories as $key => $item)
@@ -193,14 +184,13 @@
                                                 // Nếu là chuyên mục con thì hiển thị
                                                 if ($item['danhMucCha'] == $parent_id || $item['danhMucCha'] == '' )
                                                 {                                                    
-                                                    echo '<tr>   
-                                                        <td>'.($i).'</td>                  
+                                                    echo '<tr>                                                                             
                                                         <td>'.$item["maDanhMuc"].'</td>
                                                         <td class="tenDM">'.$char." ".$item["tenDanhMuc"].'</td>                      
                                                         <td>'.getTenDanhMuc($item["danhMucCha"]).'</td>
                                                         <td>'.$item["url"].'</td>
                                                         <td>'.$item["viTri"].'</td>
-                                                        <td style="display:flex;margin:0px 24px";>
+                                                        <td style="display:flex;margin:0px 9px";>
                                                             <a href="sua.php?maDanhMuc='.$item["maDanhMuc"].'">
                                                                     <i class="fa-sharp fa-solid fa-pen" style="color: #ff3d3d;"></i>
                                                             </a>
@@ -211,9 +201,8 @@
                                                     </tr>';
                                                     // Xóa chuyên mục đã lặp
                                                     unset($categories[$key]); 
-                                                    // Tiếp tục đệ quy để tìm chuyên mục con của chuyên mục đang lặp
-                                                    $i++;
-                                                    showCategories($categories, $item['maDanhMuc'], $char.'-----', $i);
+                                                    // Tiếp tục đệ quy để tìm chuyên mục con của chuyên mục đang lặp                                                 
+                                                    showCategories($categories, $item['maDanhMuc'], $char.'-----');
                                                    
                                                 }  
                                             }  
@@ -226,7 +215,9 @@
                                     ?>
                                 </tbody>
                                 </table> 
+                               
                                 <?php
+                                
                                 echo '<div id="notfound">';
                                 if(mysqli_num_rows($result) == 0)
                                 { 

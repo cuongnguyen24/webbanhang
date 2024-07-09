@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -72,19 +71,17 @@
         <!-- ---------------------END OF ASIDE---------------- -->
         <?php 
         require_once '../../connect.php';       
-       
         // Lấy tổng số bản ghi
         $sql = "SELECT COUNT(*) FROM nhacungcap";
         $result = $conn->query($sql);
         $total_records = $result->fetch_row()[0];
 
         // Xác định số bản ghi trên mỗi trang
-        $records_per_page = 10;
-
+        // $records_per_page = isset($_GET['per_page']) ? $_GET['per_page'] : 10;
+        $records_per_page= 10;
         // Tính số trang
         $total_pages = ceil($total_records / $records_per_page);
 
-       
         // Xác định trang hiện tại
         $current_page = isset($_GET['page']) ? $_GET['page'] : 1;
         //echo $current_page;
@@ -127,17 +124,18 @@
                                             <div class="mx-2 d-inline-block">
                                                 <input type="text" id="per_page" name="record"
                                                     class="form-control form-control-sm"
-                                                    value="<?php echo $records_per_page ?>" aria-label="Invoices count">
+                                                    value="<?php echo $records_per_page ?>" aria-label="Invoices count" disabled>
                                             </div>
                                             entries
                                         </div>
                                     </form>
-                                    <div class="text-muted">
+                                    <div class="search">
                                         Search:
-                                        <div class="d-search">
-                                            <input type="text" id="search" class="ms-2 form-control"
-                                                aria-label="Search invoice">
-                                        </div>
+                                        <form  action="" id="search_form">
+                                            <input type="text" name="txtSearch" id="search" placeholder="Tìm tên nhà cung cấp">
+                                            <button name="btnSearch" id="btnSearch" ></button>
+                                            <!-- <i class="fa-solid fa-magnifying-glass"></i> -->
+                                        </form>
                                     </div>
                                 </div>
                             </div>
@@ -145,15 +143,16 @@
                                 <table class="table card-table table-vcenter text-nowrap datatable">
                                     <thead>
                                         <tr>
-                                            <th class="w-1"><input class="form-check-input m-0 align-middle"
+                                            <!-- <th class="w-1"><input class="form-check-input m-0 align-middle"
                                                     type="checkbox" aria-label="Select all invoices"></th>
-                                            <th class="w-1">No</th>
-                                            <th>Mã nhà cung cấp</th>
-                                            <th>Tên nhà cung cấp</th>
-                                            <th>Số điện thoại</th>
-                                            <th>Địa chỉ</th>
-                                            <th>Email</th>
-                                            <th>Thao tác</th>
+                                            <th class="w-1">No</th> -->
+                                            <th>STT</th>
+                                            <th>MÃ NHÀ CUNG CẤP</th>
+                                            <th>TÊN NHÀ CUNG CẤP</th>
+                                            <th>SỐ ĐIỆN THOẠI</th>
+                                            <th>ĐỊA CHỈ</th>
+                                            <th>EMAIL</th>
+                                            <th>THAO TÁC</th>
                                         </tr>
                                     </thead>
                                     <tbody id="body_table">
@@ -162,11 +161,10 @@
                                          $result = mysqli_query($conn,$query);                                 
                                          if(mysqli_num_rows($result) > 0)
                                          {           
-                                           $i = 1;
+                                           $i = $start+1;
                                              while($row = mysqli_fetch_assoc($result))
                                              {             
                                                  echo ' <tr>
-                                                           <th class="w-1"><input class="form-check-input m-0 align-middle" type="checkbox" aria-label="Select all invoices"></th>
                                                             <td>
                                                             '.$i.'
                                                            </td>
@@ -189,14 +187,14 @@
                                                                  <a href="sua.php?maNhaCungCap='.$row["maNhaCungCap"].'">
                                                                      <i class="fa-sharp fa-solid fa-pen" style="color: #ff3d3d;"></i>
                                                                  </a>
+                                                         
                                                                  <a onclick="return confirm(\'Bạn có chắc chắn muốn xóa không\');" href="xoa.php?maNhaCungCap='.$row["maNhaCungCap"].'">
                                                                      <i class="fa-solid fa-trash" style="color: #fa1100;"></i>
                                                                 </a>
                                                             </td>                                         
                                                          </tr>';
                                                $i++;
-                                             }
-                                             
+                                             }   
                                          }       
                                     ?>
                                     </tbody>
@@ -219,7 +217,7 @@
                                     <?php                                    
                                     if($current_page > 1){
                                         ?> <li id="pre" class="page-item page-item-h" disabled>
-                                        <a class="page-link" href="?page=<?php echo $current_page - 1  ?>" tabindex="-1"
+                                        <a class="page-link" href="?page=<?php echo $current_page - 1  ?>&per_page=<?php echo  $records_per_page ?>" tabindex="-1"
                                             aria-disabled="true">
                                             <i class="fa-solid fa-angle-left" style="color: #000000;"></i> prev
                                         </a>
@@ -230,20 +228,20 @@
                                     for($a = 0 ; $a < $total_pages; $a++){
                                         ?>
                                     <li class="page-item page-<?php echo $a + 1 ?>">
-                                        <a class="page-link" href="?page=<?php echo $a + 1 ?>"><?php echo $a + 1 ?></a>
+                                        <a class="page-link" href="?page=<?php echo $a + 1 ?>&per_page=<?php echo  $records_per_page ?>"><?php echo $a + 1 ?></a>
                                     </li>
                                     <?php
                                     }
                                         if($current_page < $total_pages){
                                          ?>
                                     <li id="next" class="page-item-h page-item">
-                                        <a class="page-link" href="?page=<?php echo  $current_page + 1 ?>">
+                                        <a class="page-link" href="?page=<?php echo  $current_page + 1 ?>&per_page=<?php echo  $records_per_page ?>">
                                             next <i class="fa-solid fa-angle-right" style="color: #000000;"></i>
                                         </a>
                                     </li>
                                     <?php
                                         }
-                                        ?>
+                                    ?>
                                 </ul>
                                 <input type="hidden" id="total_page" value=<?php echo $total_pages ?>>
                                 <input type="hidden" id="current_page" value=<?php echo $current_page ?>>
@@ -251,7 +249,6 @@
                         </div>
                     </div>
                 </div>
-            
             </main>
 
         <!-- -------------------END OF MAIN --------------------- -->
@@ -267,9 +264,7 @@
     const inputField = document.getElementById("search");
     inputField.addEventListener('input', function() {
         console.log('Giá trị mới:', +document.getElementById("per_page").value);
-
         var form_data = new FormData();
-
         form_data.append('key', this.value);
         form_data.append('page', +document.getElementById("per_page").value);
         form_data.append('current_page', current_page);
@@ -282,7 +277,7 @@
         ajax_request.onreadystatechange = function() {
             
             if(ajax_request.responseText === ''){
-                document.getElementById('notfound').innerHTML = '<h3 style="text-align:center;margin-top: -21px;">Không có dữ liệu</h3>'
+                // document.getElementById('notfound').innerHTML = '<h3 style="text-align:center;margin-top: -21px;">Không có dữ liệu</h3>'
                 document.getElementById('body_table').innerHTML = ''
             }else{
                 document.getElementById('body_table').innerHTML = ajax_request.responseText;

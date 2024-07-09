@@ -15,21 +15,20 @@
         return $tendanhmuccha;
     }
     
-    function showCategories($categories, $html='', $parent_id = -1, $char = '', $i=1)
+    function showCategories($categories, $html='', $parent_id = -1, $char = '')
     {                                     
         foreach ($categories as $key => $item)
         {
             // Nếu là chuyên mục con thì hiển thị
             if ($item['danhMucCha'] == $parent_id || $item['danhMucCha'] == '' )
             {                                                    
-              echo '<tr>   
-                    <td>'.($i).'</td>                  
+              echo '<tr>                   
                     <td>'.$item["maDanhMuc"].'</td>
                     <td class="tenDM">'.$char." ".$item["tenDanhMuc"].'</td>                      
                     <td>'.getTenDanhMuc($item["danhMucCha"]).'</td>
                     <td>'.$item["url"].'</td>
                     <td>'.$item["viTri"].'</td>
-                    <td style="display:flex;margin:0px 24px";>
+                    <td style="display:flex;margin:0px 9px";>
                         <a href="sua.php?maDanhMuc='.$item["maDanhMuc"].'">
                                 <i class="fa-sharp fa-solid fa-pen" style="color: #ff3d3d;"></i>
                         </a>
@@ -41,9 +40,8 @@
                                    
                 // Xóa chuyên mục đã lặp
                 unset($categories[$key]); 
-                // Tiếp tục đệ quy để tìm chuyên mục con của chuyên mục đang lặp
-                $i++;          
-                showCategories($categories, $html, $item['maDanhMuc'], $char.'-----', $i);
+                // Tiếp tục đệ quy để tìm chuyên mục con của chuyên mục đang lặp      
+                showCategories($categories, $html, $item['maDanhMuc'], $char.'-----');
                
             }  
         }  
@@ -68,10 +66,6 @@
           while($row = mysqli_fetch_assoc($result))
           {                        
               $html.=  ' <tr>
-              <th class="w-1"><input class="form-check-input m-0 align-middle" type="checkbox" aria-label="Select all invoices"></th>
-                <td>
-                '.$i.'
-              </td>
               <td>
                 '.$row['maDanhMuc'].'
               </td>
@@ -87,18 +81,15 @@
               <td>
                 '.$row['viTri'].'
               </td>                         
-              <td>
+              <td style="display:flex;margin:0px 9px";>
                       <a href="sua.php?maDanhMuc='.$row["maDanhMuc"].'">
                           <i class="fa-sharp fa-solid fa-pen" style="color: #ff3d3d;"></i>
                       </a>
-              </td>
-              <td>
                   <a onclick="return confirm(\'Bạn có chắc chắn muốn xóa không\');" href="xoa.php?maDanhMuc='.$row["maDanhMuc"].'">
                           <i class="fa-solid fa-trash" style="color: #fa1100;"></i>
                       </a>
               </td>                      
             </tr>';
-            $i++;
           }    
         }else{
           $categories = array();                

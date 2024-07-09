@@ -70,10 +70,11 @@
         <?php 
         require_once '../../connect.php';       
         // Lấy tổng số bản ghi
-        $sql = "SELECT COUNT(*) FROM sanpham";
+        $sql = "Select count(distinct sanpham.maSanPham) from sanpham INNER JOIN sizesanpham
+                                 WHERE sanpham.maSanPham = sizesanpham.maSanPham";
         $result = $conn->query($sql);
         $total_records = $result->fetch_row()[0];
-
+        // $records_per_page = isset($_GET['per_page']) ? $_GET['per_page'] : 10;
         // Xác định số bản ghi trên mỗi trang
         $records_per_page = 10;
 
@@ -123,17 +124,17 @@
                                         <input type="text" id="per_page" name="record"
                                             class="form-control form-control-sm"
                                             value="<?php echo $records_per_page?>"
-                                            aria-label="Invoices count">
+                                            aria-label="Invoices count" disabled>
                                     </div>
                                     entries
                                 </div>
                             </form>
-                            <div class="ms-auto text-muted">
+                            <div class="search">
                                 Search:
-                                <div class="ms-2 d-inline-block">
-                                    <input type="text" class="form-control form-control-sm" id="search"
-                                        aria-label="Search invoice">
-                                </div>
+                                <form  action="" id="search_form">
+                                            <input type="text" name="txtSearch" id="search" placeholder="   Tìm tên sản phẩm">
+                                            <button name="btnSearch" id="btnSearch" ><i class="fa-solid fa-magnifying-glass"></i></button>
+                                </form>
                             </div>
                         </div>
                     </div>
@@ -167,7 +168,8 @@
                             <tbody id="body_table">
                             <?php    
                                 require_once '../../connect.php';
-                                $query="select sanpham.*,sizesanpham.soLuong, sizesanpham.maSize from sanpham INNER JOIN sizesanpham WHERE sanpham.maSanPham = sizesanpham.maSanPham";
+                                $query="select sanpham.*,sizesanpham.soLuong, sizesanpham.maSize from sanpham INNER JOIN sizesanpham
+                                 WHERE sanpham.maSanPham = sizesanpham.maSanPham";
                                 $result = mysqli_query($conn,$query);
                                 $num=1;
                                 $sourceAll = [];
@@ -215,8 +217,8 @@
                                         }    
                                         return $html;
                                 }   
-                                $i = 1;        
-                                foreach (gopData($sourceAll) as $row)
+                                $i = $start+1;        
+                                foreach (array_slice(gopData($sourceAll),$start, $records_per_page ) as $row)
                                 {
                                    
                                     echo '<tr>
@@ -260,12 +262,13 @@
                         echo '</div>';
                     ?>
                     <div class="show-pagination align-items-center">
-                                <p class="m-0">Showing <span>1</span> to
-                                    <span><?php echo $records_per_page ?></span>
+                                <p class="m-0">Showing <span><?php echo $start+1 ?></span> to
+                                    <span><?php if($start == 0) echo $records_per_page; else  echo $records_per_page + $start; ?></span>
                                     of <span><?php echo $total_records ?></span> entries
                                 </p>
                                 <ul class="pagination m-0 ms-auto">
-                                    <?php                                    
+                                    <?php      
+                                    // trang hien tai >1 hthi pre de quay lai                              
                                     if($current_page > 1){
                                         ?> <li id="pre" class="page-item page-item-h" disabled>
                                         <a class="page-link" href="?page=<?php echo $current_page - 1  ?>" tabindex="-1"
@@ -275,11 +278,12 @@
                                     </li>';
                                     <?php                                    
                                     }
-                                   
+                                   // hthi dsach cac trang 
                                     for($a = 0 ; $a < $total_pages; $a++){
                                         ?>
                                     <li class="page-item page-<?php echo $a + 1 ?>">
                                         <a class="page-link" href="?page=<?php echo $a + 1 ?>"><?php echo $a + 1 ?></a>
+                                        <!-- <a class="page-link" href="?page=<?php echo $a + 1 ?>&per_page=<?php echo  $records_per_page ?>"><?php echo $a + 1 ?></a> -->
                                     </li>
                                     <?php
                                     }
@@ -315,13 +319,13 @@
     }
     const inputField = document.getElementById("search");
     inputField.addEventListener('input', function() {
-        console.log('Giá trị mới:', +document.getElementById("per_page").value);
+        console.log('Giá trị mới:', this.value);
 
         var form_data = new FormData();
 
-        form_data.append('key', this.value);
+        form_data.append('key', this.value);       
         form_data.append('page', +document.getElementById("per_page").value);
-        form_data.append('current_page', current_page);
+        form_data.append('current_page', current_page)
         var ajax_request = new XMLHttpRequest();
 
         ajax_request.open('POST', 'timkiem.php');

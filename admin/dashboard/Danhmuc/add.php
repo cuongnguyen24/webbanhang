@@ -76,17 +76,11 @@
                 {
                     mkdir($dir,0777,true);
                 }
-
                 $file = fopen($dir . '/' . $file_to_write,"w");
-
-                
+ 
                 foreach ($content_to_write as $line) {
                     fwrite($file, $line);
                 }
-        
-            
-            
-                
                 fclose($file);
 
                 include $dir . '/' . $file_to_write;
