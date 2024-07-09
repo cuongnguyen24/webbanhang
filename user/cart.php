@@ -1,9 +1,11 @@
 <?php
 session_start();
 if (!isset($_SESSION["username"])) {
-    header("Location: ../index.php?showLogin=true");
-    exit();
-}
+    echo '<script>
+        alert("Bạn cần đăng nhập trước đã!")
+        window.location.href = "/webbanhang/index.php";
+      </script>';
+  }
 
 $username = $_SESSION["username"]; // Lấy tên tài khoản từ session
 
@@ -65,11 +67,13 @@ $_SESSION['totalProducts'] = $totalProducts; // Lưu giá trị vào session
     <link rel="stylesheet" href="../assets/cuongstyle.css" />
     <link rel="stylesheet" href="../assets/cart.css?v=<?php echo time() ?>" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="shortcut icon" href="//theme.hstatic.net/200000692427/1001117622/14/favicon.png?v=4870" type="image/png">
 </head>
 
 <body>
     <?php include($_SERVER["DOCUMENT_ROOT"] . "/webbanhang/layout/header.php"); ?>
     <div class="main__layout__account main__layout__account_cart">
+    <h1 style="font-size: 25px; text-align: center; color: black">GIỎ HÀNG</h1>
         <div class="main__layout__container main__layout__container__2 ">
             <div class="card card-left card-left-cart" style="width: 65%; height: 100%">
                 <!-- Thông tin giỏ hàng -->
@@ -114,7 +118,15 @@ $_SESSION['totalProducts'] = $totalProducts; // Lưu giá trị vào session
                     </div>
                     <h3>Tạm tính (<?php echo $totalProducts; ?> sản phẩm)</h3>
                     <h3>Tổng thanh toán: <?php echo number_format($totalAmount, 0, ',', '.'); ?> VND</h3>
-                    <button class="checkout-btn" name="checkout-btn" id="checkout-btn">Đặt hàng</button>
+                    <?php
+                        if($totalProducts > 0)
+                        {
+                            echo '<button class="checkout-btn" name="checkout-btn" id="checkout-btn">Đặt hàng</button>';
+                        }
+                        else
+                            echo '<button class="checkout-btn" name="checkout-btn" id="checkout-btn" disabled>Đặt hàng</button>';
+                    ?>
+                    
                 </form>
             </div>
         </div>

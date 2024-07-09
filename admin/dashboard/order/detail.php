@@ -180,17 +180,30 @@
                 <div class="top">
                     <div class="left">
                     <?php
-                        $sql_table = "SELECT * FROM chitietdonhang WHERE maDonHang = '$maDonHang'";
+                        $sql_table = "SELECT *, khuyenmaidonhang.maKhuyenMai, khuyenmai.tenKhuyenMai, khuyenmai.phanTram 
+                        FROM chitietdonhang
+                        LEFT JOIN khuyenmaidonhang ON chitietdonhang.maDonHang = khuyenmaidonhang.maDonHang
+                        LEFT JOIN khuyenmai ON khuyenmaidonhang.maKhuyenMai = khuyenmai.maKhuyenMai
+                        WHERE chitietdonhang.maDonHang = '$maDonHang'";
+                        $tenKhuyenMai=null;
                         $result_table = mysqli_query($conn, $sql_table);
                         if (mysqli_num_rows($result) > 0) {
                                 while ($row_table = mysqli_fetch_assoc($result_table)) {
+                                    if (isset($row_table['tenKhuyenMai'])) {
+                                        $tenKhuyenMai = $row_table['tenKhuyenMai'];
+                                    }
                                     ?>
                                     <div class="product_code">
                                     <?php echo $row_table['maSanPham'] ?></td>
                                     </div>
                                     
                             <?php
-                                }   
+                                }
+                                ?>
+                                <div style="margin-top:10px">Tổng tiền:</div>
+                                <div class="maKM" ><?php echo 'Mã khuyến mãi: ';
+                                echo $tenKhuyenMai;?> </div><?php
+                                
                             } else {
                                 echo "Không có dữ liệu";
                             }
@@ -199,23 +212,41 @@
                     <div class="right">
 
                     <?php
-                        $sql_table = "SELECT * FROM chitietdonhang WHERE maDonHang = '$maDonHang'";
+                        $sql_table = "SELECT *, khuyenmaidonhang.maKhuyenMai, khuyenmai.tenKhuyenMai, khuyenmai.phanTram 
+                        FROM chitietdonhang
+                        LEFT JOIN khuyenmaidonhang ON chitietdonhang.maDonHang = khuyenmaidonhang.maDonHang
+                        LEFT JOIN khuyenmai ON khuyenmaidonhang.maKhuyenMai = khuyenmai.maKhuyenMai
+                        WHERE chitietdonhang.maDonHang = '$maDonHang'";
                         $result_table = mysqli_query($conn, $sql_table);
-                        
+                        $total_price = 0; // Khởi tạo tổng giá trị là 0
+                        $phanTramGiamGia = null;
+                        $phanTram = 0;
                         if (mysqli_num_rows($result) > 0) {
                                 while ($row_table = mysqli_fetch_assoc($result_table)) {
-                                    
                                     $total_price = $total_price + $row_table['thanhTien'];
                                     ?>
                                     <div class="price">
                                         <!-- number_format(number, decimals, decimal_separator, thousand_separator) -->
                                     <?php echo number_format($row_table['thanhTien'], 0, ',', '.'); ?> 
                                     </div>
+                                    <?php
+                                    
+                                    if (isset($row_table['phanTram'])) {
+                                        $phanTramGiamGia = $row_table['phanTram'] . " %";
+                                        $phanTram = $row_table['phanTram'];
+                                    }
+                                    ?>
                             <?php
-                                }   
+                                }
+                                ?>
+                                <div style="margin-top:10px"><?php echo number_format($total_price, 0, ',', '.'); ?></div>
+                                <div class="phantramgiamgia"><?php echo $phanTramGiamGia; ?></div><?php   
+                                
+
                             } else {
                                 echo "Không có dữ liệu";
                             }
+                           
                         ?>
                     </div>
                 </div>
@@ -229,6 +260,10 @@
                         </div>
                         <div class="right">
                             <?php
+                            if (isset($phanTram) && is_numeric($phanTram)) {
+                                $discount_amount = ($phanTram / 100) * $total_price; 
+                                $total_price =$total_price - $discount_amount;
+                            }
                             echo number_format($total_price, 0, ',', '.');
                             ?>
                         </div>

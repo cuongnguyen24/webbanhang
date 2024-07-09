@@ -43,7 +43,7 @@ if (mysqli_num_rows($resultOrders) > 0) {
 }
 
 //Lấy chi tiết sản phẩm của đơn hàng
-$sqlOrdersDetail = "SELECT sanpham.duongDanAnhChung, sanpham.TenSanPham, chitietdonhang.soLuong, chitietdonhang.maSize, chitietdonhang.thanhTien
+$sqlOrdersDetail = "SELECT sanpham.duongDanAnhChung, sanpham.TenSanPham, sanpham.chitietsp, chitietdonhang.soLuong, chitietdonhang.maSize, chitietdonhang.thanhTien
                 FROM donhang
                 INNER JOIN chitietdonhang ON donhang.maDonHang = chitietdonhang.maDonHang
                 INNER JOIN sanpham ON chitietdonhang.maSanPham = sanpham.maSanPham
@@ -60,12 +60,12 @@ $resultOrdersDetail = mysqli_query($conn, $sqlOrdersDetail);
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Document</title>
+  <title>Thông tin đơn hàng</title>
   <link rel="stylesheet" href="../assets/style.css" />
   <link rel="stylesheet" href="../assets/reset.css" />
   <link rel="stylesheet" href="../assets/cuongstyle.css?v=<?php echo time() ?>" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-
+  <link rel="shortcut icon" href="//theme.hstatic.net/200000692427/1001117622/14/favicon.png?v=4870" type="image/png">
 </head>
 
 <body>
@@ -125,45 +125,46 @@ $resultOrdersDetail = mysqli_query($conn, $sqlOrdersDetail);
                 </tr>
               </thead>
               <tbody>
-              <?php
+                <?php
                 if (mysqli_num_rows($resultOrdersDetail) > 0) {
                   while ($row = mysqli_fetch_assoc($resultOrdersDetail)) {
                     echo "<tr>";
-                    echo "<td><img src='/webbanhang/admin/dashboard/products/" . $row["duongDanAnhChung"] . "' alt='Product Image' style='width: 70px; height: 70px;'></td>";
-                    echo "<td>" . $row["TenSanPham"] . "</td>";
+                    echo "<td><a href='" . $row["chitietsp"] . "'><img src='/webbanhang/admin/dashboard/products/" . $row["duongDanAnhChung"] . "' alt='Product Image' style='width: 70px; height: 70px;'></a></td>";
+                    echo "<td><a href='" . $row["chitietsp"] . "' style='color: black;'>" . $row["TenSanPham"] . "</a></td>";
                     echo "<td>" . $row["soLuong"] . "</td>";
                     echo "<td>" . $row["maSize"] . "</td>";
-                    echo "<td>" . $row["thanhTien"] . "</td>";
+                    echo "<td>" . number_format($row["thanhTien"], 0, ',', '.') . "</td>";
                     echo "</tr>";
                   }
                 } else {
                   echo "<tr><td colspan='5'>Không có sản phẩm nào.</td></tr>";
                 }
                 ?>
-                <p>Tổng giá trị: <?php echo "$tongGiaTri";?> VNĐ</p>
+                <p>Tổng giá trị: <?php echo number_format($tongGiaTri, 0, ',', '.'); ?> VNĐ</p>
               </tbody>
             </table>
           </div>
         </div>
-        <div class="d-flex justify-content-between">          
-          <button class="btn btn-primary" onclick="window.location.href='./ordercustomer.php'">Quay lại</button>          
-          <?php if ($tinhTrang == 1) { ?>            
-            <button class="btn btn-danger" onclick="cancelOrder('<?php echo $maDonHang; ?>')">Hủy đơn</button>          
-          <?php } else { ?>            
-            <button class="btn btn-danger" disabled>Hủy đơn</button>          
-          <?php } ?>        
+        <div class="d-flex justify-content-between">
+          <button class="btn btn-primary" onclick="window.location.href='./ordercustomer.php'">Quay lại</button>
+          <?php if ($tinhTrang == 1) { ?>
+            <button class="btn btn-danger" onclick="cancelOrder('<?php echo $maDonHang; ?>')">Hủy đơn</button>
+          <?php } else { ?>
+            <button class="btn btn-danger" disabled>Hủy đơn</button>
+          <?php } ?>
         </div>
+      </div>
     </div>
-  </div>
 
-  <?php include '../layout/footer.php'; ?>
-  
-  <script>    
-  function cancelOrder(maDonHang) {      
-    if (confirm('Bạn có chắc chắn muốn hủy đơn hàng này?')) {        
-      window.location.href = './cancelorder.php?maDonHang=' + maDonHang;      }    
-      }  
-  </script>
+    <?php include '../layout/footer.php'; ?>
+
+    <script>
+      function cancelOrder(maDonHang) {
+        if (confirm('Bạn có chắc chắn muốn hủy đơn hàng này?')) {
+          window.location.href = './cancelorder.php?maDonHang=' + maDonHang;
+        }
+      }
+    </script>
 </body>
 
 </html>

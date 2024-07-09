@@ -199,6 +199,16 @@ p {
     border-radius: 5px;
 }
 
+button .discount {
+    background-color: #DB9087;
+    color: #fff;
+    border: none;
+    padding: 10px 10px;
+    font-size: 1rem;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
 .form_pay {
     padding-top: 20px;
     width: 100%;

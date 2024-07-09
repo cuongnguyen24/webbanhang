@@ -247,14 +247,19 @@
                 fclose($file);
 
                 include $dir . '/' . $file_to_write;
-                
+                echo '<script>
+                alert("Thêm thành công!");
+                window.location.href = "./index.php";
+            </script>';
             }
             else 
-            //    echo '<script>
-            //         alert("Thêm thất bại");
-            //         window.location.href = "./index.php";
-            //     </script>';
-            echo 'Lỗi thêm mới';
+               echo '<script>
+                    alert("Thêm thất bại!");
+                    window.location.href = "./index.php";
+                </script>';
+
+        
+
         }
     }
 ?>
@@ -263,7 +268,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard</title>
+    <title>Thêm mới sản phẩm</title>
     <link rel="stylesheet" href="../style.css">
     <link rel="stylesheet" href="../add.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
@@ -274,6 +279,7 @@
                 margin-left: 20px;
             }
         </style>
+    <link rel="shortcut icon" href="//theme.hstatic.net/200000692427/1001117622/14/favicon.png?v=4870" type="image/png">
 </head>
 <body>
     <div class="container">
@@ -293,10 +299,7 @@
                     <h3>Thống kê</h3>
                 </a>
 
-                <a href="../customer/" class="">
-                    <i class="fa-regular fa-user"></i>
-                    <h3>Khách hàng</h3>
-                </a>
+                
                 <a href="../staff/" class="">
                     <i class="fa-regular fa-user"></i>
                     <h3>Nhân viên</h3>

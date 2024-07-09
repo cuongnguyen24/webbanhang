@@ -118,7 +118,7 @@ if (isset($_POST["dangnhap"])) {
       } else if ($role == 2) {
         echo '<script>
                         alert("Đăng nhập thành công");
-                        window.location.href = "./user/accountstaff.php";
+                        window.location.href = "./staff/accountstaff.php";
                     </script>';
       }
     } else {

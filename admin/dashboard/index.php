@@ -219,9 +219,10 @@ $result_topSP = mysqli_query($conn, $sql);
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard</title>
+    <title>Thống kê</title>
     <link rel="stylesheet" href="./style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="shortcut icon" href="//theme.hstatic.net/200000692427/1001117622/14/favicon.png?v=4870" type="image/png">
 </head>
 
 <body>
@@ -242,10 +243,7 @@ $result_topSP = mysqli_query($conn, $sql);
                     <h3>Thống kê</h3>
                 </a>
 
-                <a href="./customer" class="">
-                    <i class="fa-regular fa-user"></i>
-                    <h3>Khách hàng</h3>
-                </a>
+                
                 <a href="./staff/" class="">
                     <i class="fa-regular fa-user"></i>
                     <h3>Nhân viên</h3>
@@ -285,9 +283,9 @@ $result_topSP = mysqli_query($conn, $sql);
         <!-- ---------------------END OF ASIDE---------------- -->
         <main>
             <h1>Dashboard</h1>
-            <div class="date">
+            <!-- <div class="date">
                 <input type="date">
-            </div>
+            </div> -->
 
             <div class="insights">
                 <div class="sale">

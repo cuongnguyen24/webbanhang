@@ -1,8 +1,9 @@
 <?php
 $totalProducts = isset($_SESSION['totalProducts']) ? $_SESSION['totalProducts'] : 0;
+$totalWishlist = isset($_SESSION['totalWishlist']) ? $_SESSION['totalWishlist'] : 0;
 $role = isset($_SESSION["role"]) ? $_SESSION["role"] : null;
 ?>
-<header class="header">
+<header class="header" style="border-bottom: 1px #E8E8F2 solid;">
     <div class="container">
         <div class="header--mid">
             <div class="header--mid__logo">
@@ -12,7 +13,7 @@ $role = isset($_SESSION["role"]) ? $_SESSION["role"] : null;
             </div>
             
             <div class="header--mid__search">
-                <form action="../user/search.php" method="GET">
+                <form action="/webbanhang/user/search.php" method="GET">
                     <input type="hidden" name="type" value="product">
                     <input required name="q" type="text" placeholder="sản phẩm cần tìm...">
                     <button type="submit">
@@ -43,12 +44,12 @@ $role = isset($_SESSION["role"]) ? $_SESSION["role"] : null;
                 <button class="header__btn" data-action="wishlist" onclick="goToWishList()">
                     <strong>Yêu thích</strong>
                     <i class="fa-solid fa-heart" style="font-weight: 400;"></i>
-                    <span class="wishlist-count count ">0</span>
+                    <span class="wishlist-count count "><?php echo $totalWishlist; ?></span>
                 </button>
 
                 <script>
                     function goToWishList() {
-                        window.location.href = "../wishlist.php";
+                        window.location.href = "/webbanhang/user/wishlist.php";
                     }
                 </script>
 

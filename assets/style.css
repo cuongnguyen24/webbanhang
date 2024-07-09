@@ -142,7 +142,7 @@
             /* Css header */
             
             header .header {
-                border-bottom: 1px solid #E8E8F2;
+                border-bottom: 1px #E8E8F2 solid;
                 position: sticky;
                 top: 0;
                 left: 0;
@@ -151,6 +151,7 @@
                 padding: 0;
                 transition: all .4s ease;
                 background-color: #fff;
+                border-bottom: 1px #59595B solid;
             }
             
             header .container {
@@ -1086,7 +1087,6 @@
             .breadcrum-shop {
                 margin-bottom: 20px;
                 padding-top: 20px;
-                border-top: 1px solid #E8E8F2;
             }
             
             .breadcrum {
@@ -1376,8 +1376,8 @@
                 position: relative;
             }
             
-            .productWrap .productWrapAll .productWrapRight .productWrapDetail .productWrapDetailTitle .productWishlist a,
-            .productWrap .productWrapAll .productWrapRight .productWrapDetail .productWrapDetailTitle .productWishlist a {
+            .productWrap .productWrapAll .productWrapRight .productWrapDetail .productWrapDetailTitle .productWishlist button,
+            .productWrap .productWrapAll .productWrapRight .productWrapDetail .productWrapDetailTitle .productWishlist button {
                 width: 40px;
                 height: 40px;
                 line-height: 40px;
@@ -1423,8 +1423,8 @@
                 visibility: none;
             }
             
-            .productWrap .productWrapAll .productWrapRight .productWrapDetail .productWrapDetailTitle .productWishlist:hover a,
-            .productWrap .productWrapAll .productWrapRight .productWrapDetail .productWrapDetailTitle .productWishlist:hover a {
+            .productWrap .productWrapAll .productWrapRight .productWrapDetail .productWrapDetailTitle .productWishlist:hover button,
+            .productWrap .productWrapAll .productWrapRight .productWrapDetail .productWrapDetailTitle .productWishlist:hover button {
                 background: var(--brandColor);
                 border: 1px solid var(--brandColor);
                 color: #fff;

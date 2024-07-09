@@ -3,11 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard</title>
+    <title>Khuyến mãi</title>
     <link rel="stylesheet" href="./style.css">
     <link rel="stylesheet" href="../style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer"
     />
+    <link rel="shortcut icon" href="//theme.hstatic.net/200000692427/1001117622/14/favicon.png?v=4870" type="image/png">
 </head>
 
 <body>
@@ -28,10 +29,7 @@
                     <h3>Thống kê</h3>
                 </a>
 
-                <a href="../customer/" class="">
-                    <i class="fa-regular fa-user"></i>
-                    <h3>Khách hàng</h3>
-                </a>
+                
                 <a href="../staff/" class="">
                     <i class="fa-regular fa-user"></i>
                     <h3>Nhân viên</h3>
@@ -74,11 +72,11 @@
             <!-- main__layout -->
             <div class="main__layout">
                 <div id="title_form">
-                <label >QUẢN LÝ NHÂN VIÊN</label>
+                <label >QUẢN LÝ KHUYẾN MÃI</label>
                 </div>
                 
                 <div class="add">
-                    <label for="">Danh sách nhân viên</label>
+                    <label for="">Danh sách khuyến mãi</label>
                     <a id="add_button" href="/webbanhang/admin/dashboard/promotion/add.php">
                         <i class="fa-solid fa-plus"></i>
                         THÊM MÃ KHUYẾN MÃI
@@ -117,6 +115,12 @@
                                 while ($row = mysqli_fetch_assoc($result)) {
                                     $formattedNgayKhuyenMai = date('d/m/Y', strtotime($row['ngayKhuyenMai']));
                                     $formattedNgayHetHan = date('d/m/Y', strtotime($row['ngayHetHan']));
+                                    $currentDate = date('Y-m-d');
+                                    $ngayHetHan = date('Y-m-d', strtotime($row['ngayHetHan']));
+
+                                    if ($ngayHetHan < $currentDate) {
+                                        $row['trangThai'] = 2; // Set status to "Không khả dụng"
+                                    }
                                     switch ($row['trangThai']) {
                                         case 1:
                                             $trangThai = "Khả dụng";
@@ -132,6 +136,7 @@
                                             break;
                                     }
                                     $phanTram = $row['phanTram'] . "%";
+                                    
                                     ?>
                                     <tr>
                                         <td><?php echo ($num++) ?></td>
