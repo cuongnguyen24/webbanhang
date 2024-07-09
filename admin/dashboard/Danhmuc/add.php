@@ -122,7 +122,7 @@
     <aside>
             <div class="top">
                 <div class="logo">
-                    <img src="./images/" alt="">
+                    
                     <h2>NOUS<span> ADMIN</span></h2>
                 </div>
                 <div class="close" id="close-btn">
@@ -135,10 +135,7 @@
                     <h3>Thống kê</h3>
                 </a>
 
-                <a href="../customer/" class="">
-                    <i class="fa-regular fa-user"></i>
-                    <h3>Khách hàng</h3>
-                </a>
+                
                 <a href="../staff/" class="">
                     <i class="fa-regular fa-user"></i>
                     <h3>Nhân viên</h3>

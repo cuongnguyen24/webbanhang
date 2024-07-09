@@ -97,23 +97,25 @@ if(isset($_POST['discount']))
         $amountDiscount = $totalAmount;
         $amountDiscount *= $percent/100;
         $price -= $amountDiscount;
+        $_SESSION['price'] = $price;
         echo '<script>alert("Áp dụng thành công!")</script>';
     }
     else
     {
         echo '<script>alert("Mã khuyến mãi không hợp lệ!")</script>';
-        unset($_SESSION['discount']);
+        
     }
     
 }
-else if(isset($_POST['pay']))
+
+if(isset($_POST['pay']))
 {
+    echo $eprice = $_SESSION['price'] + $ship_price;
     if($_SESSION['totalProducts']>0)
     {
 
     $hoTen= $_POST["name"];
     $soDienThoai = $_POST["phone"];
-    $tenDiaChi = $_POST["address"];
     $thanhtoan = $_POST["thanhtoan"];
     if($thanhtoan == 3 || $thanhtoan == 2)
     {
@@ -123,7 +125,7 @@ else if(isset($_POST['pay']))
         $tinhtrangthanhtoan = 2;
 
         // TẠO ĐƠN HÀNG TRONG ĐƠN HÀNG
-    $query_donhang = "INSERT INTO donhang VALUES ('$id', '$maKhachHang', CURDATE(), '$tenDiaChi', '$price', '1','$thanhtoan','$tinhtrangthanhtoan')";
+    $query_donhang = "INSERT INTO donhang VALUES ('$id', '$maKhachHang', CURDATE(), '$tenDiaChi', '$eprice', '1','$thanhtoan','$tinhtrangthanhtoan')";
     $result = mysqli_query($conn,$query_donhang);
     
         // TẠO ĐƠN HÀNG TRONG CHI TIẾT ĐƠN HÀNG
@@ -141,11 +143,14 @@ else if(isset($_POST['pay']))
             $result = mysqli_query($conn,$query_ctdonhang);
 
 
-            //Trừ số lượng trong size sản phẩm
+            // Trừ số lượng trong size sản phẩm
             // $query_delSize = "UPDATE sizesanpham SET soluong = soluong - $soLuong WHERE maSanPham = '$maSanPham' AND maSize = '$maSize'";
             // $result = mysqli_query($conn,$query_delSize);
         }
-
+        $discount = $_SESSION['discount'];
+        $query = "INSERT INTO khuyenmaidonhang VALUES ('$id', '$discount')";
+        $result_discountorder = mysqli_query($conn, $query);
+        
         //Xóa sản phẩm trong giỏ hàng
         //echo $maKhachHang;
         $query_delCart = "DELETE FROM giohang WHERE maKhachHang = '$maKhachHang'";
@@ -157,11 +162,15 @@ else if(isset($_POST['pay']))
             </script>';
     }
     else
+    {
         echo ' <script>
         alert("Giỏ hàng chưa có gì để đặt cả!");
         window.location.href = "/webbanhang/";
-    </script>';
-    unset($_SESSION['discount']);
+        </script>';
+        unset($_SESSION['discount']);
+
+    }
+        
 }
 ?>
 
@@ -232,46 +241,7 @@ else if(isset($_POST['pay']))
                             </table>
                         </div>
                         
-                            <!-- <div class="order-summary-section order-summary-section-discount" data-order-summary-section="discount">
-                                <form id="form_discount_add" accept-charset="UTF-8" method="post">
-                                <input name="utf8" type="hidden" value="✓">
-                                    <div class="fieldset">
-                                        <div class="field  ">
-                                            <div class="field-input-btn-wrapper">
-                                                <div class="field-input-wrapper">
-                                                    <label class="field-label" for="discount.code">Mã giảm giá</label>
-                                                    <input placeholder="Mã giảm giá" class="field-input" data-discount-field="true" autocomplete="false" autocapitalize="off" spellcheck="false" size="30" type="text" id="discount.code" name="discount.code" value="">
-                                                </div>
-                                                <button type="submit" class="field-input-btn btn btn-default btn-disabled">
-                                                    <span class="btn-content">Sử dụng</span>
-                                                    <i class="btn-spinner icon icon-button-spinner"></i>
-                                                </button>
-                                            </div>
-                                            
-                                        </div>
-                                    </div>
-                                </form>
-                            </div> -->
-
                             
-                            <!-- <div class="order-summary-section order-summary-section-redeem redeem-login-section" data-order-summary-section="discount">
-                                <div class="redeem-login">
-                                    <div class="redeem-login-title">
-                                        <h2>Chương trình khách hàng thân thiết</h2>
-                                        
-                                            
-                                            <i class="btn-redeem-spinner icon-redeem-button-spinner"></i>
-                                        
-                                            
-                                    </div>
-                                    
-                                        
-                                    
-                                </div>
-                                
-                            </div> -->
-                            
-                        
                         <div class="order-summary-section order-summary-section-total-lines payment-lines" data-order-summary-section="payment-lines">
                             <table class="total-line-table">
                                 <thead>
@@ -412,7 +382,7 @@ else if(isset($_POST['pay']))
                                 </div>
                                 
                                 <div class="field field-required" >
-                                    <form action="" method="POST">
+                                   
                                     <span>Mã khuyến mãi</span>
                                     <div class="field-input-wrapper" style="display: flex">
                                         
@@ -428,19 +398,19 @@ else if(isset($_POST['pay']))
                                             border-radius: 5px;
                                         ">áp dụng</button>
                                     </div>
-                                    </form>
+                                    
                                     
                                         <p class="field-message field-message-error">Địa chỉ</p>
                                     
                                 </div>
-                                
+                                <input type="text" style="display: none" name="cast" value="<?php echo $price + $ship_price?>">
                                 <div class="form_pay">
                                     <div class="go_to_cart">
                                         <a href="/webbanhang/user/cart.php">giỏ hàng</a>
                                     </div>
-                                    <form action="" method="POST">
+                                    
                                         <button type="submit" class="pay" name="pay" id="pay">Thanh toán</button>
-                                    </form>
+                                    
                                     
                                 </div>
 

@@ -243,10 +243,7 @@ $result_topSP = mysqli_query($conn, $sql);
                     <h3>Thống kê</h3>
                 </a>
 
-                <a href="./customer" class="">
-                    <i class="fa-regular fa-user"></i>
-                    <h3>Khách hàng</h3>
-                </a>
+                
                 <a href="./staff/" class="">
                     <i class="fa-regular fa-user"></i>
                     <h3>Nhân viên</h3>
