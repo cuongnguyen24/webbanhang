@@ -125,6 +125,7 @@
                                         echo ' <ul class="header__menu2">';
                                         while ($rowChild1 = mysqli_fetch_assoc($resultChild1)) {
                                             echo '<li><a href="' . $path . $rowChild1["url"] . '">' . $rowChild1["tenDanhMuc"] . '</a></li>';
+                                            //them moi
                                         }
                                         echo '</ul>';
                                     }

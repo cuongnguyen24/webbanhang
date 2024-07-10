@@ -15,6 +15,7 @@
     $result= mysqli_query($conn, $query);
     if(mysqli_num_rows($result)>0){
         while($row = mysqli_fetch_assoc($result)){
+            //lưu mảng sp = row
             $sanphamAll [] = $row;
             $tenSanPham=$row["tenSanPham"];
             $maNhaCungCap=$row["maNhaCungCap"];
@@ -187,6 +188,7 @@
             $maDanhMuc=$_POST['cboDanhMuc'];      
             $giaBan=$_POST['giaBan'];  
             $chitietsp=$_POST['chitietsp'];
+            //mảng ảnh sp xóa
             $arr= json_decode($_POST['arr']); 
             if($arr > 0){
                 foreach($arr as  $item){
@@ -437,7 +439,7 @@
                     <label for="">Hình ảnh</label>
                     <input type="hidden" name="arr" id="anhXoa" value = "0">
                     </br>
-                    <?php 
+                    <?php //hthi ảnh sp
                             if(!$conn)
                             {
                                 echo 'Kết nối không thành công, lỗi:'.mysqli_connect_error();
@@ -476,6 +478,7 @@
             let icon = document.getElementById("icon" + id);     
             icon.style.display = "none";
             array.push(id);
+            // luu id mà ảnh xóa
             let imgXoa = document.getElementById("anhXoa"); 
             imgXoa.value = JSON.stringify(array);       
         }     

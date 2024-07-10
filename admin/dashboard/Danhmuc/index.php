@@ -67,36 +67,12 @@
         </aside>
         <?php 
         require_once '../../connect.php';       
-        // Lấy tổng số bản ghi
-        $sql = "SELECT COUNT(*) FROM danhmuc";
-        $result = $conn->query($sql);
-        $total_records = $result->fetch_row()[0];
-
-        // Xác định số bản ghi trên mỗi trang
-        $records_per_page = 10;
-
-        // Tính số trang
-        $total_pages = ceil($total_records / $records_per_page);
-        // Xác định trang hiện tại
-        $current_page = isset($_GET['page']) ? $_GET['page'] : 1;
-        //echo $current_page;
-        // Tính vị trí bắt đầu lấy bản ghi
-        $start = ($current_page - 1) * $records_per_page;
-        $keySearchName= '';
-        if($_SERVER['REQUEST_METHOD'] == 'POST'){ 
-          if(isset($_POST['record'])){
-            $records_per_page =(int) $_POST['record'];   
-            $total_pages = ceil($total_records / $records_per_page);
-          }
-          if(isset($_POST['txtSearch1'])){            
-            $keySearchName = $_POST['txtSearch1'];            
-          }  
-        }       
     ?>
     <?php 
      $query="select * from danhmuc order by viTri asc";
      $result = mysqli_query($conn,$query);
      $categories = array();
+     // luu dl danhmuc vao mang 
      while ($row = mysqli_fetch_assoc($result)){
          $categories[] = $row;
      }
@@ -139,7 +115,7 @@
                                                 aria-label="Search invoice">
                                         </div> -->
                                         <form  action="" id="search_form">
-                                            <input type="text" name="txtSearch" id="search" placeholder="   Tìm tên danh mục">
+                                            <input type="text" name="txtSearch" id="search" placeholder=" Tìm tên danh mục">
                                             <button name="btnSearch" id="btnSearch" ><i class="fa-solid fa-magnifying-glass"></i></button>
                                         </form>
                                     </div>

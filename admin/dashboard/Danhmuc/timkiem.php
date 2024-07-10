@@ -13,6 +13,7 @@
             }
         }
         return $tendanhmuccha;
+        
     }
     
     function showCategories($categories, $html='', $parent_id = -1, $char = '')
@@ -73,7 +74,7 @@
                 '.$row['tenDanhMuc'].'
               </td>
               <td>
-                '.$row['danhMucCha'].'
+                '.getTenDanhMuc($row["danhMucCha"]).'
               </td>   
               <td>
                 '.$row['url'].'
