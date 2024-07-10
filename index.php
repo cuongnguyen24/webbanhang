@@ -125,6 +125,7 @@
                                         echo ' <ul class="header__menu2">';
                                         while ($rowChild1 = mysqli_fetch_assoc($resultChild1)) {
                                             echo '<li><a href="' . $path . $rowChild1["url"] . '">' . $rowChild1["tenDanhMuc"] . '</a></li>';
+                                            //them moi
                                         }
                                         echo '</ul>';
                                     }
@@ -464,8 +465,8 @@
     <script src="./index.js"></script>
     <script>
         
-const ipnElement = document.querySelector('#id_discount')
-const btnElement = document.querySelector('.btn_copy')
+const ipnElement = document.querySelectorAll('#id_discount')
+const btnElement = document.querySelectorAll('.btn_copy')
 
 // step 2
 btnElement.addEventListener('click', function() {

@@ -77,16 +77,17 @@
         // Xác định số bản ghi trên mỗi trang
         // $records_per_page = isset($_GET['per_page']) ? $_GET['per_page'] : 10;
         $records_per_page= 10;
-        // Tính số trang
+        // Tính số trang = tổng số bản ghi / số bản ghi của mỗi trang
         $total_pages = ceil($total_records / $records_per_page);
 
-        // Xác định trang hiện tại
+        // Xác định trang hiện tại-page
         $current_page = isset($_GET['page']) ? $_GET['page'] : 1;
-        //echo $current_page;
+        
         // Tính vị trí bắt đầu lấy bản ghi
         $start = ($current_page - 1) * $records_per_page;
         $keySearchName= '';
         if($_SERVER['REQUEST_METHOD'] == 'POST'){ 
+            //
           if(isset($_POST['record'])){
             $records_per_page =(int) $_POST['record'];   
             $total_pages = ceil($total_records / $records_per_page);
@@ -155,6 +156,7 @@
                                     </thead>
                                     <tbody id="body_table">
                                         <?php 
+                                        //ghan tu vt bd den trang so ban ghi moi trang, od trc lm
                                          $query="select * from nhacungcap LIMIT $start, $records_per_page";      
                                          $result = mysqli_query($conn,$query);                                 
                                          if(mysqli_num_rows($result) > 0)
@@ -199,20 +201,21 @@
                                 </table>
                                 <?php
                                 echo '<div id="notfound">';
-                                if(mysqli_num_rows($result) == 0)
-                                { 
-                                    echo '<h3 style="text-align:center;margin-top: -21px;">Không có dữ liệu</h3>';  
-                                }
+                                    if(mysqli_num_rows($result) == 0)
+                                    { 
+                                        echo '<h3 style="text-align:center;margin-top: -21px;">Không có dữ liệu</h3>';  
+                                    }
                                 echo '</div>';
                                 ?>
                             </div>
                             <div class="show-pagination align-items-center">
-                                <p class="m-0">Showing <span>1</span> to
+                                <p class="m-0">Showing <span><?php echo $start+1 ;?></span> to
                                     <span><?php echo $records_per_page ?></span>
                                     of <span><?php echo $total_records ?></span> entries
                                 </p>
                                 <ul class="pagination m-0 ms-auto">
-                                    <?php                                    
+                                    <?php   
+                                    //htai                                 
                                     if($current_page > 1){
                                         ?> <li id="pre" class="page-item page-item-h" disabled>
                                         <a class="page-link" href="?page=<?php echo $current_page - 1  ?>&per_page=<?php echo  $records_per_page ?>" tabindex="-1"
@@ -225,9 +228,10 @@
                                    
                                     for($a = 0 ; $a < $total_pages; $a++){
                                         ?>
-                                    <li class="page-item page-<?php echo $a + 1 ?>">
-                                        <a class="page-link" href="?page=<?php echo $a + 1 ?>&per_page=<?php echo  $records_per_page ?>"><?php echo $a + 1 ?></a>
-                                    </li>
+        
+                                        <li class="page-item page-<?php echo $a + 1 ?>">
+                                            <a class="page-link" href="?page=<?php echo $a + 1 ?>&per_page=<?php echo  $records_per_page ?>"><?php echo $a + 1 ?></a>
+                                        </li>
                                     <?php
                                     }
                                         if($current_page < $total_pages){
@@ -251,27 +255,36 @@
 
         <!-- -------------------END OF MAIN --------------------- -->
     <script>
+    //lấy gtr của id
     const current_page = +document.getElementById("current_page").value;
     console.log(current_page);
+    //lấy gtr ten class
     const pagei = document.getElementsByClassName(`page-${current_page}`)
+    // bấm vào page->hien xanh
     pagei[0].classList.add("active")
+    // ẩn hiện nút prev , next
     if (+document.getElementById('total_page').value <= 1) {
         const page1 = Array.from(document.getElementsByClassName("page-item-h"));
         page1.map(data => data.classList.add("disabled"))
     }
+    //timkiem ptrang
     const inputField = document.getElementById("search");
+    // addeven-> lắng nghe sự kiện khi nhập dl
     inputField.addEventListener('input', function() {
+        //in ra dl
         console.log('Giá trị mới:', +document.getElementById("per_page").value);
+        // tạo form data
         var form_data = new FormData();
+        // this.value-> gtri ô input
         form_data.append('key', this.value);
         form_data.append('page', +document.getElementById("per_page").value);
         form_data.append('current_page', current_page);
         var ajax_request = new XMLHttpRequest();
-
+        // gửi thông tin , mở file tk
         ajax_request.open('POST', 'timkiem.php');
-
+        // gửi form data
         ajax_request.send(form_data);
-
+        // lấy dl
         ajax_request.onreadystatechange = function() {
             
             if(ajax_request.responseText === ''){
@@ -279,7 +292,7 @@
                 document.getElementById('body_table').innerHTML = ''
             }else{
                 document.getElementById('body_table').innerHTML = ajax_request.responseText;
-                document.getElementById('notfound').innerHTML =''
+                // document.getElementById('notfound').innerHTML =''
             }
         }
 
