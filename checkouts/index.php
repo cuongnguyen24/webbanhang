@@ -75,7 +75,7 @@ if (mysqli_num_rows($result_maKhachHang) > 0) {
 // Tính toán tổng tiền và số lượng sản phẩm trong giỏ hàng
 $totalQuantity = 0;
 $totalAmount = 0;
-$ship_price = 15000;
+$ship_price = 0;
 $totalProducts = count($cart); // Số lượng các sản phẩm trong giỏ hàng
 foreach ($cart as $item) {
     $totalQuantity += $item['soLuong'];
@@ -114,7 +114,8 @@ if(isset($_POST['discount']))
 
 if(isset($_POST['pay']))
 {
-    echo $eprice = $_SESSION['price'] + $ship_price;
+    isset($_SESSION['price']) ? $price = $_SESSION['price'] : $price;
+    echo $eprice = $price + $ship_price;
     if($_SESSION['totalProducts']>0)
     {
 
@@ -164,6 +165,8 @@ if(isset($_POST['pay']))
                 alert("Đặt hàng hàng thành công ");
                 window.location.href = "/webbanhang/user/ordercustomer.php";
             </script>';
+            unset($_SESSION['discount']);
+            unset($_SESSION['price']);
     }
     else
     {
@@ -172,6 +175,8 @@ if(isset($_POST['pay']))
         window.location.href = "/webbanhang/";
         </script>';
         unset($_SESSION['discount']);
+        unset($_SESSION['price']);
+        
 
     }
         
