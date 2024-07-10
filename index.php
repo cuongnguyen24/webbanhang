@@ -464,8 +464,8 @@
     <script src="./index.js"></script>
     <script>
         
-const ipnElement = document.querySelector('#id_discount')
-const btnElement = document.querySelector('.btn_copy')
+const ipnElement = document.querySelectorAll('#id_discount')
+const btnElement = document.querySelectorAll('.btn_copy')
 
 // step 2
 btnElement.addEventListener('click', function() {

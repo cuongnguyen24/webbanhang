@@ -39,7 +39,10 @@ if (mysqli_num_rows($result) > 0) {
         
     }
     } else {
-    echo "Không có kết quả";
+        echo '<script>alert("Chưa điền đủ thông tin cá nhân!")
+        window.location.href = "/webbanhang/user/accountcustomer.php";
+        </script>';
+        
 }
 $sql_get_maKhachHang = "SELECT khachhang.maKhachHang FROM khachhang 
                         INNER JOIN taikhoan ON khachhang.maTaiKhoan = taikhoan.maTaiKhoan
@@ -66,6 +69,7 @@ if (mysqli_num_rows($result_maKhachHang) > 0) {
     }
 } else {
     die("Không tìm thấy thông tin khách hàng");
+    
 }
 
 // Tính toán tổng tiền và số lượng sản phẩm trong giỏ hàng

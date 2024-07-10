@@ -55,7 +55,7 @@
             <div class="container">
                 <div class="coppyright">
                     <div class="row__item">
-                        <img src="./assets/img/logo.webp" alt="logo" >
+                        <img src="/webbanhang/assets/img/logo.webp" alt="logo" >
                     </div>
                 </div>
             </div>
