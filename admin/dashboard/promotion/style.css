@@ -1,0 +1,130 @@
+.container{
+    gap: 0px;
+    z-index: 9999;
+}
+main{
+    width: 1200px;
+}
+.aaaa{
+    height: 50px;
+    background-color: transparent;
+}
+.wrapper{
+    overflow-x: auto;
+    overflow-x: hidden;
+    width: auto;
+    max-height: 500px;
+    width: 1240px;
+}
+#title_form{
+    color: #ca877e;
+    font-size: 40px;
+    display: flex;
+    justify-content: center;
+    font-weight: 700;
+    font-family: arial;
+}
+.add{
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+}
+.add label{
+    font-size: 20px;
+    font-weight: 600;
+}
+.add #add_button{
+    background-color: #ca877e;
+    width: 200px;
+    height: 45px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 10px;
+    font-weight: 520;
+    color: #ffffff;
+    transition: transform 0.2s ease;
+}
+.add #add_button:hover{
+    transform: scale(1.02);
+}
+.add #add_button i {
+    margin-right: 5px;
+}
+/* search */
+.search #search_form{
+    width: 300px;
+    height: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border : 1px solid black;
+    border-radius: 20px;
+}
+.search #search_form #txtSearch{
+    width: 250px;
+    height: 30px;
+    color: #0b0b0b;
+    background-color: transparent;
+    border-bottom: 1px solid #ca877e;
+}
+.search #search_form #btnSearch{
+    cursor: pointer;
+}
+/* table */
+table{
+    width: 1230px;
+    font-size: 13px;
+    border-collapse: collapse;
+    user-select: text;
+    border: 1px solid #eeeeee;
+    box-shadow: -10px 10px 10px rgba(0, 0, 0, 0.3);
+    position: absolute;
+}
+table th{
+    padding: 8px;
+    background-color: #ca877e;
+    color: #ffffff;
+    position: sticky;
+    top: 0;
+}
+table tbody{
+    border: 1px solid #ddd;
+    border-top:transparent
+}
+table tr{
+    background-color: #ffffff;
+}
+table td{
+    padding: 5px;
+    text-align: center;
+    font-weight: 500;
+}
+table tr:nth-child(even){background-color: #f7d9c4;}
+table tr:hover {background-color: #f7dada;}
+.act__button{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.act__button a{
+    display:block;
+    width: 20px;
+    margin-left: 5px;
+    margin-right: 5px;
+
+}
+.act__button #edit{
+    color: green;
+}
+.act__button #delete_button{
+    color: rgb(202, 34, 34);
+}
+/* màu trạng thái */
+.status_promotion_1 {
+    color: green
+}
+
+.status_promotion_2 {
+    color: rgb(189, 4, 4); 
+}

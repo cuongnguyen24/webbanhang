@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+    <link rel="stylesheet" href="../style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer"
+    />
+</head>
+
+<body>
+    <div class="container">
+        <aside>
+            <div class="top">
+                <div class="logo">
+                    <img src="./images/" alt="">
+                    <h2>NOUS<span> ADMIN</span></h2>
+                </div>
+                <div class="close" id="close-btn">
+                    <i class="fa-solid fa-xmark"></i>
+                </div>
+            </div>
+            <div class="sidebar">
+                <a href="../index.php" class="">
+                    <i class="fa-solid fa-list"></i>
+                    <h3>Thống kê</h3>
+                </a>
+
+
+                <a href="../staff/" class="">
+                    <i class="fa-regular fa-user"></i>
+                    <h3>Nhân viên</h3>
+                </a>
+
+                <a href="../order/" class="">
+                    <i class="fa-solid fa-cart-shopping"></i>
+                    <h3>Đơn hàng</h3>
+                </a>
+
+                <a href="../Nhacungcap/" class="">
+                    <i class="fa-solid fa-clipboard"></i>
+                    <h3>Nhà cung cấp</h3>
+                </a>
+
+                <a href="../Danhmuc/" class="">
+                    <i class="fa-regular fa-envelope"></i>
+                    <h3>Danh mục</h3>
+                </a>
+
+                <a href="../products/" class="">
+                    <i class="fa-solid fa-shop"></i>
+                    <h3>Sản phẩm</h3>
+                </a>
+                <a href="../promotion/" class="">
+                    <i class="fa-solid fa-ticket"></i>
+                    <h3>Khuyến mãi</h3>
+                </a>
+                <a href="/webbanhang/admin/accountadmin.php" target="_self">
+                    <i class="fa-solid fa-right-from-bracket"></i>
+                    <h3>Quay lại</h3>
+                </a>
+            </div>
+        </aside>
+        <!-- ---------------------END OF ASIDE---------------- -->
+        <main>
+            <h1>Dashboard</h1>
+            <div class="date">
+                <input type="date">
+            </div>
+
+            <div class="insights">
+
+
+            </div>
+            <!-- ------------------END OF INSIGHTS ------------- -->
+
+
+            <div class="recent-order">
+                <h2>Recent Orders</h2>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Product Name</th>
+                            <th>Product Number</th>
+                            <th>Payment</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Foldable Mini Drone</td>
+                            <td>85631</td>
+                            <td>Due</td>
+                            <td class="warning">Pending</td>
+                            <td class="primary">Details</td>
+                        </tr>
+
+                        <tr>
+                            <td>Foldable Mini Drone</td>
+                            <td>85631</td>
+                            <td>Due</td>
+                            <td class="warning">Pending</td>
+                            <td class="primary">Details</td>
+                        </tr>
+
+                        <tr>
+                            <td>Foldable Mini Drone</td>
+                            <td>85631</td>
+                            <td>Due</td>
+                            <td class="warning">Pending</td>
+                            <td class="primary">Details</td>
+                        </tr>
+
+
+                        <tr>
+                            <td>Foldable Mini Drone</td>
+                            <td>85631</td>
+                            <td>Due</td>
+                            <td class="warning">Pending</td>
+                            <td class="primary">Details</td>
+                        </tr>
+
+
+                        <tr>
+                            <td>Foldable Mini Drone</td>
+                            <td>85631</td>
+                            <td>Due</td>
+                            <td class="warning">Pending</td>
+                            <td class="primary">Details</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <a href="#">Show All</a>
+            </div>
+        </main>
+
+        <!-- -------------------END OF MAIN --------------------- -->
+
+        <div class="right">
+            <div class="top">
+                <button id="menu_btn">
+                    <i class="fa-solid fa-bars"></i>
+                </button>
+                <div class="theme-toggler">
+                    <i class="fa-regular fa-sun active"></i>
+                    <i class="fa-solid fa-moon"></i>
+                </div>
+                <div class="profile">
+                    <div class="info">
+                        <p>Hey, <b>Bình đẹp trai</b></p>
+                        <small class="text-muted"> Admin</small>
+                    </div>
+                    <div class="profile-photo">
+                        <img src="/assets/img/baby_homeAbout.webp" alt="">
+                    </div>
+                </div>
+            </div>
+
+            <!-- END OF TOP -->
+            <div class="recent_updates">
+                <h2>Recent Updates</h2>
+                <div class="updates">
+                    <div class="update">
+                        <div class="profile_photo">
+                            <img src="" alt="">
+                        </div>
+                        <div class="message">
+                            <p><b>Thùy Linh</b> received his order of Night lion tech GPS drone.</p>
+                            <small class="text-muted">2 Minutes Ago</small>
+                        </div>
+                    </div>
+
+                    <div class="update">
+                        <div class="profile_photo">
+                            <img src="" alt="">
+                        </div>
+                        <div class="message">
+                            <p><b>Cường</b> received his order of Night lion tech GPS drone.</p>
+                            <small class="text-muted">2 Minutes Ago</small>
+                        </div>
+                    </div>
+
+                    <div class="update">
+                        <div class="profile_photo">
+                            <img src="" alt="">
+                        </div>
+                        <div class="message">
+                            <p><b>Quang kun</b> received his order of Night lion tech GPS drone.</p>
+                            <small class="text-muted">2 Minutes Ago</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- -------------------END OF RECENT UPDATES ------------------ -->
+            <div class="sales_analytics">
+                <h2>Sales Analytics</h2>
+                <div class="item online">
+                    <div class="icon">
+                        <i class="fa-solid fa-cart-shopping"></i>
+                    </div>
+                    <div class="right">
+                        <div class="info">
+                            <h3>ONLINE ORDERS</h3>
+                            <small class="text-muted">Last 24 Hours</small>
+                        </div>
+                        <h5 class="success"> +39%</h5>
+                        <h3>3849</h3>
+                    </div>
+                </div>
+
+
+                <div class="item customers">
+                    <div class="icon">
+                        <i class="fa-solid fa-cart-shopping"></i>
+                    </div>
+                    <div class="right">
+                        <div class="info">
+                            <h3>ONLINE ORDERS</h3>
+                            <small class="text-muted">Last 24 Hours</small>
+                        </div>
+                        <h5 class="danger"> +20%</h5>
+                        <h3>3849</h3>
+                    </div>
+                </div>
+
+
+                <div class="item boom">
+                    <div class="icon">
+                        <i class="fa-solid fa-bomb"></i>
+                    </div>
+                    <div class="right">
+                        <div class="info">
+                            <h3>BOM ORDERS</h3>
+                            <small class="text-muted">Last 24 Hours</small>
+                        </div>
+                        <h5 class="danger"> -20%</h5>
+                        <h3>3849</h3>
+                    </div>
+                </div>
+
+                <div class="item add_product">
+                    <div>
+                        <i class="fa-solid fa-square-plus"></i>
+                        <h3>Add Product</h3>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="../index.js"></script>
+</body>
+
+</html>

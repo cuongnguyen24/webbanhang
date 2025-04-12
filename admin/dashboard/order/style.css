@@ -1,0 +1,235 @@
+.container {
+    gap: 0px;
+    z-index: 9999;
+    user-select: text;
+}
+
+main {
+    width: 1200px;
+}
+
+.aaaa {
+    height: 50px;
+    background-color: transparent;
+}
+
+.wrapper {
+    overflow-x: auto;
+    overflow-x: hidden;
+    width: auto;
+    max-height: 400px;
+    width: 1240px;
+    z-index: 9999;
+}
+
+#title_form {
+    color: #ca877e;
+    font-size: 40px;
+    display: flex;
+    justify-content: center;
+    font-weight: 700;
+    font-family: arial;
+}
+
+.add {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+}
+
+.add label {
+    font-size: 20px;
+    font-weight: 600;
+}
+
+.add #add_button {
+    background-color: #ca877e;
+    width: 200px;
+    height: 45px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 10px;
+    font-weight: 520;
+    color: #ffffff;
+    transition: transform 0.2s ease;
+}
+
+.add #add_button:hover {
+    transform: scale(1.02);
+}
+
+.add #add_button i {
+    margin-right: 5px;
+}
+
+
+/* search */
+
+.search {
+    width: 550px;
+    height: 80px;
+    display: flex;
+    flex-direction: column;
+    border: 1px solid rgb(201, 201, 201);
+    margin-top: 20px;
+}
+
+.search label {
+    margin-top: 5px;
+    margin-left: 10px;
+}
+
+.search #search_form {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 10px;
+}
+
+#tungay {
+    margin-right: 20px;
+}
+
+.search #search_form label {
+    margin-left: 20px;
+}
+
+.search #search_form i {
+    font-size: 20px;
+    background-color: #F6F6F9;
+}
+
+#start_date {
+    background-color: #ca877e;
+    color: white;
+    width: 120px;
+    height: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#end_date {
+    background-color: #ca877e;
+    color: white;
+    width: 120px;
+    height: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-left: 20px;
+}
+
+.search #search_form #btnSearch {
+    cursor: pointer;
+    margin-left: 20px;
+}
+
+
+/* table */
+
+table {
+    max-height: 400px;
+    overflow: auto;
+    width: 1230px;
+    font-size: 13px;
+    border-collapse: collapse;
+    user-select: text;
+    border: 1px solid #eeeeee;
+    
+    box-shadow: -10px 10px 10px rgba(0, 0, 0, 0.3);
+    position: absolute;
+}
+
+table th {
+    padding: 8px;
+    background-color: #ca877e;
+    color: #ffffff;
+    position: sticky;
+    top: 0;
+}
+
+table tbody {
+    border: 1px solid #ddd;
+    border-top: transparent
+}
+
+table tr {
+    background-color: #ffffff;
+}
+
+table td {
+    padding: 5px;
+    text-align: center;
+    font-weight: 500;
+}
+
+table td i {
+    color: #ca877e;
+}
+
+table tr:nth-child(even) {
+    background-color: #f7d9c4;
+}
+
+table tr:hover {
+    background-color: #f7dada;
+}
+
+
+/* màu trạng thái */
+
+.status_order_1 {
+    color: rgb(62, 132, 229);
+}
+
+.status_order_2 {
+    color: rgb(128, 179, 35);
+}
+
+.status_order_3 {
+    color: rgb(211, 140, 8);
+}
+
+.status_order_4 {
+    color: green;
+}
+
+.status_order_5 {
+    color: red;
+}
+
+.status_order_6 {
+    color: gray;
+}
+
+.status_order_7 {
+    color: purple;
+}
+
+
+/* màu phương thức thanh toán */
+
+.payment_method_1 {
+    color: blue;
+}
+
+.payment_method_2 {
+    color: rgb(215, 65, 65);
+}
+
+.payment_method_3 {
+    color: green;
+}
+
+
+/* màu tình trạng thanh toán */
+
+.payment_status_1 {
+    color: green;
+}
+
+.payment_status_2 {
+    color: rgb(215, 65, 65);
+}

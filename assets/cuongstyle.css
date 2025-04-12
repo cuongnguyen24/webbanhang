@@ -1,0 +1,523 @@
+/* Thanh chú thích vd: Trang chủ / Yêu thích */
+.main__layout {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    box-sizing: border-box;
+    font-family: sans-serif;
+    padding: 20px;
+    padding-bottom:900px;
+    margin: 0 auto;
+} 
+
+.main__layout_register{
+    display: flex;
+    flex-direction: column;
+    box-sizing: border-box;
+    font-family: sans-serif;
+    padding: 20px;
+    margin: 0 auto;
+    justify-content: center;
+    align-items: center;
+    /* padding-bottom:700px; */
+}
+
+.main__layout__account {
+
+    display: flex;
+    flex-direction: column;
+    box-sizing: border-box;
+    font-family: sans-serif;
+    padding: 20px;
+    margin: 0 auto;
+    background-color: rgb(245, 246, 246);
+}
+
+.main__layout__container{
+    max-width: 1140px;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    margin: 0 auto;
+}
+
+.wrapper{
+    max-width: 1140px;
+    width: 100%;
+}
+
+.breadcrumb{
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+}
+
+.breadcrumb div{
+    display: flex;
+    align-items: center; 
+    color: #58595B;
+}
+
+.breadcrumb a{
+    color: #58595B;
+}
+
+.breadcrumb__span {
+    display: flex;
+    align-items: center;
+    margin-left: 10px;
+}
+
+.breadcrumb__span span{
+    color: #58595B;
+    margin-left: 5px;
+}
+
+.breadcrumb__span div {
+    margin: 0 5px;
+}
+
+.breadcrumb__span span {
+    white-space: nowrap;
+}
+
+/* chức năng yêu thích */
+
+.main__container{
+    width: 100%;
+}
+
+.wishlist{
+    max-width: 1140px;
+    margin: 0 auto;
+    /* border: 1px solid; */
+    margin-top: 20px;
+    border-radius: 10px;
+    padding-bottom: 30px;
+}
+
+.wishlist .wishlist__content{
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+}
+
+.wishlist__content__row{
+    width: calc(100% / 2);
+    border: 1px solid #d0b49e;
+    margin: 10px;
+    border-radius: 10px;
+}
+
+.wishlist .wishlist__content .wishlist__content__1{
+    display: flex;
+    
+}
+
+.wishlist .wishlist__content .wishlist__content__1 .wishlist__content__1__pic{
+    padding: 10px;
+}
+
+.wishlist__content__1__pic a img{
+    width: 200px;
+    border-radius: 10px;
+}
+
+.wishlist .wishlist__content .wishlist__content__1 .wishlist__content__1__content{
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    padding-top: 20px;
+    padding-left: 15px;
+    padding-right: 15px;
+}
+
+.wishlist__content__1__content a{
+    font-size: 120%;
+    font-weight: 600;
+}
+
+.wishlist__content__1__content .price{
+    color: red;
+    font-size: large;
+    font-weight: 600;
+    padding-top: 20px;
+
+}
+
+.wishlist__content__1__content .button__action{
+    display: flex;
+    justify-content: space-around;
+    padding-top: 40px;
+    
+}
+
+/* Xong chức năng yêu thích  */
+
+/* Chức năng đăng ký */
+ 
+*{
+    /* box-sizing: border-box; */
+    margin: 0;
+    padding: 0;
+}
+
+.main__layout_register_container{
+    width: 1140px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.title_register{
+    font-size: x-large;
+}
+
+.main__layout_register_container_content{
+    display: flex;
+    flex-direction: column;
+    max-width: 33%;
+    width: 100%;
+}
+
+.register_form{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+.register_form_group{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    gap: 10px;
+}
+
+.register_form_group input{
+    padding: 10px;
+    margin-bottom: 0px;
+    font-size: medium;
+}
+
+.register_form_group label{
+    margin-top: 8px;
+}
+
+.register_form_group span{
+    font-size: small;
+    margin-bottom: 5px;
+}
+
+.register_form_group .row .col{
+    padding: 0;
+}
+
+.btn-primary-dangky{
+    margin-top: 20px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    font-size: large;
+    margin-bottom: 20px;
+}
+
+.btn-primary-dangky:hover{
+    margin-top: 20px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    font-size: large;
+    background-color: #495057;
+    color: #fff;
+    cursor: pointer;
+}
+
+.back-btn{
+    border: 1px solid;
+    margin-top: 20px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    font-size: large;
+    display: flex;
+    justify-content: center;
+    margin-bottom: 50px;
+    cursor: pointer;
+}
+/* #ced4da */
+
+/*  accountadmin*/
+.main__layout__container__2{
+    display: flex;
+    max-width: 1140px;
+    width: 100%;
+    gap: 20px;
+}
+
+.card{
+    border: 1px solid #dfdfdf; 
+    padding: 25px;
+    border-radius: 10px;
+    line-height: 2;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+.card-left{
+    width: 30%;
+}
+
+.card-right{
+    width:70%;
+    background-color: #fff;
+}
+
+.card-right-customer{
+    width:70%;
+    background-color: #fff;
+    min-height: 400px;
+}
+
+.card-title{
+    display: flex;
+    flex-direction: column;
+    font-weight: 600;
+    font-size: larger;
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
+}
+
+.card-title .user-icon{
+    display: flex;
+    padding: 20px;
+    border: 5px solid #fff;
+    border-radius: 50%;
+    width: 120px;
+    height: 120px;
+    font-size: 50px;
+    margin: 0 auto;
+    justify-content: center;
+    align-items: center;
+    background-color: #e1e4e8;
+}
+
+.card-title .user-icon i{
+    align-items: center;
+    justify-content: center;
+}
+
+.list-group-item{
+    padding-top: 5px;
+    padding-bottom: 5px;
+    color: #495057;
+}
+
+.btn-primary{
+    width: 100%;
+}
+
+hr{
+    color: #dfdfdf;
+} 
+
+.btn-changepass{
+    font-weight: 600;
+    color: black;
+}
+.btn-changepass:hover{
+    font-weight: 600;
+    color: black;
+    text-decoration: underline;
+}
+
+.text-body-secondary{
+    font-weight: 600;
+}
+
+.text-body-secondary:hover{
+    font-weight: 600;
+    text-decoration: underline;
+}
+
+/* Cập nhật thông tin */
+.updateAccount_form{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    max-width: 50%;
+    width: 100%;
+    margin: 0 auto;
+    gap: 12px;
+}
+
+.updateAccount_form_group label{
+    font-size: larger;
+    color: #58595b;
+}
+
+.updateAccount_form_group input{
+    padding: 10px;
+    font-size: medium;
+    background-color: rgb(245 246 246);
+    border-color: #d0b49e;
+}
+
+.updateAccount_form_group input:focus{
+    padding: 10px;
+    font-size: medium;
+    background-color: rgb(245 246 246);
+    border-color: #d0b49e;
+}
+
+.updateAccount_form_group{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+.updateAccount_form_group .row .col {
+    padding-right: 0;
+    padding-left: 0;
+}
+
+.btn-primary-update{
+    margin-top: 20px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    font-size: large;
+    margin-bottom: 20px;
+    border-radius: 5px;
+    border-color: #fff;
+    background-color: #d0b49e;
+    color: #fff;
+    cursor: pointer;
+    font-weight: 600;
+}
+
+.btn-primary-update:hover{
+    margin-top: 20px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    font-size: large;
+    margin-bottom: 20px;
+    border-radius: 5px;
+    border-color: #fff;
+    background-color: #c3ae9e;
+    color: #fff;
+}
+
+/* Adress.php */
+
+.card-body table{
+    width: 100%;
+    background-color: #dfdfdf;
+    border-radius: 10px;
+}
+
+.card-body table a{
+    padding-left: 10px;
+}
+
+.card-body a:hover {
+    text-decoration: underline;
+}
+  
+
+.card-body table td{
+    padding: 20px;
+}
+
+.default-address {
+    color: red;
+    border: 1px solid red;
+    text-align: center;
+}
+
+.card-body table {
+    border-collapse: collapse; /* Tạo border cho table */
+    width: 100%; 
+}
+  
+.card-body table th, .card-body table td {
+    text-align: left; /* Căn trái */
+    padding: 10px;
+}
+
+.card-body table td:last-child {
+    text-align: right; /* Căn phải cho cột chứa sửa/xóa */
+}
+
+/* Các định nghĩa CSS khác */
+
+.list-group-full-width {
+    width: 100%;
+}
+  
+.list-group-horizontal {
+    display: flex;
+    justify-content: space-between;
+}
+  
+.list-group-horizontal .list-group-item {
+    flex-grow: 1;
+    text-align: center;
+    border-bottom: 2px solid transparent;
+}
+
+.list-group-horizontal .list-group-item.active {    
+    border-bottom: 2px solid #d0b49e; /* Khi một thẻ a có class "active", border-bottom sẽ có màu đỏ */
+}
+
+.list-group-horizontal .list-group-item:focus {    
+    border-bottom: 2px solid #d0b49e; /* Khi một thẻ a được focus, border-bottom sẽ có màu đỏ */
+}
+
+.card-body a:hover {
+    text-decoration: none;
+} 
+
+.detail-link {
+    color: red;
+}
+
+/* Các định nghĩa CSS khác */
+
+.btn-primary {
+    background-color: #d0b49e;
+    border-color: #d0b49e;
+    margin-top: 20px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    color: #fff;
+    font-weight: 600;
+    width: 20%;
+}
+
+.btn-primary:hover {
+    background-color: #c3ae9e;
+    border-color: #c3ae9e;
+    color: #fff;
+}
+
+.btn-danger {
+    margin-top: 20px;
+    padding: 10px;
+    background-color: #dc3545;
+    border-color: #dc3545;
+    color: #fff;
+    font-weight: 600;
+}
+
+.btn-danger:hover {
+    background-color: #c82333;
+    border-color: #bd2130;
+    color: #fff;
+}
+
+.btn-danger:disabled {
+    background-color: #f8f9fa;
+    border-color: #dee2e6;
+    color: #6c757d;
+    cursor: not-allowed;
+}
