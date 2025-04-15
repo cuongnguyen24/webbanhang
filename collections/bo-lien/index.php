@@ -13,9 +13,9 @@ require_once ($_SERVER['DOCUMENT_ROOT'] .'/admin/connect.php');
 
 $URI = $_SERVER['REQUEST_URI'];
                                     
-$query1 = "  SELECT * 
+$query1 = " SELECT * 
             FROM danhmuc
-            WHERE url =  '/webbanhang" . $URI . "'";
+            WHERE url =  '$URI'";
 $result1 = mysqli_query($conn, $query1);
 
 $madanhmuc;

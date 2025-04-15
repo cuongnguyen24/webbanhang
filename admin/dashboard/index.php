@@ -273,7 +273,7 @@ $result_topSP = mysqli_query($conn, $sql);
                     <i class="fa-solid fa-ticket"></i>
                     <h3>Khuyến mãi</h3>
                 </a>
-                <a href="/webbanhang/admin/accountadmin.php" target="_self">
+                <a href="/admin/accountadmin.php" target="_self">
                     <i class="fa-solid fa-right-from-bracket"></i>
                     <h3>Quay lại</h3>
                 </a>
