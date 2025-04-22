@@ -1,7 +1,8 @@
 <?php 
     require_once '../../connect.php';  
     $key= "MDM";
-    $query="SELECT max(CONVERT(SUBSTRING(maDanhMuc, 4), int)) as nid FROM `danhmuc`";
+    //$query="SELECT max(CONVERT(SUBSTRING(maDanhMuc, 4), int)) as nid FROM `danhmuc`";
+    $query = "SELECT max(SUBSTRING(maDanhMuc, 4) + 0) as nid FROM `danhmuc`";
     $result = mysqli_query($conn,$query);
     if(mysqli_num_rows($result)>0)
     {
@@ -67,15 +68,15 @@
                 $dir = $_SERVER['DOCUMENT_ROOT']  . $foldername ;
 
                 $file_to_write = 'index.php';
-                $content_to_write = file($_SERVER["DOCUMENT_ROOT"] . '\admin\dashboard\Danhmuc\create-category.txt');
+                $content_to_write = file($_SERVER["DOCUMENT_ROOT"] . '/admin/dashboard/Danhmuc/create-category.txt');
                 
                 echo '<br>' .$dir .$file_to_write;
                 if( is_dir($dir) === false )
                 {
-                    mkdir($dir,0777,true);
-                }
+                    mkdir($dir,0777,true);                   
+                }               
                 $file = fopen($dir . '/' . $file_to_write,"w");
- 
+ 		
                 foreach ($content_to_write as $line) {
                     fwrite($file, $line);
                 }
@@ -231,7 +232,7 @@
             }
         function updateInput2() {
             var input1Value = document.getElementById("txtDanhMuc").value;
-            document.getElementById("txtDuongDan").value = '/webbanhang/collections/' + removeAccents(convertToSlug(input1Value)) + '/';
+            document.getElementById("txtDuongDan").value = '/collections/' + removeAccents(convertToSlug(input1Value)) + '/';
         }
     </script>
 </body>

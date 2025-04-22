@@ -2,7 +2,8 @@
     session_start();
     require_once '../../connect.php';  
     $key= "MSP";
-    $query="SELECT max(CONVERT(SUBSTRING(maSanPham, 4), int)) as nid FROM `sanpham`";
+    //$query="SELECT max(CONVERT(SUBSTRING(maSanPham, 4), int)) as nid FROM `sanpham`";
+    $query="SELECT max(SUBSTRING(maSanPham, 4)+0) as nid FROM `sanpham`";
     $result = mysqli_query($conn,$query);
     if(mysqli_num_rows($result)>0)
     {

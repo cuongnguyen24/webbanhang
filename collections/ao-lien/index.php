@@ -16,7 +16,7 @@ $URI = $_SERVER['REQUEST_URI'];
 echo 'uri' . $URI;                         
 $query1 = "  SELECT * 
             FROM danhmuc
-            WHERE url =  '/webbanhang" . $URI . "'";
+            WHERE url =  '$URI'";
 $result1 = mysqli_query($conn, $query1);
 
 $madanhmuc;

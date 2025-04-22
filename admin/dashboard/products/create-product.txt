@@ -4,7 +4,7 @@
                 
                 
                 
-                require_once ($_SERVER["DOCUMENT_ROOT"] . "/webbanhang/admin/connect.php");
+                require_once ($_SERVER["DOCUMENT_ROOT"] . "/admin/connect.php");
                 
 
                 // Xử lý gửi kết quả qua cart.php
@@ -48,7 +48,7 @@
                     $username = $_SESSION["username"];
                     if (!isset($_SESSION["username"])) {
                         echo '<script>alert("Bạn cần đăng nhập trước")
-                        window.location.href = "/webbanhang/";</script>
+                        window.location.href = "/";</script>
                         ';
                     exit();
                     }
@@ -124,7 +124,7 @@
                        if($flag == 1)
                        {
                         // echo '<script>
-                        // window.location.href = "/webbanhang/user/cart.php";</script>
+                        // window.location.href = "/user/cart.php";</script>
                         // ';
                         // exit();
                        }
@@ -134,7 +134,7 @@
                     } else {
                         
                         echo '<script>alert("Bạn cần đăng nhập trước")
-                        window.location.href = "/webbanhang/";</script>
+                        window.location.href = "/";</script>
                         ';
                     }
                     
@@ -145,7 +145,7 @@
                     
                     if (!isset($_SESSION["username"])) {
                         echo '<script>alert("Bạn cần đăng nhập trước")
-                        window.location.href = "/webbanhang/";</script>
+                        window.location.href = "/";</script>
                         ';
                     exit();
                     }
@@ -191,17 +191,17 @@
                 <meta charset="UTF-8" />
                 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
                 <title><?php echo $tenSanPham?></title>
-                <link rel="stylesheet" href="/webbanhang/assets/style.css" />
-                <link rel="stylesheet" href="/webbanhang/assets/reset.css" />
+                <link rel="stylesheet" href="/assets/style.css" />
+                <link rel="stylesheet" href="/assets/reset.css" />
                 <link rel="stylesheet" href="../assets/cuongstyle.css" />
                 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-                <link rel="stylesheet" href="/webbanhang/assets/w3.css">
+                <link rel="stylesheet" href="/assets/w3.css">
                 <link rel="shortcut icon" href="//theme.hstatic.net/200000692427/1001117622/14/favicon.png?v=4870" type="image/png">
                 </head>
                 <body>
                 <?php
-                include ($_SERVER["DOCUMENT_ROOT"] . "/webbanhang/collections/includes/login.php");
-                include($_SERVER["DOCUMENT_ROOT"] . "/webbanhang/layout/header.php");
+                include ($_SERVER["DOCUMENT_ROOT"] . "/collections/includes/login.php");
+                include($_SERVER["DOCUMENT_ROOT"] . "/layout/header.php");
                 ?>
                 <div class="main-layout">
                     <div class="collection template-collection">
@@ -209,12 +209,12 @@
                             <div class="breadcrum-wrap container container-xl">
                                 <ol class="breadcrum">
                                     <li class="breadcrum-item">
-                                        <a href="/webbanhang/">Trang chủ</a>
+                                        <a href="/">Trang chủ</a>
                                     </li>
                                     <li class="breadcrum-item">
                                         <span style="padding-right: 12px;">/</span>
                                         <?php
-                                        require_once ($_SERVER["DOCUMENT_ROOT"] . "/webbanhang/admin/connect.php");
+                                        require_once ($_SERVER["DOCUMENT_ROOT"] . "/admin/connect.php");
                                         $query = "SELECT * FROM danhmuc WHERE maDanhMuc = '$maDanhMuc'";
                                         $result = mysqli_query($conn, $query);
                                         if (mysqli_num_rows($result) > 0) {
@@ -244,7 +244,7 @@
                                         </div>
                                         <div class="w3-content" style="max-width:546px">
                                             <?php 
-                                                    require_once ($_SERVER["DOCUMENT_ROOT"] . "/webbanhang/admin/connect.php");
+                                                    require_once ($_SERVER["DOCUMENT_ROOT"] . "/admin/connect.php");
                                                     $query = "SELECT *
                                                     FROM anhsanpham
                                                     WHERE maSanPham = '$maSanPham'
@@ -257,11 +257,11 @@
                                                         array_push($image , $row["duongDanAnh"]);
                                                     }
                                                     $len = count($image);
-                                                    echo ' <img class="mySlides" src="/webbanhang/admin/dashboard/products/'.$image[0].'" style="width:100%;">';
+                                                    echo ' <img class="mySlides" src="/admin/dashboard/products/'.$image[0].'" style="width:100%;">';
                                                     for ($i = 1; $i < $len ; $i++){
                                                         
                                                         
-                                                        echo ' <img class="mySlides" src="/webbanhang/admin/dashboard/products/'.$image[$i].'" style="width:100%;display:none">';
+                                                        echo ' <img class="mySlides" src="/admin/dashboard/products/'.$image[$i].'" style="width:100%;display:none">';
                                                         
                                                         ;
                                                     }
@@ -273,7 +273,7 @@
                                                         
                                                         echo '
                                                         <div class="w3-col ">
-                                                        <img class="demo w3-opacity w3-hover-opacity-off" src="/webbanhang/admin/dashboard/products/'.$duongDanAnh.'" style="width:121px;cursor:pointer" onclick="currentDiv('.$id++.')">
+                                                        <img class="demo w3-opacity w3-hover-opacity-off" src="/admin/dashboard/products/'.$duongDanAnh.'" style="width:121px;cursor:pointer" onclick="currentDiv('.$id++.')">
                                                         </div>
                                                     ';
                                                     }
@@ -550,7 +550,7 @@
                         </div>
                     </div>
                     <?php
-                        include($_SERVER["DOCUMENT_ROOT"] . "/webbanhang/collections/includes/footer.php");
+                        include($_SERVER["DOCUMENT_ROOT"] . "/collections/includes/footer.php");
                     ?>
                     
                 </div>

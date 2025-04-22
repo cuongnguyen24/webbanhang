@@ -58,11 +58,15 @@ if(isset($_POST['submit']))
     INNER JOIN taikhoan ON khachhang.maTaiKhoan = taikhoan.maTaiKhoan
     WHERE tenTaiKhoan = '$username'";
 
-
     $result_maKhachHang = mysqli_query($conn, $sql_get_maKhachHang);
     if (mysqli_num_rows($result_maKhachHang) > 0) {
         $row_maKhachHang = mysqli_fetch_assoc($result_maKhachHang);
         $maKhachHang = $row_maKhachHang['maKhachHang'];
+    }else{
+    echo '<script>alert("looi ngu va")
+        window.location.href = "/";</script>
+
+        ';
     }
         
     $query_check = "SELECT * FROM sanphamyeuthich WHERE maKhachHang = '$maKhachHang' AND maSanPham = '$NmaSanpham'";
@@ -72,7 +76,6 @@ if(isset($_POST['submit']))
     if(mysqli_num_rows($result)==0)
     {
         $query_insert = "INSERT INTO sanphamyeuthich (maKhachHang, maSanPham) VALUES ('$maKhachHang', '$NmaSanpham')";
-        
         $result_insert = mysqli_query($conn,$query_insert);
         echo '<script>alert("Thêm vào sản phẩm yêu thích thành công!")</script>';
     }

@@ -141,7 +141,8 @@
                                             if($id != -1)
                                             {
                                                 $q1 = "select tenDanhMuc from danhmuc where maDanhMuc = '".$id."'";
-                                                $result1 = mysqli_query(mysqli_connect("localhost","root","","webbanhang"),$q1);
+                                              //  $result1 = mysqli_query(mysqli_connect("localhost","root","","webbanhang"),$q1);
+                                              $result1 = mysqli_query(mysqli_connect("localhost","myuser","linh123@","myproject_db"),$q1);
                                                 if(mysqli_num_rows($result1)>0)
                                                 {
                                                     $tendanhmuccha = mysqli_fetch_assoc($result1)['tenDanhMuc'];                

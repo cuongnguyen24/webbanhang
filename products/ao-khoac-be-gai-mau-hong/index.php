@@ -14,7 +14,7 @@
                 
                 $query1 = "  SELECT * 
                             FROM sanpham
-                            WHERE chitietsp = '/webbanhang" . $URI . "'";
+                            WHERE chitietsp = '$URI'";
                 $result = mysqli_query($conn, $query1);
                 if (mysqli_num_rows($result) > 0) {
                 while ($row = mysqli_fetch_assoc($result)) {
