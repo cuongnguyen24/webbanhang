@@ -1,5 +1,5 @@
 <?php
-$conn = mysqli_connect('adfadfasfdaf', 'myuser', '12ssss21', 'myproject_db');
+$conn = mysqli_connect('adfadfasfdaf', 'myuser2', '12ssss21', 'myproject_db');
 
 if (!$conn) {
     die("Connection failed: " . mysqli_connect_error());
