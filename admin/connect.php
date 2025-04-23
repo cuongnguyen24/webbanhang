@@ -1,5 +1,5 @@
 <?php
-$conn = mysqli_connect('192.168.1.208', 'myuser', '12ssss21', 'myproject_db');
+$conn = mysqli_connect('192.168.1.208', 'myuser', '12ssss21', 'myproject_db dhjdhjh');
 if (!$conn) {
     die("Connection failed: " . mysqli_connect_error());
 }
