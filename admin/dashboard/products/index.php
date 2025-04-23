@@ -167,7 +167,7 @@
                             <?php    
                                 require_once '../../connect.php';
                                 $query="select sanpham.*,sizesanpham.soLuong, sizesanpham.maSize from sanpham INNER JOIN sizesanpham
-                                 WHERE sanpham.maSanPham = sizesanpham.maSanPham order by CONVERT(SUBSTRING(sanpham.maSanPham, 4), int)";
+                                 WHERE sanpham.maSanPham = sizesanpham.maSanPham order by CONVERT(SUBSTRING(sanpham.maSanPham, 4), SIGNED)";
                                 $result = mysqli_query($conn,$query);
                                 $num=1;
                                 $sourceAll = [];
