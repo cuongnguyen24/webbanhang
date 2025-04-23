@@ -66,11 +66,18 @@
             </div>
         </aside>
         <?php 
-        require_once '../../connect.php';       
+        //require_once '../../connect.php';   
+        if(file_exists('../../connect.php')){
+        	//echo "ton tai";
+        	require_once '../../connect.php';  
+        }else{
+        	die ("Khong ton tai");
+        }
         // Lấy tổng số bản ghi
         $sql = "Select count(distinct sanpham.maSanPham) from sanpham INNER JOIN sizesanpham
                                  WHERE sanpham.maSanPham = sizesanpham.maSanPham";
         $result = $conn->query($sql);
+        
         $total_records = $result->fetch_row()[0];
         // $records_per_page = isset($_GET['per_page']) ? $_GET['per_page'] : 10;
         // Xác định số bản ghi trên mỗi trang
@@ -167,8 +174,15 @@
                             <?php    
                                 require_once '../../connect.php';
                                 $query="select sanpham.*,sizesanpham.soLuong, sizesanpham.maSize from sanpham INNER JOIN sizesanpham
-                                 WHERE sanpham.maSanPham = sizesanpham.maSanPham order by CONVERT(SUBSTRING(sanpham.maSanPham, 4), int)";
+                                 WHERE sanpham.maSanPham = sizesanpham.maSanPham order by CONVERT(SUBSTRING(sanpham.maSanPham, 4), SIGNED)";
                                 $result = mysqli_query($conn,$query);
+                                if ($result === false){
+					die("truy van that bai:". $conn->error);
+				 }
+                                if ($result -> num_rows > 0){
+					$total_records = $result -> fetch_row()[0];
+					echo "Tong ban ghi: ".$total_records;
+				}else{ echo "ko co ban gi";}
                                 $num=1;
                                 $sourceAll = [];
                                 while($row= mysqli_fetch_assoc($result))
